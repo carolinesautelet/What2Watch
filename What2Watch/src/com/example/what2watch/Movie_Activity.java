@@ -65,33 +65,45 @@ public class Movie_Activity extends Activity {
     	final Cursor data = mDbHelper.execSQL("SELECT rowid as _id, Title, Year, Duration, Synopsis, TrailerLink, AgeLimit FROM Movie WHERE ID = ?", args);
 		data.moveToFirst();
 		
-		title.setText(data.getString(1));
-		year.setText(data.getString(2));
-		duration.setText(data.getString(3));
-		synopsis.setText(data.getString(4));
+		/*Creation de l'objet Movie*/
+		Movie movie  = new Movie(id,data.getString(1),data.getInt(2),data.getInt(3),data.getString(4),data.getString(5),data.getInt(6));
+		title.setText(movie.getTitle());
+		year.setText(Integer.toString(movie.getYear()));
+		duration.setText(Integer.toString(movie.getDuration()));
+		synopsis.setText(movie.getSynopsis());
 		
+		/*Recherche de director*/
 		Cursor dataDirector = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Director WHERE ID = ?",args);
 		dataDirector.moveToFirst();
+		movie.setDirector(dataDirector.getString(1));
+		director.setText(movie.getDirector());
 		
-		director.setText(dataDirector.getString(1));
-		
+		/*recherche de tous les actors*/
 		Set<String> set = mDbHelper.getAllDataCDT("Name","Actor","ID",id);
     	List<String> list = new ArrayList<String>(set);
+    	String[] actors = new String[list.size()];
+    	list.toArray(actors);
+    	movie.setActors(actors);
     	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
     		    android.R.layout.simple_spinner_item, list);
     		       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		       spinnerActor.setAdapter(adapter);
-    
+    		       
+    /*Recherche des genres*/
        Cursor dataGenre = mDbHelper.execSQL("SELECT rowid as _id,  GenreNAME FROM Genre WHERE ID = ?" , args);
        dataGenre.moveToFirst();
-       genre1.setText(dataGenre.getString(1));
+       String[] genres = new String[3];
+       genres[0] = dataGenre.getString(1);
+       genre1.setText(genres[0]);
        if(dataGenre.moveToNext()){
-    	   genre2.setText("     |     " + dataGenre.getString(1));
+    	   genres[1]  = dataGenre.getString(1);
+    	   genre2.setText("     |     " + genres[1]);
     	   if(dataGenre.moveToNext()){
-    		   genre3.setText("     |     " + dataGenre.getString(1));
+    		   genres[2] = dataGenre.getString(1);
+    		   genre3.setText("     |     " + genres[2]);
     		}
        }
-    
+       movie.setGenre(genres);
        // AJOUTER LE NOMBRE DE FOIS QUE L'UTILISATEUR A REGARDE LE FILM !!!!!!
        /*
         * database puis cast nbrfois dans numberofview

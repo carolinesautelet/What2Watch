@@ -8,10 +8,20 @@ public class Movie {
 	String director = null;
 	int duration = 0;
 	int ageLimit = 0;
+	String[] genre = null;
 	String synopsis = null;
 	String trailerLink = null;
 	Cinema[] cinemas = null;
 	Channel[] channels = null;
+	public Movie(String id,String title,int year,int duration,String synopsis,String trailerLink,int ageLimit){
+		this.id = id;
+		this.title=title;
+		this.year=year;
+		this.duration=duration;
+		this.ageLimit=ageLimit;
+		this.synopsis=synopsis;
+		this.trailerLink=trailerLink;
+	}
 	public String getId() {
 		return id;
 	}
@@ -77,6 +87,12 @@ public class Movie {
 	}
 	public void setChannels(Channel[] channels) {
 		this.channels = channels;
+	}
+	public String[] getGenre() {
+		return genre;
+	}
+	public void setGenre(String[] genre) {
+		this.genre = genre;
 	}
 	
 }
