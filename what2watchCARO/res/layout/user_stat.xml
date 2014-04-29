@@ -1,0 +1,236 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@style/wallpaper"
+    android:padding="8dp" >
+
+    <TextView
+    	android:id="@+id/user_stat_Text" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:text="@string/user_stat_text" />
+    
+    <TextView
+        android:id="@+id/user_stat_UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_stat_Text"
+        android:layout_marginLeft="15dp"
+        android:text="@string/user_stat_username"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+
+    <TableLayout
+        android:id="@+id/user_stat_tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_stat_UserName"
+        android:layout_marginTop="20dp"
+        android:stretchColumns="0,1" >
+
+        <TableRow
+            android:id="@+id/user_stat_tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_nbrFilmT"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_nbrFilmV"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/user_stat_tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_nbrHourT"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_nbrHourV"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/user_stat_tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_nbrRateT"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_nbrRateV"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/user_stat_tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_MostDirT"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_MostDirV"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/user_stat_tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_MostGenrT"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_MostGenrV"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/user_stat_tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_MostActT"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_stat_MostActV"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+    </TableLayout>
+    
+    <TextView
+        android:id="@+id/user_stat_TextLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_stat_tableLayout1"
+        android:layout_marginTop="20dp"
+        android:text="@string/user_stat_LevelT"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/user_stat_Level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/user_stat_TextLevel"
+        android:layout_marginLeft="7dp"
+        android:layout_alignBottom="@id/user_stat_TextLevel"
+        android:text="@string/user_stat_LevelV"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+    
+    
+    <ProgressBar 
+        android:id="@+id/user_stat_ProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_below="@id/user_stat_TextLevel"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="false"
+        android:max="100"
+        android:minWidth="250dp"
+        android:minHeight="25dp"/>
+    
+    <TableLayout 
+        android:id="@+id/user_stat_tableLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_stat_ProgressBar"
+        android:layout_marginTop="15dp"
+        android:shrinkColumns="1"
+        android:weightSum="2">
+        
+        <TableRow 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+            <ImageView 
+                android:id="@+id/user_stat_imgPirate"
+                android:contentDescription="@string/user_stat_badge_P"
+                android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:src="@drawable/pirate1"
+        		android:layout_column="0"
+        		/>
+            <ImageView 
+                android:id="@+id/user_stat_imgStarwars"
+                android:contentDescription="@string/user_stat_badge_S"
+                android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:layout_column="1"
+        		android:src="@drawable/starwars1"
+        		/>         
+        </TableRow>
+        
+        <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+            <ImageView 
+                android:id="@+id/user_stat_imgZimmer"
+                android:contentDescription="@string/user_stat_badge_L"
+                android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:layout_column="0"
+        		android:src="@drawable/anneau1"
+        		/>
+            <ImageView 
+                android:id="@+id/user_stat_imgDisney"
+                android:contentDescription="@string/user_stat_badge_D"
+                android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:layout_column="1"
+        		android:src="@drawable/disney1"
+        		/>           
+        </TableRow> 
+    </TableLayout>
+
+</RelativeLayout>
