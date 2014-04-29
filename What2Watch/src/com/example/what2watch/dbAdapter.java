@@ -109,7 +109,7 @@ public class dbAdapter
     		 }
     		     		 
     		 mDb.insert(table_name, null, cv);
-    		 return true; "coucou Caro"
+    		 return true;
     	 }
     	 catch(Exception ex)
     	 {
