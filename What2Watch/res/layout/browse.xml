@@ -1,0 +1,148 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/wallpaper"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/layoutBrowse"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/browse_accueil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/browse_textBrowse"
+        android:padding="8dp"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="3dp"
+	    android:layout_gravity="center"
+	    android:textSize="18sp"
+	    android:textStyle="bold"
+	    android:textColor="#FFFFFF"
+	    android:text="@string/browse_general"/>
+
+    
+	    <TableRow
+	        android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:gravity="center"
+		    android:layout_marginTop="4dp"
+		    android:stretchColumns="3">
+	        <Button
+	            android:id="@+id/browse_button_title"
+	            android:layout_marginLeft="4dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_title" />
+	        <Button
+	            android:id="@+id/browse_button_actor"
+	            android:layout_marginLeft="4dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_actor" />
+	        <Button
+	            android:id="@+id/browse_button_director"
+	            android:layout_marginLeft="4dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_director" />
+	    </TableRow>
+
+	
+	<TextView 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:layout_marginTop="15dp"
+	    android:textSize="18sp"
+	    android:textStyle="bold"
+	    android:textColor="#FFFFFF"
+	    android:text="@string/browse_genre"/>
+	
+	<TableLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:gravity="center"
+	    android:stretchColumns="3" >
+
+	    <TableRow
+	        android:layout_marginTop="4dp">
+	        <Button
+	            android:id="@+id/browse_button_action"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_action" />
+	        <Button
+	            android:id="@+id/browse_button_adventure"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_adventure" />
+	        <Button
+	            android:id="@+id/browse_button_animation"
+	            android:layout_margin="2dp"
+	           style="@style/boutonWrap"
+	            android:text="@string/browse_button_animation" />
+	    </TableRow>
+	    <TableRow
+	        android:layout_marginTop="4dp">
+	        <Button
+	            android:id="@+id/browse_button_comedy"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_comedy" />
+	        <Button
+	            android:id="@+id/browse_button_crime"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_crime" />
+	        <Button
+	            android:id="@+id/browse_button_drama"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_drama" />
+	    </TableRow>
+	    <TableRow
+	        android:layout_marginTop="4dp">
+	        <Button
+	            android:id="@+id/browse_button_family"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_family" />
+	        <Button
+	            android:id="@+id/browse_button_horror"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_horror" />
+	        <Button
+	            android:id="@+id/browse_button_musical"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_musical" />
+	    </TableRow>
+	    <TableRow
+	        android:layout_marginTop="4dp">
+	        <Button
+	            android:id="@+id/browse_button_romance"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_romance" />
+	        <Button
+	            android:id="@+id/browse_button_scifi"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_scifi" />
+	        <Button
+	            android:id="@+id/browse_button_thriller"
+	            android:layout_margin="2dp"
+	            style="@style/boutonWrap"
+	            android:text="@string/browse_button_thriller" />
+	    </TableRow>
+	</TableLayout>
+
+	
+	
+</LinearLayout>
