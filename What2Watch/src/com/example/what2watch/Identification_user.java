@@ -76,21 +76,9 @@ public class Identification_user extends Activity{
 	private OnClickListener Listenercreate = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			/*Intent Activity2 = new Intent(Identification_user.this, Create_user.class);
+			Intent Activity2 = new Intent(Identification_user.this, Create_user.class);
 			startActivity(Activity2);
-			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);*/
-			String table_name = "User";
-			String columns = "Login, FirstName, Name, Password, Age";
-			String values = "\"Sam!\", \"Sami\", \"Moka\", \"aze\", 20";
-			String sqlRequest = "INSERT INTO " + table_name + " (" + columns + ")" + " VALUES (" + values + ")";
-			
-			db.open();
-			db.execSQL(sqlRequest, null);
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-	    		    android.R.layout.simple_spinner_item, list);
-	    		       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    		       spinner.setAdapter(adapter);
-			db.close();
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
 	};
 	
