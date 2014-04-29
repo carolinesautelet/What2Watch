@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class Movie_Activity extends Activity {
 		
 		Spinner spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
 		
+		ImageView img = (ImageView)findViewById(R.id.movie_img); 
+		
 		Button trailer =(Button)findViewById(R.id.movie_trailer);
 		Button channel =(Button)findViewById(R.id.movie_findchannel);
 		Button cinema =(Button)findViewById(R.id.movie_findcinema);
@@ -71,6 +74,7 @@ public class Movie_Activity extends Activity {
 		year.setText(Integer.toString(movie.getYear()));
 		duration.setText(Integer.toString(movie.getDuration()));
 		synopsis.setText(movie.getSynopsis());
+		int age = movie.getAgeLimit();
 		
 		/*Recherche de director*/
 		Cursor dataDirector = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Director WHERE ID = ?",args);
@@ -112,7 +116,19 @@ public class Movie_Activity extends Activity {
 
        mDbHelper.close();
 		
-		trailer.setOnClickListener(new View.OnClickListener(){
+       //affichage de l'image -12/-16/All
+       if(age >= 16){
+			img.setImageResource(R.drawable.tag16);
+		}
+		else if(age < 16 && age >=12 ){
+			img.setImageResource(R.drawable.tag12);
+		}	
+		else{ 
+			img.setImageResource(R.drawable.tagall);
+		}
+       
+       
+       trailer.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View vue) {
 				setProgressBarIndeterminate(true);
