@@ -77,7 +77,7 @@ public class List_of_request extends Activity {
 	    		 ids = "";
 	    	 }
 			
-			Intent Activity2 = new Intent(List_of_request.this, Movie.class);
+			Intent Activity2 = new Intent(List_of_request.this, Movie_Activity.class);
 			Activity2.putExtra("ID", ids);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);

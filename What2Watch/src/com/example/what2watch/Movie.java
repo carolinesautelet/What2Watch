@@ -1,161 +1,99 @@
+
 package com.example.what2watch;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import android.net.Uri;
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.database.Cursor;
-import android.view.Menu;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-public class Movie extends Activity {
-
-	public void toaster(String txt){
-		Toast.makeText(Movie.this, txt, Toast.LENGTH_SHORT).show();
+public class Movie {
+	String id =null;
+	String title = null;
+	int year = 0;
+	String[] actors = null;
+	String director = null;
+	int duration = 0;
+	int ageLimit = 0;
+	String[] genre = null;
+	String synopsis = null;
+	String trailerLink = null;
+	Cinema[] cinemas = null;
+	Channel[] channels = null;
+	public Movie(String id,String title,int year,int duration,String synopsis,String trailerLink,int ageLimit){
+		this.id = id;
+		this.title=title;
+		this.year=year;
+		this.duration=duration;
+		this.ageLimit=ageLimit;
+		this.synopsis=synopsis;
+		this.trailerLink=trailerLink;
 	}
-	
-	private ProgressDialog progressDialog;
-	private boolean resumeHasRun = false;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.movie);
-		
-		Intent intent = getIntent();
-		
-		TextView title = (TextView)findViewById(R.id.movie_title);
-		TextView year = (TextView)findViewById(R.id.movie_year);
-		TextView duration = (TextView)findViewById(R.id.movie_duration);
-		TextView genre1 = (TextView)findViewById(R.id.movie_genre1);
-		TextView genre2 = (TextView)findViewById(R.id.movie_genre2);
-		TextView genre3 = (TextView)findViewById(R.id.movie_genre3);
-		TextView director = (TextView)findViewById(R.id.movie_director);
-		TextView synopsis= (TextView)findViewById(R.id.movie_synopsis);
-		TextView viewed = (TextView)findViewById(R.id.movie_viewed);
-		
-		Spinner spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
-		
-		ImageView img = (ImageView)findViewById(R.id.movie_img);
-		
-		Button trailer =(Button)findViewById(R.id.movie_trailer);
-		Button channel =(Button)findViewById(R.id.movie_findchannel);
-		Button cinema =(Button)findViewById(R.id.movie_findcinema);
-		
-		String id = intent.getStringExtra("ID");
-		
-		dbAdapter mDbHelper = new dbAdapter(this);         
-    	mDbHelper.createDatabase();       
-    	mDbHelper.open(); 
-    	
-    	String[] args = {id};
-    	final Cursor data = mDbHelper.execSQL("SELECT rowid as _id, Title, Year, Duration, Synopsis, TrailerLink, AgeLimit FROM Movie WHERE ID = ?", args);
-		data.moveToFirst();
-		
-		title.setText(data.getString(1));
-		year.setText(data.getString(2));
-		duration.setText(data.getString(3));
-		synopsis.setText(data.getString(4));
-		
-		int age = data.getInt(6);
-		
-		if(age >= 16){
-			img.setImageResource(R.drawable.tag16);
-		}
-		else if(age < 16 && age >=12 ){
-			img.setImageResource(R.drawable.tag12);
-		}	
-		else{ 
-			img.setImageResource(R.drawable.tagall);
-		}
-		
-		Cursor dataDirector = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Director WHERE ID = ?",args);
-		dataDirector.moveToFirst();
-		
-		director.setText(dataDirector.getString(1));
-		
-		Set<String> set = mDbHelper.getAllDataCDT("Name","Actor","ID",id);
-    	List<String> list = new ArrayList<String>(set);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-    		    android.R.layout.simple_spinner_item, list);
-    		       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    		       spinnerActor.setAdapter(adapter);
-    
-       Cursor dataGenre = mDbHelper.execSQL("SELECT rowid as _id,  GenreNAME FROM Genre WHERE ID = ?" , args);
-       dataGenre.moveToFirst();
-       genre1.setText(dataGenre.getString(1));
-       if(dataGenre.moveToNext()){
-    	   genre2.setText("     |     " + dataGenre.getString(1));
-    	   if(dataGenre.moveToNext()){
-    		   genre3.setText("     |     " + dataGenre.getString(1));
-    		}
-       }
-    
-       // AJOUTER LE NOMBRE DE FOIS QUE L'UTILISATEUR A REGARDE LE FILM !!!!!!
-       /*
-        * database puis cast nbrfois dans numberofview
-        * viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
-        */
-
-       mDbHelper.close();
-		
-		trailer.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View vue) {
-				setProgressBarIndeterminate(true);
-				progressDialog = ProgressDialog.show(Movie.this, "Wait", "Retreiving information from Youtute", true);
-				progressDialog.setCancelable(true);
-				showVideo(data.getString(5));
-			}
-		});
-		
-
-
-
-	} //OnCreate
-	
-	@Override
-	protected void onResume() {
-	    super.onResume();
-	    if (!resumeHasRun) {
-	        resumeHasRun = true;
-	        return;
-	    }
-	    progressDialog.dismiss();
+	public String getId() {
+		return id;
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public void showVideo(String URL){
-		Uri url = Uri.parse(URL);
-		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("vnd.youtube:"  + url.getQueryParameter("v"))));
+	public String getTitle() {
+		return title;
 	}
-	
-	@Override
-	public void onBackPressed() {
-	    super.onBackPressed();
-	    overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public int getYear() {
+		return year;
+	}
+	public void setYear(int year) {
+		this.year = year;
+	}
+	public String[] getActors() {
+		return actors;
+	}
+	public void setActors(String[] actors) {
+		this.actors = actors;
+	}
+	public String getDirector() {
+		return director;
+	}
+	public void setDirector(String director) {
+		this.director = director;
+	}
+	public int getDuration() {
+		return duration;
+	}
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+	public int getAgeLimit() {
+		return ageLimit;
+	}
+	public void setAgeLimit(int ageLimit) {
+		this.ageLimit = ageLimit;
+	}
+	public String getSynopsis() {
+		return synopsis;
+	}
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
+	public String getTrailerLink() {
+		return trailerLink;
+	}
+	public void setTrailerLink(String trailerLink) {
+		this.trailerLink = trailerLink;
+	}
+	public Cinema[] getCinemas() {
+		return cinemas;
+	}
+	public void setCinemas(Cinema[] cinemas) {
+		this.cinemas = cinemas;
+	}
+	public Channel[] getChannels() {
+		return channels;
+	}
+	public void setChannels(Channel[] channels) {
+		this.channels = channels;
+	}
+	public String[] getGenre() {
+		return genre;
+	}
+	public void setGenre(String[] genre) {
+		this.genre = genre;
 	}
 	
 }

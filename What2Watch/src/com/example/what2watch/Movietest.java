@@ -67,7 +67,7 @@ public class Movietest extends Activity {
 	    		 ids = "";
 	    	 }
 			
-			Intent Activity2 = new Intent(Movietest.this, Movie.class);
+			Intent Activity2 = new Intent(Movietest.this, Movie_Activity.class);
 			Activity2.putExtra("ID", ids);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
