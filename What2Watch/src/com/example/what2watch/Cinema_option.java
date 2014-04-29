@@ -29,4 +29,6 @@ public class Cinema_option extends Activity {
 	    super.onBackPressed();
 	    overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
 	}
+	
+	////////// Bonne soirée Caro et bien joué pour GIT ! :D
 }
