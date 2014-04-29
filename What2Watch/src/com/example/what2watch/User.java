@@ -12,6 +12,7 @@ public class User {
 	private String question = null;
 	private String answer = null;
 	private String password = null;
+	private UserFavorite[] favorites = null;
 
 	
 	public User(String login,String name, String firstname , int age,String password, String question, String answer){
@@ -71,6 +72,18 @@ public class User {
 			return true;
 		}
 		return false;
+	}
+	public UserStat getStat() {
+		return stat;
+	}
+	public void setStat(UserStat stat) {
+		this.stat = stat;
+	}
+	public UserFavorite[] getFavorites() {
+		return favorites;
+	}
+	public void setFavorites(UserFavorite[] favorites) {
+		this.favorites = favorites;
 	}
 	
 	
