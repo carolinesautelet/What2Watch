@@ -1,5 +1,8 @@
 package com.example.what2watch;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 public class User {
 	private UserStat stat = null;
 	private String name = null;
@@ -12,12 +15,13 @@ public class User {
 
 	
 	public User(String login,String name, String firstname , int age,String password, String question, String answer){
-		name = name;
-		firstname = firstname;
-		age = age;
-		question = question;
-		answer = answer;
-		password = password;
+		this.name = name;
+		this.firstname = firstname;
+		this.age = age;
+		this.question = question;
+		this.answer = answer;
+		this.password = password;
+		this.stat = new UserStat(this);
 	};
 	public String getName(){
 		return name;
@@ -37,5 +41,37 @@ public class User {
 	public int getAge(){
 		return age;
 	}
+	public String getLogin(){
+		return login;
+	}
+	void setName(String name){
+		this.name = name;
+	}
+	void setFirstName(String firstname){
+		this.firstname = firstname;
+	}
+	void setLogin(String login){
+		this.login = login;
+	}
+	void setAge(int age){
+		this.age=age;
+	}
+	void setQuestion(String question){
+		this.question = question;
+	}
+	void setAnswer(String answer){
+		this.answer = answer;
+	}
+	void setPassword(String password){
+		this.password = password;
+	}
+	boolean changePassword(String old,String toset){
+		if(old.equals(this.password)){
+			this.setPassword(toset);
+			return true;
+		}
+		return false;
+	}
+	
 	
 }
