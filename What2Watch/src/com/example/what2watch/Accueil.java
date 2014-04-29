@@ -113,9 +113,7 @@ public class Accueil extends Activity {
 	private OnClickListener listeneruser_disconnect = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			
-			
-			
+
 			toaster("Log Out !");
 		}
 	};
