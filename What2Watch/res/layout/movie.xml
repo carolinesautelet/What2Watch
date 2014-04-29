@@ -19,6 +19,15 @@
         android:textColor="@color/white"
         android:textSize="35sp"
         />
+    
+    <ImageView 
+        android:id="@+id/movie_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/movie_description_img"
+        android:layout_alignBottom="@id/movie_title"
+        android:layout_alignParentRight="true"/>
+    
     <CheckBox
         android:id="@+id/movie_already_watched"
         android:layout_width="wrap_content"

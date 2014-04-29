@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:padding="5dp">
     
     <RelativeLayout 
         android:layout_width="wrap_content"
@@ -21,13 +22,19 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@id/list_of_result_search"
+	        android:layout_marginLeft="10dp"
 	        android:layout_alignBaseline="@id/list_of_result_search"
-	        android:textSize="30sp"
+	        android:textSize="35sp"
 	        android:textStyle="bold"
 	        android:textColor="@color/black"/>
         
     </RelativeLayout>
         
+    <View 
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"/>
+    
     <ListView
         android:id="@+id/list_of_result_Listview"
         android:layout_width="fill_parent"

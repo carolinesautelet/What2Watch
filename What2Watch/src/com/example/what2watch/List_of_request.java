@@ -50,8 +50,13 @@ public class List_of_request extends Activity {
     	mDbHelper.open(); 
     	 
     	data = mDbHelper.execSQL(requete, arguments);
-    		
-    	SimpleCursorAdapter cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, data, display, new int[] {android.R.id.text1,android.R.id.text2});
+    	SimpleCursorAdapter cursorAd;
+    	
+    	if(display.length==2)
+    		cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, data, display, new int[] {android.R.id.text1,android.R.id.text2});
+    	else
+    		cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, data, display, new int[] {android.R.id.text1});
+    	
     	List.setAdapter(cursorAd);
     	
     	mDbHelper.close();

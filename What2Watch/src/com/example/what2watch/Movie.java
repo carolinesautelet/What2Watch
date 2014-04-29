@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class Movie extends Activity {
 		
 		Spinner spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
 		
+		ImageView img = (ImageView)findViewById(R.id.movie_img);
+		
 		Button trailer =(Button)findViewById(R.id.movie_trailer);
 		Button channel =(Button)findViewById(R.id.movie_findchannel);
 		Button cinema =(Button)findViewById(R.id.movie_findcinema);
@@ -69,6 +72,18 @@ public class Movie extends Activity {
 		year.setText(data.getString(2));
 		duration.setText(data.getString(3));
 		synopsis.setText(data.getString(4));
+		
+		int age = data.getInt(6);
+		
+		if(age >= 16){
+			img.setImageResource(R.drawable.tag16);
+		}
+		else if(age < 16 && age >=12 ){
+			img.setImageResource(R.drawable.tag12);
+		}	
+		else{ 
+			img.setImageResource(R.drawable.tagall);
+		}
 		
 		Cursor dataDirector = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Director WHERE ID = ?",args);
 		dataDirector.moveToFirst();

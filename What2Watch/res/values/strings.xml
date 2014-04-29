@@ -102,6 +102,7 @@
 	<string name="movie_watched_once_more">+1</string>
 	<string name="movie_viewed">Viewed %1$d times</string>
 	<string name="movie_save">Save</string>
+	<string name="movie_description_img">Age Required</string>
 	
 	<string name="choose_user_account">Select your account!</string>
    	<string name="choose_user_welcome">Welcome!</string>

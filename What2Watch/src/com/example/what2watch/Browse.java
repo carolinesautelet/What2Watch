@@ -85,8 +85,8 @@ public class Browse extends Activity {
 	private OnClickListener listeneractor = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			String queryString  = "SELECT rowid as _id, Name, ID FROM Actor ORDER BY Actor ASC" ;
-			String[] display = {"Name","ID"};
+			String queryString  = "SELECT rowid as _id, Name, ID FROM Actor GROUP BY Name ORDER BY Name ASC" ;
+			String[] display = {"Name"};
 			String[] whereArgs = null;
 			send(queryString, whereArgs, display, "Actor");
 		}
@@ -95,8 +95,8 @@ public class Browse extends Activity {
 	private OnClickListener listenerdirector = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			String queryString  = "SELECT rowid as _id, Name, ID FROM Director ORDER BY Director ASC";
-			String[] display = {"Name","ID"};
+			String queryString  = "SELECT rowid as _id, Name, ID FROM Director GROUP BY Name ORDER BY Name ASC";
+			String[] display = {"Name"};
 			String[] whereArgs = null;
 			send(queryString, whereArgs, display, "Director");
 		}
