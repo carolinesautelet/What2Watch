@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="8dp"
+    style="@style/wallpaper">
+    
+    <TextView 
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:text="@string/create_user_createuser"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="30sp"
+        />
+
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_name"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+   
+    <EditText
+       android:id="@+id/create_user_entername"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textShortMessage"
+       android:textSize="15sp"
+       android:hint="@string/create_user_entername"
+       android:textColor="@color/white"       
+        />
+    
+    <TextView
+       android:id="@+id/create_user_createfirstname"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_firstname"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    
+    <EditText
+       android:id="@+id/create_user_enterfirstname"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textShortMessage"
+       android:textSize="15sp"
+       android:hint="@string/create_user_enterfirstname"
+       android:textColor="@color/white"
+        />
+    
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_age"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+   
+    <EditText
+        android:id="@+id/create_user_enterage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="@string/create_user_enterage"
+        android:inputType="number"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_password"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+
+    <EditText
+       android:id="@+id/create_user_enterpassword"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textPassword"
+       android:textSize="15sp"
+       android:hint="@string/create_user_enterpassword"
+       android:textColor="@color/white"
+        />
+    
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_confirmation"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+     
+    <EditText
+       android:id="@+id/create_user_enterconfirmation"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textPassword"
+       android:textSize="15sp"
+       android:hint="@string/create_user_enterconfirmation"
+       android:textColor="@color/white"
+        />
+   
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_recovery"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    
+    <Spinner
+	    android:id="@+id/create_user_recovery_spinner"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/white"
+	    android:background="@color/white"
+	    android:entries="@array/recovery_array"
+	    android:drawSelectorOnTop= "true"
+	    android:spinnerMode="dropdown"
+		android:hint="@string/create_user_recovery"
+     	/>
+
+    <EditText 
+       android:id="@+id/create_user_question"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:inputType="textShortMessage"
+       android:textSize="15sp"
+       android:hint="@string/create_user_question"
+       android:textColor="@color/white"
+        />
+    
+    <Button
+	    android:id="@+id/create_user_creationButton"
+	    style="@style/boutonNormal"
+	    android:layout_gravity="center"
+	    android:text="@string/create_user_create"
+	    android:textColor="@color/white"
+      />
+	    
+</LinearLayout>

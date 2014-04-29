@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:orientation="vertical" 
+    style="@style/wallpaper">
+    
+    <TextView 
+	    android:id="@+id/choose_user_textwel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:text="@string/choose_user_welcome"
+	    android:textColor="@color/white"
+	    android:layout_marginTop = "8dp"
+	    android:textSize="35sp"
+        />
+    <Spinner
+        android:id="@+id/choose_user_selectuser_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical = "true"
+        android:layout_marginTop = "16dp"
+        android:textColor="@color/white"
+        android:background = "@color/white">
+    </Spinner>
+    <EditText
+        android:id="@+id/choose_user_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+	    android:layout_below="@id/choose_user_selectuser_spinner"
+	    android:layout_gravity="center"
+	    android:layout_marginTop = "15dp"
+	    android:inputType = "textPassword"
+	    android:hint = "@string/choose_user_password"
+	    android:background="@color/translucide"
+	    android:textColor="@color/white"
+        >
+        
+    </EditText>
+    <Button 
+	    android:id="@+id/choose_user_connect"
+	    style="@style/boutonNormal"
+	    android:layout_centerHorizontal="true"
+	    android:layout_below="@id/choose_user_password"
+	    android:layout_gravity="center"
+	    android:layout_marginTop = "15dp"
+	    android:text="@string/choose_user_connect"
+	    android:textColor="@color/white"
+	     />
+
+    <Button
+        android:id="@+id/choose_user_create"
+        style="@style/boutonNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/choose_user_create"
+        android:textColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/choose_user_selectuser_spinner"
+        android:layout_alignLeft="@+id/choose_user_password"
+        android:layout_below="@+id/choose_user_textwel"
+        android:src="@drawable/icone" />
+
+</RelativeLayout>
