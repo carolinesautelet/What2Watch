@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.content.ContentValues;
 import android.content.Context; 
 import android.database.Cursor; 
 import android.database.SQLException; 
@@ -98,10 +99,22 @@ public class dbAdapter
          } 
      }
      
-     public void addToDatabase(String table_name, String columns, String values)
+     public boolean addToDatabase(String table_name, String[] OrderedColumn, String[] OrderedValues)
      {
-    	 String requete = "INSERT INTO " + table_name + "(" + columns + ")" + " VALUES (" + values + ")";
-    	 execSQL(requete, null);
+    	ContentValues cv = new ContentValues();
+    	 try
+    	 {
+    		 for(int i=0; i<OrderedValues.length; i++) {
+    			 cv.put(OrderedColumn[i],OrderedValues[i]);
+    		 }
+    		     		 
+    		 mDb.insert(table_name, null, cv);
+    		 return true;
+    	 }
+    	 catch(Exception ex)
+    	 {
+    		 return false;
+    	 }
      }
      
      public String getStringFromRequest(String sqlRequest, String[] ArgsforRequest, String ColumnName)
