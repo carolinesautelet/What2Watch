@@ -34,7 +34,10 @@ public class Accueil extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.accueil);
-		
+		User user = getIntent().getExtras().getParcelable("user");
+		Toast.makeText(getBaseContext(), 
+                user.getName(), 
+                Toast.LENGTH_SHORT).show();
 		browse = (Button) findViewById(R.id.accueil_button_browse);
 		search = (Button) findViewById(R.id.accueil_button_search);
 		discover = (Button) findViewById(R.id.accueil_button_discover);
