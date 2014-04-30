@@ -80,7 +80,7 @@ public class Identification_user extends Activity{
 				
 			}
         });
-    	db.close();
+    	
 	}
 
 
