@@ -107,7 +107,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			toaster("Bouton");
-			Intent Activity2 = new Intent(Accueil.this, ModifyProfile.class);
+			Intent Activity2 = new Intent(Accueil.this, PasswordToContinue.class);
 			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
