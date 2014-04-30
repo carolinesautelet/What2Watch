@@ -25,7 +25,7 @@ public class Accueil extends Activity {
 	Button disconnect=null;
 	Button channel=null;
 	Button cinema=null;
-	
+	User user = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +34,7 @@ public class Accueil extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.accueil);
-		User user = getIntent().getExtras().getParcelable("user");
-		Toast.makeText(getBaseContext(), 
-                user.getName(), 
-                Toast.LENGTH_SHORT).show();
+		user = getIntent().getExtras().getParcelable("User");
 		browse = (Button) findViewById(R.id.accueil_button_browse);
 		search = (Button) findViewById(R.id.accueil_button_search);
 		discover = (Button) findViewById(R.id.accueil_button_discover);
@@ -69,6 +66,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, Browse.class);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
@@ -78,6 +76,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, Search_By.class);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			
@@ -88,6 +87,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, Movietest.class);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
@@ -97,6 +97,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, UserStats.class);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
@@ -107,6 +108,7 @@ public class Accueil extends Activity {
 		public void onClick(View v) {
 			toaster("Bouton");
 //			Intent Activity2 = new Intent(Accueil.this, User_param.class);
+//          Activity2.putExtra("User", user);
 //			startActivity(Activity2);
 //			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
@@ -125,6 +127,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, Channel_option.class);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
@@ -134,6 +137,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, Cinema_option.class);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}

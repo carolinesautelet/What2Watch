@@ -1,14 +1,13 @@
 package com.example.what2watch;
 
 public class UserStat {
-	User user = null;
 	int timeView = 0;
 	String favorieteGenre = null;
 	String favorieteActor = null;
 	String favorieteDirector = null;
 	
-	public UserStat(User user){
-		this.user = user;
+	public UserStat(){
+		
 	}
 	public void setTimeView(int timeView){
 		this.timeView=timeView;

@@ -25,14 +25,14 @@ public class User implements Parcelable{
 		this.question = question;
 		this.answer = answer;
 		this.password = password;
-		this.stat = new UserStat(this);
+		this.stat = new UserStat();
 	};
 	public User(String login,String name, String firstname , int age,String password){
 		this.name = name;
 		this.firstname = firstname;
 		this.age = age;
 		this.password = password;
-		this.stat = new UserStat(this);
+		this.stat = new UserStat();
 	};
 	public String getName(){
 		return name;
