@@ -19,11 +19,8 @@ public class PasswordToContinue extends Activity {
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
 	
-	Button askpswd=null;
-	String dbpswd=null;
-	boolean checkpswd = false;
-	//ListView List=null;
-	EditText pswd = null;
+	Button continueb=null;
+	EditText password = null;
 	User user;
 	
 	@Override
@@ -34,10 +31,9 @@ public class PasswordToContinue extends Activity {
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.ask_pswd);
 		user = getIntent().getExtras().getParcelable("User");
-		dbpswd = user.getPassword();
-		askpswd = (Button) findViewById(R.id.continue_button);
-		askpswd.setOnClickListener(listeneraskpswd);     
-		pswd = (EditText) findViewById(R.id.continue_password);
+		continueb = (Button)findViewById(R.id.continue_button);
+		password = (EditText)findViewById(R.id.continue_password);
+		continueb.setOnClickListener(continueListener);
 		
 	}
 	
@@ -49,23 +45,20 @@ public class PasswordToContinue extends Activity {
 	}
 	
 
-	private OnClickListener listeneraskpswd = new OnClickListener() {
+	private OnClickListener continueListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if(pswd.getText().toString().compareTo(dbpswd)==0){checkpswd=true;}//le mot de passe est valide
-			
-	    	if(checkpswd){//check if entered pswd is correct before the next class
+			if(user.getPassword().compareTo(password.getText().toString())==0){
 				Intent Activity2 = new Intent(PasswordToContinue.this, ModifyProfile.class);
+				Activity2.putExtra("User", user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			}
-			if(!checkpswd){
+			else{
 				Toast.makeText(getBaseContext(), 
-						"Incorrect Password should be  an is " + dbpswd +pswd.getText().toString(), 
+						"Incorrect Password", 
 						Toast.LENGTH_SHORT).show(); 
 			}
-			
-			//toaster("test");
 		}
 	};
 	
