@@ -70,16 +70,16 @@ public class Search_By extends Activity {
 	}
 	public void searchActor(String entree)	
 	{
-		String queryString  = "SELECT M.rowid as _id, Title, Name,  M.ID FROM Movie M, Actor A WHERE M.ID=A.ID and A.Name LIKE ? ORDER BY Actor ASC";
-		String[] display = {"Name","Title"};
+		String queryString  = "SELECT M.rowid as _id, Name,  M.ID FROM Movie M, Actor A WHERE M.ID=A.ID and A.Name LIKE ? ORDER BY Actor ASC";
+		String[] display = {"Name"};
 		String[] whereArgs = new String[] {String.valueOf(entree)};
 		send(queryString, whereArgs, display, "Actor");
 	}
 	
 	public void searchDirector(String entree)
 	{
-		String queryString  = "SELECT M.rowid as _id, Title, Name,  M.ID FROM Movie M, Director D WHERE M.ID=D.ID and D.Name LIKE ? ORDER BY Director ASC" ;
-		String[] display = {"Name","Title"};
+		String queryString  = "SELECT M.rowid as _id, Name,  M.ID FROM Movie M, Director D WHERE M.ID=D.ID and D.Name LIKE ? ORDER BY Director ASC" ;
+		String[] display = {"Name"};
 		String[] whereArgs = new String[] {String.valueOf(entree)};
 		send(queryString, whereArgs, display, "Director");
 	}

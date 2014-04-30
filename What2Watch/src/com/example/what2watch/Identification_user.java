@@ -67,10 +67,11 @@ public class Identification_user extends Activity{
             {
 
                 int index = spinner.getSelectedItemPosition();
-                Toast.makeText(getBaseContext(), 
-                    "You have selected item : " + spinner.getItemIdAtPosition(index), 
-                    Toast.LENGTH_SHORT).show();  
+                 
                 login = (String) spinner.getAdapter().getItem(position);
+                Toast.makeText(getBaseContext(), 
+                        "You have selected item : " + login, 
+                        Toast.LENGTH_SHORT).show(); 
             }
 
 			@Override
@@ -92,12 +93,15 @@ public class Identification_user extends Activity{
 	                    Toast.LENGTH_SHORT).show();
 			}
 			else{
+				db.open();
 				Cursor cursor = db.execSQL("SELECT rowid as _id, FirstName, Name, Password, Age FROM User WHERE Login = ?", new String[] {login});
+				cursor.moveToFirst();
 				User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
 				Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
 				Activity2.putExtra("User", user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+				db.close();
 			}
 			
 		}
