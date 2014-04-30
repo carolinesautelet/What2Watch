@@ -96,7 +96,7 @@ public class Accueil extends Activity {
 	private OnClickListener listenerstats = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent Activity2 = new Intent(Accueil.this, UserStats.class);
+			Intent Activity2 = new Intent(Accueil.this, UserStat_activity.class);
 			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);

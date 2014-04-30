@@ -7,7 +7,6 @@ import java.sql.Statement;
 import android.os.Parcel;
 import android.os.Parcelable;
 public class User implements Parcelable{
-	private UserStat stat = null;
 	private String name = null;
 	private String firstname = null;
 	private int age = 0;
@@ -25,14 +24,14 @@ public class User implements Parcelable{
 		this.question = question;
 		this.answer = answer;
 		this.password = password;
-		this.stat = new UserStat();
+		
 	};
 	public User(String login,String name, String firstname , int age,String password){
 		this.name = name;
 		this.firstname = firstname;
 		this.age = age;
 		this.password = password;
-		this.stat = new UserStat();
+	
 	};
 	public String getName(){
 		return name;
@@ -83,12 +82,7 @@ public class User implements Parcelable{
 		}
 		return false;
 	}
-	public UserStat getStat() {
-		return stat;
-	}
-	public void setStat(UserStat stat) {
-		this.stat = stat;
-	}
+
 	public UserFavorite[] getFavorites() {
 		return favorites;
 	}

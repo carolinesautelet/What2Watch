@@ -14,10 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-public class UserStats extends Activity {
+public class UserStat_activity extends Activity {
 
 	public void toaster(String txt){
-		Toast.makeText(UserStats.this, txt, Toast.LENGTH_SHORT).show();
+		Toast.makeText(UserStat_activity.this, txt, Toast.LENGTH_SHORT).show();
 	}
 	
 	private ProgressBar Bar = null;
@@ -32,7 +32,7 @@ public class UserStats extends Activity {
 		setContentView(R.layout.user_stat);
 		
 		Bar = (ProgressBar) findViewById(R.id.user_stat_ProgressBar);
-		Bar.setProgress(progressBarStatus); //dépend du nombre de films regardé
+		Bar.setProgress(progressBarStatus); //dï¿½pend du nombre de films regardï¿½
 	
 	}
 
