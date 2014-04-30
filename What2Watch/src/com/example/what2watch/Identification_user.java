@@ -30,9 +30,10 @@ public class Identification_user extends Activity{
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
 	
-	Button LetsGO=null;
+	Button letsGO=null;
 	Spinner spinner;
 	dbAdapter db;
+	String login = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,9 @@ public class Identification_user extends Activity{
     	
     	spinner = (Spinner) findViewById(R.id.choose_user_selectuser_spinner);
     	Button create = (Button)findViewById(R.id.choose_user_create);
-    	LetsGO = (Button) findViewById(R.id.choose_user_connect);
+    	letsGO = (Button) findViewById(R.id.choose_user_connect);
 		
-		LetsGO.setOnClickListener(Listenerconnect);
+    	letsGO.setOnClickListener(Listenerconnect);
 		create.setOnClickListener(Listenercreate);
 		
     	//Cursor data = db.execSQL("SELECT rowid as _id, Login  FROM User", null);
@@ -58,8 +59,26 @@ public class Identification_user extends Activity{
     	List<String> list = new ArrayList<String>(set);
     	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
     		    android.R.layout.simple_spinner_item, list);
-    		       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    		       spinner.setAdapter(adapter);
+    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    	spinner.setAdapter(adapter);
+    	spinner.setOnItemSelectedListener(new OnItemSelectedListener()
+        {
+    		public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
+            {
+
+                int index = spinner.getSelectedItemPosition();
+                Toast.makeText(getBaseContext(), 
+                    "You have selected item : " + spinner.getItemIdAtPosition(index), 
+                    Toast.LENGTH_SHORT).show();  
+                login = (String) spinner.getAdapter().getItem(position);
+            }
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
     	db.close();
 	}
 
@@ -67,9 +86,20 @@ public class Identification_user extends Activity{
 	private OnClickListener Listenerconnect = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
-			startActivity(Activity2);
-			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+			if(login == null){
+				Toast.makeText(getBaseContext(), 
+	                    "No login selected", 
+	                    Toast.LENGTH_SHORT).show();
+			}
+			else{
+				Cursor cursor = db.execSQL("SELECT rowid as _id, FirstName, Name, Password, Age FROM User WHERE Login = ?", new String[] {login});
+				User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
+				Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
+				Activity2.putExtra("User", user);
+				startActivity(Activity2);
+				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+			}
+			
 		}
 	};
 	

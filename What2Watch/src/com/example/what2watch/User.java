@@ -3,7 +3,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-public class User {
+
+import android.os.Parcel;
+import android.os.Parcelable;
+public class User implements Parcelable{
 	private UserStat stat = null;
 	private String name = null;
 	private String firstname = null;
@@ -21,6 +24,13 @@ public class User {
 		this.age = age;
 		this.question = question;
 		this.answer = answer;
+		this.password = password;
+		this.stat = new UserStat(this);
+	};
+	public User(String login,String name, String firstname , int age,String password){
+		this.name = name;
+		this.firstname = firstname;
+		this.age = age;
 		this.password = password;
 		this.stat = new UserStat(this);
 	};
@@ -86,5 +96,42 @@ public class User {
 		this.favorites = favorites;
 	}
 	
+	@Override
+	public int describeContents()
+	{
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags)
+	{
+		dest.writeString(firstname);
+		dest.writeString(name);
+		dest.writeString(login);
+		dest.writeString(password);
+		dest.writeInt(age);
+	}
+	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>()
+			{
+			    @Override
+			    public User createFromParcel(Parcel source)
+			    {
+			        return new User(source);
+			    }
+
+			    @Override
+			    public User[] newArray(int size)
+			    {
+				return new User[size];
+			    }
+			};
+
+	public User(Parcel in) {
+				this.firstname = in.readString();
+				this.name = in.readString();
+				this.login = in.readString();
+				this.password =in.readString();
+				this.age = in.readInt();
+			}
 	
 }
