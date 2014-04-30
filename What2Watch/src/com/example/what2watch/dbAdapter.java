@@ -160,6 +160,10 @@ public class dbAdapter
 	  return set;
     }
      
-
+     
+     public void update(String table, ContentValues values, String whereClause, String[] whereArgs){
+    	 mDbHelper.update(table, values, whereClause, whereArgs);
+    	 
+     }
 } 
 

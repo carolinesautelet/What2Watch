@@ -110,5 +110,26 @@
 	<string name="choose_user_create">Create a new user</string>
 	<string name="choose_user_password">enter your password</string>
 	
+	<string name="modify_profile">Modify profile</string>
+	<string name="new_name">New name:</string>
+	<string name="modify_user_entername">Enter new name</string>
+	<string name="new_firstname">New firstname</string>
+	<string name="modify_user_enterfirstname">Enter new firstname</string>
+	<string name="modify_age">New age</string>
+	<string name="modify_user_enterage">Enter new age</string>
+	<string name="new_password">New password</string>
+	<string name="modify_user_enterpassword">Enter password</string>
+	<string name="newpswd_user_confirmation">Confirmation</string>
+	<string name="modify_user_enterconfirmation">Type your password again</string>
+	<string name="new_user_recovery">Select a recovery question</string>
+	<string name="modify_user_create">Save new profile!</string>
+	
+	<string name="continue_msg">Enter password to continue</string>
+	<string name="enter_password">********</string>
+	<string name="password_button">Continue</string>
+	
+	<string name ="accueil_text_user_param">user parameters</string>
+	<string name ="modify_button">change parameters</string>
+	
 	
 </resources>

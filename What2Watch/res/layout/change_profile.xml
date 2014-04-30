@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="8dp"
+    style="@style/wallpaper">
+    
+    <TextView 
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:text="@string/modify_profile"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="30sp"
+        />
+
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/new_name"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    <EditText
+       android:id="@+id/new_user_entername"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textMultiLine"
+       android:lines="1"
+       android:textSize="15sp"
+       android:hint="@string/modify_user_entername"
+       android:textColor="@color/white"
+       android:background="@color/translucide"
+       
+        />
+    <TextView
+       android:id="@+id/new_user_createfirstname"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/new_firstname"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    <EditText
+       android:id="@+id/new_user_enterfirstname"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textShortMessage"
+       android:lines="1"
+       android:textSize="15sp"
+       android:hint="@string/modify_user_enterfirstname"
+       android:textColor="@color/white"
+       android:background="@color/translucide"
+       
+        />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/modify_age"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    <EditText
+       android:id="@+id/new_user_enterage"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textMultiLine"
+       android:lines="1"
+       android:textSize="15sp"
+       android:hint="@string/modify_user_enterage"
+       android:textColor="@color/white"
+       android:background="@color/translucide"
+       
+        />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/new_password"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    <EditText
+       android:id="@+id/new_user_enterpassword"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textPassword"
+       android:lines="1"
+       android:textSize="15sp"
+       android:hint="@string/modify_user_enterpassword"
+       android:textColor="@color/white"
+       android:background="@color/translucide"
+        />
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/newpswd_user_confirmation"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    
+    <TextView
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:background="@color/translucide"
+	   />
+     
+    <EditText
+       android:id="@+id/new_user_enterconfirmation"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textPassword"
+       android:lines="1"
+       android:textSize="15sp"
+       android:hint="@string/modify_user_enterconfirmation"
+       android:textColor="@color/white"
+       android:background="@color/translucide"
+        />
+   
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/new_user_recovery"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+    
+    <Spinner
+	    android:id="@+id/new_user_recovery_spinner"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/white"
+	    android:entries="@array/recovery_array"
+	    android:drawSelectorOnTop= "true"
+	    android:spinnerMode="dialog"
+		android:hint="@string/new_user_recovery"
+     	/>
+    
+    <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    
+   
+    
+    <Button
+	    android:id="@+id/new_user_creationButton"
+	    style="@style/boutonNormal"
+	    android:layout_gravity="center"
+	    android:text="@string/modify_user_create"
+	    android:textColor="@color/white"
+      />
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+        android:id="@+id/layoutparamuser" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent"
+        android:padding="8dp"
+        style="@style/wallpaper">        
+
+		<TextView
+		    	android:id="@+id/accueil_text_user_param" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textSize="26sp"
+		        android:textStyle="bold"
+		        android:textColor="#FFFFFF"
+		        android:text="@string/accueil_textAccueil" />
+	    <TextView 
+	       		android:layout_width="wrap_content"
+	       		android:layout_height="wrap_content"
+	       		android:background="@color/translucide"
+	       		/>
+	    <Button 
+	        	style="@style/boutonWrap"
+	            android:id="@+id/modify_profile_button" 
+	            android:text="@string/modify_button"/>
+   
+
+</LinearLayout>

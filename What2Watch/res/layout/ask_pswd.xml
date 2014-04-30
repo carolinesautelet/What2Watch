@@ -1,0 +1,57 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/wallpaper" >
+    
+     <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+    
+ 	 <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:text="@string/continue_msg"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
+ 	 
+ 	  <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+
+ 	  <EditText
+       android:id="@+id/continue_password"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textPassword"
+       android:lines="1"
+       android:textSize="15sp"
+       android:hint="@string/enter_password"
+       android:textColor="@color/white"
+       android:background="@color/translucide"
+       />
+ 	  
+ 	  <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@color/translucide"
+       />
+ 	  
+ 	  <Button
+	    android:id="@+id/continue_button"
+	    style="@style/boutonNormal"
+	    android:layout_gravity="center"
+	    android:text="@string/password_button"
+	    android:textColor="@color/white"
+      />
+ 	 
+</LinearLayout>

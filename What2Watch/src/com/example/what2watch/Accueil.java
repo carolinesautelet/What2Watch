@@ -107,10 +107,10 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			toaster("Bouton");
-//			Intent Activity2 = new Intent(Accueil.this, User_param.class);
-//          Activity2.putExtra("User", user);
-//			startActivity(Activity2);
-//			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+			Intent Activity2 = new Intent(Accueil.this, User_param.class);
+			Activity2.putExtra("User", user);
+			startActivity(Activity2);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
 	};
 	

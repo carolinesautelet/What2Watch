@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream; 
 import java.io.OutputStream; 
  
+
+import android.content.ContentValues;
 import android.content.Context; 
 import android.database.SQLException; 
 import android.database.sqlite.SQLiteDatabase; 
@@ -96,6 +98,14 @@ public void createDataBase() throws IOException
 	public void onCreate(SQLiteDatabase arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void update(String table, ContentValues values, String whereClause, String[] whereArgs){
+
+		boolean b = openDataBase();	
+		if(mDataBase != null && b) 
+			mDataBase.update(table, values, whereClause, whereArgs);
+		mDataBase.close(); 
 	}
 
 	@Override
