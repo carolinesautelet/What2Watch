@@ -79,7 +79,7 @@ public class Identification_user extends Activity{
 				
 			}
         });
-    	db.close();
+    	
 	}
 
 
@@ -93,11 +93,13 @@ public class Identification_user extends Activity{
 			}
 			else{
 				Cursor cursor = db.execSQL("SELECT rowid as _id, FirstName, Name, Password, Age FROM User WHERE Login = ?", new String[] {login});
+				cursor.moveToFirst();
 				User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
 				Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
 				Activity2.putExtra("User", user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+				db.close();
 			}
 			
 		}
