@@ -30,7 +30,7 @@ public class Identification_user extends Activity{
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
 	
-	Button LetsGO=null;
+	Button letsGO=null;
 	Spinner spinner;
 	dbAdapter db;
 	
@@ -48,9 +48,9 @@ public class Identification_user extends Activity{
     	
     	spinner = (Spinner) findViewById(R.id.choose_user_selectuser_spinner);
     	Button create = (Button)findViewById(R.id.choose_user_create);
-    	LetsGO = (Button) findViewById(R.id.choose_user_connect);
+    	letsGO = (Button) findViewById(R.id.choose_user_connect);
 		
-		LetsGO.setOnClickListener(Listenerconnect);
+    	letsGO.setOnClickListener(Listenerconnect);
 		create.setOnClickListener(Listenercreate);
 		
     	//Cursor data = db.execSQL("SELECT rowid as _id, Login  FROM User", null);
