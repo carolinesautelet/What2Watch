@@ -1,17 +1,21 @@
 package com.example.what2watch;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class UserStat_activity extends Activity {
@@ -21,8 +25,23 @@ public class UserStat_activity extends Activity {
 	}
 	
 	private ProgressBar Bar = null;
-	private int progressBarStatus = 80;
-
+	private int progressBarStatus;
+	
+	dbAdapter db;
+	
+	ImageView badge_pirate = null;
+	ImageView badge_star = null;
+	ImageView badge_ring = null;
+	ImageView badge_disney = null;
+	
+	TextView nbrFilm = null;
+	TextView nbrHour = null;
+	TextView nbrRate = null;
+	TextView MostDir = null;
+	TextView MostAct = null;
+	TextView MostGenre = null;
+	TextView level = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,10 +51,105 @@ public class UserStat_activity extends Activity {
 		setContentView(R.layout.user_stat);
 		
 		Bar = (ProgressBar) findViewById(R.id.user_stat_ProgressBar);
-		Bar.setProgress(progressBarStatus); //d�pend du nombre de films regard�
-	
+		
+		badge_pirate = (ImageView) findViewById(R.id.user_stat_imgPirate); 
+		badge_star = (ImageView) findViewById(R.id.user_stat_imgStarwars);
+		badge_ring = (ImageView) findViewById(R.id.user_stat_imgZimmer);
+		badge_disney = (ImageView) findViewById(R.id.user_stat_imgDisney);
+		
+		nbrFilm = (TextView) findViewById(R.id.user_stat_nbrFilmV);
+		nbrHour = (TextView) findViewById(R.id.user_stat_nbrHourV);
+		nbrRate = (TextView) findViewById(R.id.user_stat_nbrRateV);
+		MostDir = (TextView) findViewById(R.id.user_stat_MostDirV);
+		MostAct = (TextView) findViewById(R.id.user_stat_MostActV);
+		MostGenre = (TextView) findViewById(R.id.user_stat_MostGenrV);
+		level = (TextView) findViewById(R.id.user_stat_Level);
+		
+		
+		String UserName = "Boy1";		
+		
+		db = new dbAdapter(this);         
+    	db.createDatabase();       
+    	
+    	Cursor cursor;
+    	String TextToSet;
+    	
+    	//nbrFilm
+    	cursor = db.execSQL("SELECT rowid as _id, ID FROM NumberOfView WHERE Login=?", new String[] {UserName});
+    	progressBarStatus=cursor.getCount();
+    	TextToSet = Integer.toString(progressBarStatus);
+    	nbrFilm.setText(TextToSet);
+    	
+    	//nbrHour
+    	cursor = db.execSQL("SELECT SUM(Duration) FROM Movie M, NumberOfView N WHERE Login = ? and N.ID = M.ID", new String[] {UserName});
+		TextToSet = Double.toString(cursor.getCount()/60);
+    	nbrFilm.setText(TextToSet);
+    	
+    	//nbrRate
+    	cursor = db.execSQL("SELECT ID FROM Rating  WHERE Login = ?", new String[] {UserName});
+		TextToSet = Integer.toString(cursor.getCount());
+    	nbrFilm.setText(TextToSet);
+    	
+    	//MostDir
+    	
+    	//MostAct
+    	
+    	//MostGenre
+    	
+    	//Progressbar and level
+    	level.setText(progressBarStatus/20);
+    	Bar.setProgress(progressBarStatus%20); //dépend du nombre de films regardé
+    	
+    	
+    	
+    	boolean[] badges = checkForBadge(UserName);
+    	
+    	if (badges[0])
+    		badge_pirate.setImageResource(R.drawable.pirate2);
+    	if (badges[1])
+    		badge_star.setImageResource(R.drawable.starwars2);
+    	if (badges[2])
+    		badge_ring.setImageResource(R.drawable.anneau2);
+    	if (badges[3])
+    		badge_disney.setImageResource(R.drawable.disney2);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private boolean[] checkForBadge(String UserName)
+	{
+		boolean[] badges = new boolean[4];
+   	 
+    	String requete_badge = "SELECT rowid as _id, Title, M.ID FROM Movie M, NumberOfView N WHERE Login = ? and N.ID = M.ID and M.Title like ?";
+    	String requete_disney = "SELECT rowid as _id, Title, M.ID FROM Movie M, Genre G, NumberOfView N WHERE GenreName like \"disney\" and N.Login=" +UserName+ " and M.ID=N.ID and M.ID=G.ID GROUP BY Title";
+    	ArrayList args = new ArrayList();
+    	args.add(new String[] {UserName, "Pirates of the Caribbean%"});
+    	args.add(new String[] {UserName, "The Lord of the Rings%"});
+    	args.add(new String[] {UserName, "Star Wars: Épisode%"});
+
+    	Cursor cursor;
+    	
+    	db.open(); 
+    	for(int i=0; i<3; i++){
+    		cursor = db.execSQL(requete_badge,(String[]) args.get(i));
+    		if(cursor.getCount()>=2){
+    			badges[i] = true;
+    		}
+    		else{
+    			badges[i] = false;
+    		}
+    	}
+    	cursor = db.execSQL(requete_disney, null);
+    	if(cursor.getCount()>=2){
+    		badges[3] = true;
+    	}
+    	else{
+    		badges[3] = false;
+    	}	
+    	
+    	db.close();
+    	return badges;
+	}
+	
 	@Override
 	public void onBackPressed() {
 	    super.onBackPressed();
