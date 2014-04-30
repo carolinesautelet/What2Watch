@@ -71,7 +71,6 @@ public class Identification_user extends Activity{
 			{
 
 				int index = spinner.getSelectedItemPosition();
-
 				login = (String) spinner.getAdapter().getItem(position);
 				Toast.makeText(getBaseContext(), 
 						"You have selected item : " + login, 
@@ -81,7 +80,6 @@ public class Identification_user extends Activity{
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 				// TODO Auto-generated method stub
-
 			}
 		});
 
