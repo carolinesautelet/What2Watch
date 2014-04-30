@@ -15,7 +15,7 @@ public class User implements Parcelable{
 	private String answer = null;
 	private String password = null;
 	private UserFavorite[] favorites = null;
-	private String caro = null;
+
 	
 	public User(String login,String name, String firstname , int age,String password, String question, String answer){
 		this.name = name;
