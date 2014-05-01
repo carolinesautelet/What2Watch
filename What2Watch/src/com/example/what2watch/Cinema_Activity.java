@@ -31,6 +31,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 
 public class Cinema_Activity extends Activity {
+	Context context = null;
 	boolean firstStep = true;
 	Spinner programme=null;
 	TextView distance = null;
@@ -55,6 +56,7 @@ public class Cinema_Activity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.cinema_activity);
+		context=this.getApplicationContext();
 		cinema = getIntent().getExtras().getParcelable("Cinema");
 		name = (TextView)findViewById(R.id.cinema_activity_name);
 		name.setText(cinema.getName());
@@ -119,19 +121,13 @@ public class Cinema_Activity extends Activity {
 					return;
 				}
 				
-				String idNew = otherList.get(position).toString();
-				Cursor data = db.execSQL("SELECT rowid as _id, Year, Duration, AgeLimit, Synopsis, TrailerLink FROM Movie WHERE ID = ?", new String[] {idNew});
-
-				if(data.moveToFirst()){				
-					Movie movie = new Movie(idNew,name,data.getInt(1),data.getInt(2),data.getString(4),data.getString(5),data.getInt(3));
+				String idNew = otherList.get(position).toString();			
+					Movie movie = new Movie(context,idNew);
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
 					Activity2.putExtra("ID", idNew);
 					startActivity(Activity2);
 					overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-				}
-				else{
-					toaster("No information available on this film");
-				}
+				
 
 			}
 

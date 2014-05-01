@@ -19,7 +19,8 @@ public class Movie {
 	Cinema[] cinemas = null;
 	Channel[] channels = null;
 	
-	//public Movie(String id,String title,int year,int duration,String synopsis,String trailerLink,int ageLimit){
+	
+	
 	public Movie(Context context, String id){	
 		this.mContext = context;
 		
