@@ -27,6 +27,8 @@ public class Browse extends Activity {
 	Button scifi=null;
 	Button thriller=null;
 
+	User user;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,6 +70,9 @@ public class Browse extends Activity {
         romance.setOnClickListener(listenerromance);
         scifi.setOnClickListener(listenerscifi);
         thriller.setOnClickListener(listenerthriller);
+        
+        Intent intent = getIntent();
+		user = intent.getParcelableExtra("User");
 	}
 
 
@@ -221,6 +226,7 @@ public class Browse extends Activity {
 		bundle.putStringArray("display", WhatToDisplay);
 		bundle.putString("search_by", browse_by);
 		intent.putExtras(bundle);
+		intent.putExtra("User", user);
 		
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);

@@ -52,7 +52,10 @@ public class Accueil extends Activity {
 		disconnect.setOnClickListener(listeneruser_disconnect);
 		channel.setOnClickListener(listenerchannel);
 		cinema.setOnClickListener(listenercinema);
-	
+		
+		Intent intent = getIntent();
+		user = intent.getParcelableExtra("User");
+		
 	}
 
 	@Override
@@ -66,7 +69,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Accueil.this, Browse.class);
-			/*Activity2.putExtra("User", user);*/
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}

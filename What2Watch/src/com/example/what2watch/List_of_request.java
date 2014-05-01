@@ -23,6 +23,7 @@ public class List_of_request extends Activity {
 	ListView List=null;
 	TextView View_search_by=null;
 	Cursor data=null;
+	User user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,9 @@ public class List_of_request extends Activity {
 		
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
+		
+		user = intent.getParcelableExtra("User");
+		toaster(user.getLogin());
 		
 		String requete = bundle.getString("requete");
 		String[] arguments = bundle.getStringArray("arguments");
@@ -79,6 +83,7 @@ public class List_of_request extends Activity {
 			
 			Intent Activity2 = new Intent(List_of_request.this, Movie_Activity.class);
 			Activity2.putExtra("ID", ids);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		

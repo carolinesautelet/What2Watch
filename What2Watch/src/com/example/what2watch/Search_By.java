@@ -18,6 +18,7 @@ public class Search_By extends Activity {
 		Toast.makeText(Search_By.this, txt, Toast.LENGTH_SHORT).show();
 	}
 	
+	User user;
 	private Button Go=null;
 	private EditText Text=null;
 	private RadioGroup Radio=null;
@@ -35,6 +36,9 @@ public class Search_By extends Activity {
 		Radio = (RadioGroup) findViewById(R.id.search_by_RadioG1);
 		
 		Go.setOnClickListener(Blistener);
+		
+		Intent intent = getIntent();
+		user = intent.getParcelableExtra("User");
 		
 	}
 
@@ -102,6 +106,7 @@ public class Search_By extends Activity {
 		bundle.putStringArray("display", WhatToDisplay);
 		bundle.putString("search_by", search_by);
 		intent.putExtras(bundle);
+		intent.putExtra("User", user);
 		
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);

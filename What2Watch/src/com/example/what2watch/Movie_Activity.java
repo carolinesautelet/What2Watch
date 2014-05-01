@@ -37,7 +37,7 @@ public class Movie_Activity extends Activity {
 	Context context;
 	String trailerLink;
 	String movie_title;
-	String user;
+	User user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,7 @@ public class Movie_Activity extends Activity {
 		String id = intent.getStringExtra("ID");
 		String[] args = {id};
 		
-//		User user = intent.getParcelableExtra("")
-		String user = "Boy1";
+		user = intent.getParcelableExtra("User");
 		
 		mDbHelper = new dbAdapter(this);         
 		mDbHelper.createDatabase();   
@@ -96,7 +95,7 @@ public class Movie_Activity extends Activity {
 		int age = movie.getAgeLimit();
 		
 		/*Recherche Rating*/
-		Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user});
+		Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user.getLogin()});
 		int rate;
 		if (dataRating.getCount()<1){
 			rate = 0;
@@ -204,7 +203,7 @@ public class Movie_Activity extends Activity {
 		@Override
 		public void onClick(View v) {
 				mDbHelper.open();
-				mDbHelper.addToDatabase("Rating", new String[] {"Login", "ID", "StarsNumber"},new String [] {user, movie_title, Integer.toString(ratingbar.getNumStars())} );
+				mDbHelper.addToDatabase("Rating", new String[] {"Login", "ID", "StarsNumber"},new String [] {user.getLogin(), movie_title, Integer.toString(ratingbar.getNumStars())} );
 				mDbHelper.close();
 		}
 	};
