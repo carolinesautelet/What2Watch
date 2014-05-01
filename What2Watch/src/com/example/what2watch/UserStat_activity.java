@@ -56,7 +56,7 @@ public class UserStat_activity extends Activity {
 		
 		badge_pirate = (ImageView) findViewById(R.id.user_stat_imgPirate); 
 		badge_star = (ImageView) findViewById(R.id.user_stat_imgStarwars);
-		badge_ring = (ImageView) findViewById(R.id.user_stat_imgZimmer);
+		badge_ring = (ImageView) findViewById(R.id.user_stat_imgLord);
 		badge_disney = (ImageView) findViewById(R.id.user_stat_imgDisney);
 		
 		username = (TextView) findViewById(R.id.user_stat_UserName);
@@ -104,8 +104,8 @@ public class UserStat_activity extends Activity {
     	//MostGenre
     	
     	//Progressbar and level
-    	level.setText(Integer.toString(progressBarStatus/20));
-    	Bar.setProgress(progressBarStatus%20); //dépend du nombre de films regardé
+    	level.setText(Integer.toString((progressBarStatus/10)+1));
+    	Bar.setProgress(progressBarStatus%10); //dépend du nombre de films regardé
     	
     	
     	boolean[] badges = checkForBadge(user.getLogin());
@@ -130,9 +130,9 @@ public class UserStat_activity extends Activity {
     	String requete_disney = "SELECT M.rowid as _id, Title, M.ID FROM Movie M, Genre G, NumberOfView N WHERE GenreName like \"disney\" and N.Login=? and M.ID=N.ID and M.ID=G.ID GROUP BY Title";
     	ArrayList args = new ArrayList();
     	args.add(new String[] {UserName, "Pirates of the Caribbean%"});
-    	args.add(new String[] {UserName, "The Lord of the Rings%"});
     	args.add(new String[] {UserName, "Star Wars: Épisode%"});
-
+    	args.add(new String[] {UserName, "The Lord of the Rings%"});
+    	
     	Cursor cursor;
     	
     	db.open(); 

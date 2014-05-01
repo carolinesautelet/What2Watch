@@ -178,7 +178,7 @@
 		android:layout_below="@id/user_stat_TextLevel"
         android:layout_centerHorizontal="true"
         android:indeterminate="false"
-        android:max="20"
+        android:max="10"
         android:minWidth="250dp"
         android:minHeight="10dip"
         android:maxHeight="20dip"/>
@@ -220,7 +220,7 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1">
             <ImageView 
-                android:id="@+id/user_stat_imgZimmer"
+                android:id="@+id/user_stat_imgLord"
                 android:contentDescription="@string/user_stat_badge_L"
                 android:layout_width="fill_parent"
         		android:layout_height="fill_parent"
