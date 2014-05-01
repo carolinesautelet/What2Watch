@@ -26,11 +26,10 @@ public class List_of_Cinema extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.list_of_result);
+		setContentView(R.layout.list_of_cinema);
 	
 		List = (ListView) findViewById(R.id.list_of_Cinema_Listview);
 		
-		Intent intent = getIntent();
 		mDbHelper = new dbAdapter(this);         
     	mDbHelper.createDatabase();       
     	mDbHelper.open(); 
@@ -41,6 +40,7 @@ public class List_of_Cinema extends Activity {
     	List.setAdapter(cursorAd);
     	mDbHelper.close();
     	List.setOnItemClickListener(listenerList);
+    	mDbHelper.close();
 	}
 	
 	private OnItemClickListener listenerList = new OnItemClickListener() {
@@ -48,8 +48,10 @@ public class List_of_Cinema extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View view, int position,
 				long id) {
+			toaster("onclick ");
 			data.moveToPosition(position);
 			String name = data.getString(1);
+			toaster("name : "+ name);
 			mDbHelper.open();
 			Cursor loc  = mDbHelper.execSQL("SELECT rowid as _id,Latitude , Longitude FROM Location WHERE Name = ?",new String[] {name});
 			if(loc.moveToFirst()){
@@ -60,10 +62,16 @@ public class List_of_Cinema extends Activity {
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			}
 			else{
-				toaster("no information avaliable on this cinema");
+				Cinema cinema = new Cinema(name,null,null);
+				Intent Activity2 = new Intent(List_of_Cinema.this, Cinema_Activity.class);
+				Activity2.putExtra("Cinema",cinema);
+				startActivity(Activity2);
+				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			}
+			mDbHelper.close();
 		
 		}
+		
 	};
 	
 	@Override

@@ -167,7 +167,7 @@ public class dbAdapter
     	 cursor = mDb.rawQuery(request, args);
     	 if (cursor.moveToFirst()) {
     		   do {
-    		   set.add(cursor.getString(0));
+    		   set.add(cursor.getString(1));
     		   } while (cursor.moveToNext());
     		  }
     		  return set;

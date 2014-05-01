@@ -11,17 +11,63 @@
         android:layout_height="wrap_content"
         android:background="@color/translucide"
         android:textColor="@color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/cinema_activity_textDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/cinema_activity_name"
+        android:layout_marginTop="20dp"
+        android:background="@color/translucide"
+        android:text="Distance to cinema : "
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/cinema_activity_distance_to_cinema"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/cinema_activity_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/cinema_activity_textDistance"
         android:background="@color/translucide"
         android:textColor="@color/white"
         android:textSize="20sp" />
+     <TextView
+        android:id="@+id/cinema_activity_distance_to_cinema_miles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cinema_activity_distance_to_cinema"
+        android:layout_alignRight="@id/cinema_activity_distance_to_cinema"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/translucide"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id ="@+id/cinema_activity_textProgramme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/cinema_activity_distance_to_cinema_miles"
+        android:layout_marginTop="20dp"
+        android:background="@color/translucide"
+        android:text="Film program : "
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/cinema_activity_programmation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/cinema_activity_textProgramme"
+        android:layout_marginTop="20dp"
+        android:background="@color/white" />
 
     <Button
         android:id="@+id/cinema_activity_navigate"
@@ -30,14 +76,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/cinema_activity_programmation"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="Navigate to Cinema"
         android:textColor="@color/white" />
-
-    <Spinner
-        android:id="@id/cinema_activity_programmation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/cinema_activity_distance_to_cinema" />
 
 </RelativeLayout>
