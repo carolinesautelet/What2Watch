@@ -71,10 +71,11 @@ public class Cinema_option extends Activity {
 	private OnClickListener listenercomingsoon = new OnClickListener() {
 		@Override
   		public void onClick(View v) {
-			String queryString  = "SELECT rowid as _id, Name, ID FROM Cinema WHERE DATE(Time) >= CURRENT_DATE";
-			String[] display = {"Name"};
-			String[] whereArgs = null;
-			send(queryString, whereArgs, display, "Cinema");
+			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ComingSoon", true);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 
 		}
 	};
@@ -143,6 +144,8 @@ public class Cinema_option extends Activity {
   		public void onClick(View v) {
 			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
 			intent.putExtra("User", user);
+			intent.putExtra("ComingSoon", false);
+
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
