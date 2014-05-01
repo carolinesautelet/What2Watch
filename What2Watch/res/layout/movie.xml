@@ -19,15 +19,7 @@
         android:textColor="@color/white"
         android:textSize="35sp"
         />
-    
-    <ImageView 
-        android:id="@+id/movie_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/movie_description_img"
-        android:layout_alignBottom="@id/movie_title"
-        android:layout_alignParentRight="true"/>
-    
+
     <CheckBox
         android:id="@+id/movie_already_watched"
         android:layout_width="wrap_content"
@@ -38,6 +30,15 @@
         android:textColor="@color/white"
         />
 
+    
+    <ImageView 
+        android:id="@+id/movie_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/movie_description_img"
+        android:layout_alignBottom="@id/movie_already_watched"
+        android:layout_alignParentRight="true"/>
+    
     <Button
         android:id="@+id/movie_watched_once_more"
         style="@style/boutonSmall"
@@ -58,7 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/movie_already_watched"
         android:layout_alignLeft="@id/movie_already_watched"
-        android:text="@string/movie_viewed"/>
+        android:text="@string/movie_viewed"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/movie_textyear"
@@ -193,6 +195,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/movie_synopsis"
+        android:numStars="5"
         android:layout_marginTop="10dp"/>
     
     <Button

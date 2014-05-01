@@ -121,6 +121,24 @@ public class dbAdapter
     	 }
      }
      
+     public boolean addRatingToDatabase(String UserName, String id, float starNbr)
+     {
+    	ContentValues cv = new ContentValues();
+    	 try
+    	 {
+    			 cv.put("Login",UserName);
+    			 cv.put("ID",id);
+    			 cv.put("StarsNumber",starNbr);
+    		     		 
+    		 mDb.insert("Rating", null, cv);
+    		 return true;
+    	 }
+    	 catch(Exception ex)
+    	 {
+    		 return false;
+    	 }
+     }
+     
      public String getStringFromRequest(String sqlRequest, String[] ArgsforRequest, String ColumnName)
      {
     	 Cursor cursor;
