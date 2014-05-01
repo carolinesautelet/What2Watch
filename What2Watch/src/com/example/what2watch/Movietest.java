@@ -22,6 +22,7 @@ public class Movietest extends Activity {
 	
 	ListView List=null;
 	Cursor data=null;
+	User user = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class Movietest extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.movietest);
-	
+		user = getIntent().getExtras().getParcelable("User");
 		List = (ListView) findViewById(R.id.movietest_L);
 		
 		dbAdapter mDbHelper = new dbAdapter(this);         
@@ -69,6 +70,7 @@ public class Movietest extends Activity {
 			
 			Intent Activity2 = new Intent(Movietest.this, Movie_Activity.class);
 			Activity2.putExtra("ID", ids);
+			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		

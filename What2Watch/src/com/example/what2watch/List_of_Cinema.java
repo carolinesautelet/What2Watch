@@ -18,6 +18,7 @@ public class List_of_Cinema extends Activity {
 	ListView List=null;
 	Cursor data=null;
 	dbAdapter mDbHelper = null;
+	User user = null;
 	public void toaster(String txt){
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
@@ -27,7 +28,7 @@ public class List_of_Cinema extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.list_of_cinema);
-	
+		user = getIntent().getExtras().getParcelable("User");
 		List = (ListView) findViewById(R.id.list_of_Cinema_Listview);
 		
 		mDbHelper = new dbAdapter(this);         
@@ -58,6 +59,7 @@ public class List_of_Cinema extends Activity {
 				Cinema cinema = new Cinema(name , loc.getString(2),loc.getString(1));
 				Intent Activity2 = new Intent(List_of_Cinema.this, Cinema_Activity.class);
 				Activity2.putExtra("Cinema",cinema);
+				Activity2.putExtra("User",user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			}
@@ -65,6 +67,7 @@ public class List_of_Cinema extends Activity {
 				Cinema cinema = new Cinema(name,null,null);
 				Intent Activity2 = new Intent(List_of_Cinema.this, Cinema_Activity.class);
 				Activity2.putExtra("Cinema",cinema);
+				Activity2.putExtra("User", user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			}
