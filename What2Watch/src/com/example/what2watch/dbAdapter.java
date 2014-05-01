@@ -161,6 +161,17 @@ public class dbAdapter
 	  }
 	  return set;
     }
+     public Set<String> getAllDataSingle(String request,String[] args){
+    	 Set<String> set = new HashSet<String>();
+    	 Cursor cursor = null;
+    	 cursor = mDb.rawQuery(request, args);
+    	 if (cursor.moveToFirst()) {
+    		   do {
+    		   set.add(cursor.getString(1));
+    		   } while (cursor.moveToNext());
+    		  }
+    		  return set;
+     }
      
      
      public void update(String table, ContentValues values, String whereClause, String[] whereArgs){
