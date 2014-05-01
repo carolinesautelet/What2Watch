@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -37,6 +38,10 @@ public class Movie_Activity extends Activity {
 	Context context;
 	String trailerLink;
 	String movie_title;
+	String id;
+	Button save;
+	CheckBox checkbox;
+	boolean MovieIsView=false;
 	User user;
 	
 	@Override
@@ -59,20 +64,23 @@ public class Movie_Activity extends Activity {
 		TextView synopsis= (TextView)findViewById(R.id.movie_synopsis);
 		TextView viewed = (TextView)findViewById(R.id.movie_viewed);
 		
+		checkbox = (CheckBox) findViewById(R.id.movie_already_watched);
+		
 		Spinner spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
 		
-		ImageView img = (ImageView)findViewById(R.id.movie_img); 
+		ImageView img = (ImageView) findViewById(R.id.movie_img); 
 		
 		Button trailer =(Button)findViewById(R.id.movie_trailer);
 		Button channel =(Button)findViewById(R.id.movie_findchannel);
 		Button cinema =(Button)findViewById(R.id.movie_findcinema);
-		Button save = (Button) findViewById(R.id.movie_button_save);
+		save = (Button) findViewById(R.id.movie_button_save);
 		
 		ratingbar = (RatingBar) findViewById(R.id.movie_rating);
 		
 		save.setOnClickListener(listenerSave);
+		checkbox.setOnClickListener(listenerCheck);
 		
-		String id = intent.getStringExtra("ID");
+		id = intent.getStringExtra("ID");
 		String[] args = {id};
 		
 		user = intent.getParcelableExtra("User");
@@ -94,7 +102,8 @@ public class Movie_Activity extends Activity {
 		trailerLink=movie.getTrailerLink();
 		int age = movie.getAgeLimit();
 		
-		/*Recherche Rating*/
+		
+		/*affichage Rating*/
 		Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user.getLogin()});
 		int rate;
 		if (dataRating.getCount()<1){
@@ -143,12 +152,19 @@ public class Movie_Activity extends Activity {
        }
        movie.setGenre(genres);
        
-       // AJOUTER LE NOMBRE DE FOIS QUE L'UTILISATEUR A REGARDE LE FILM !!!!!!
-       /*
-        * database puis cast nbrfois dans numberofview
-        * viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
-        */
-
+       
+     /*nombre de fois que user à vu le film*/  
+       Cursor dataNbrofview = mDbHelper.execSQL("SELECT Number FROM NumberOfView WHERE Login=? and ID=?", new String[] {user.getLogin(),id});
+       int numberofview;
+       if(dataNbrofview.getCount()<1)
+    	   numberofview=0;
+       else{
+    	   dataNbrofview.moveToFirst();
+    	   numberofview=dataNbrofview.getInt(dataNbrofview.getColumnIndex("Number"));
+    	   checkbox.setChecked(true);
+    	   MovieIsView=true;
+       }
+        viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
 		
        //affichage de l'image -12/-16/All
        if(age >= 16){
@@ -172,7 +188,6 @@ public class Movie_Activity extends Activity {
 			}
 		});
 		
-
 
        mDbHelper.close();
 	} //OnCreate
@@ -202,12 +217,28 @@ public class Movie_Activity extends Activity {
 	private OnClickListener listenerSave = new OnClickListener(){
 		@Override
 		public void onClick(View v) {
-				mDbHelper.open();
-				mDbHelper.addToDatabase("Rating", new String[] {"Login", "ID", "StarsNumber"},new String [] {user.getLogin(), movie_title, Integer.toString(ratingbar.getNumStars())} );
-				mDbHelper.close();
+			if(ratingbar.getRating()==0)
+				toaster("A zero rate cannot be added to a movie");
+			else{
+			mDbHelper.open();
+			mDbHelper.addRatingToDatabase(user.getLogin(), id, ratingbar.getRating());
+			mDbHelper.close();
+			save.setVisibility(View.GONE);
+			ratingbar.setIsIndicator(true);
+			}
 		}
 	};
 	
+	private OnClickListener listenerCheck = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			if(!MovieIsView){
+				mDbHelper.open();
+				mDbHelper.addNumberToDatabase(user.getLogin(), id);
+				mDbHelper.close();
+			}	
+		}
+	};
 	
 	
 	@Override
