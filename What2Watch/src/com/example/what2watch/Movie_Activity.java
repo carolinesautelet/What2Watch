@@ -107,6 +107,12 @@ public class Movie_Activity extends Activity {
 		trailerLink=movie.getTrailerLink();
 		int age = movie.getAgeLimit();
 		
+		/*affiche du bouton trailer*/
+		if(trailerLink==null){
+			trailer.setVisibility(View.GONE);
+			trailer.setClickable(false);
+		}
+		
 		
 		/*affichage Rating*/
 		Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user.getLogin()});
