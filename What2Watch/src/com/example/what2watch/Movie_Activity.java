@@ -40,6 +40,9 @@ public class Movie_Activity extends Activity {
 	String movie_title;
 	String id;
 	Button save;
+	Button plus1;
+	TextView viewed;
+	int numberofview;
 	CheckBox checkbox;
 	boolean MovieIsView=false;
 	User user;
@@ -62,7 +65,7 @@ public class Movie_Activity extends Activity {
 		TextView genre3 = (TextView)findViewById(R.id.movie_genre3);
 		TextView director = (TextView)findViewById(R.id.movie_director);
 		TextView synopsis= (TextView)findViewById(R.id.movie_synopsis);
-		TextView viewed = (TextView)findViewById(R.id.movie_viewed);
+		viewed = (TextView)findViewById(R.id.movie_viewed);
 		
 		checkbox = (CheckBox) findViewById(R.id.movie_already_watched);
 		
@@ -73,11 +76,13 @@ public class Movie_Activity extends Activity {
 		Button trailer =(Button)findViewById(R.id.movie_trailer);
 		Button channel =(Button)findViewById(R.id.movie_findchannel);
 		Button cinema =(Button)findViewById(R.id.movie_findcinema);
+		plus1 = (Button) findViewById(R.id.movie_watched_once_more);
 		save = (Button) findViewById(R.id.movie_button_save);
 		
 		ratingbar = (RatingBar) findViewById(R.id.movie_rating);
 		
 		save.setOnClickListener(listenerSave);
+		plus1.setOnClickListener(listenerPlus1);
 		checkbox.setOnClickListener(listenerCheck);
 		
 		id = intent.getStringExtra("ID");
@@ -155,7 +160,6 @@ public class Movie_Activity extends Activity {
        
      /*nombre de fois que user à vu le film*/  
        Cursor dataNbrofview = mDbHelper.execSQL("SELECT Number FROM NumberOfView WHERE Login=? and ID=?", new String[] {user.getLogin(),id});
-       int numberofview;
        if(dataNbrofview.getCount()<1)
     	   numberofview=0;
        else{
@@ -237,6 +241,20 @@ public class Movie_Activity extends Activity {
 				mDbHelper.addNumberToDatabase(user.getLogin(), id);
 				mDbHelper.close();
 			}	
+		}
+	};
+	
+	private OnClickListener listenerPlus1 = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			mDbHelper.open();
+			mDbHelper.execSQLInsert("UPDATE NumberOfView SET Number = \"" +Integer.toString((numberofview+1))+ "\"  WHERE Login = ? and ID = ?",new String[] {user.getLogin(), id});
+			if(numberofview==0)
+				mDbHelper.addNumberToDatabase(user.getLogin(), id);
+			mDbHelper.close();
+			numberofview++;
+			viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
+			checkbox.setChecked(true);
 		}
 	};
 	
