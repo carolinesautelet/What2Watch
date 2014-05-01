@@ -57,8 +57,6 @@ public class Identification_user extends Activity{
 		letsGO = (Button) findViewById(R.id.choose_user_connect);
 		letsGO.setOnClickListener(Listenerconnect);
 		create.setOnClickListener(Listenercreate);
-
-		//Cursor data = db.execSQL("SELECT rowid as _id, Login  FROM User", null);
 		Set<String> set = db.getAllData("Login","User");
 		List<String> list = new ArrayList<String>(set);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -69,12 +67,8 @@ public class Identification_user extends Activity{
 		{
 			public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
 			{
-
 				int index = spinner.getSelectedItemPosition();
 				login = (String) spinner.getAdapter().getItem(position);
-				Toast.makeText(getBaseContext(), 
-						"You have selected item : " + login, 
-						Toast.LENGTH_SHORT).show(); 
 			}
 
 			@Override
@@ -101,6 +95,9 @@ public class Identification_user extends Activity{
 				if(cursor.getString(3).compareTo(incomingPassword.getText().toString())==0){
 					User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
 					incomingPassword.setText("");
+					Toast.makeText(getBaseContext(), 
+		                    "Hi" +user.getFirstName() +user.getName() , 
+		                    Toast.LENGTH_SHORT).show();
 					Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
 					Activity2.putExtra("User", user);
 					startActivity(Activity2);

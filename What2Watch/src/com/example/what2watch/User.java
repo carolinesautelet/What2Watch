@@ -24,6 +24,7 @@ public class User implements Parcelable{
 		this.question = question;
 		this.answer = answer;
 		this.password = password;
+		this.login = login;
 		
 	};
 	public User(String login,String name, String firstname , int age,String password){
@@ -31,6 +32,7 @@ public class User implements Parcelable{
 		this.firstname = firstname;
 		this.age = age;
 		this.password = password;
+		this.login = login;
 	
 	};
 	public String getName(){

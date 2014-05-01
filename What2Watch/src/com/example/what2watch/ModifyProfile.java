@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.EditText;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -23,18 +24,13 @@ public class ModifyProfile extends Activity {
 	}
 	
 	Button changeprofile=null;
-	
-	String newName = null;
-	String newFirstname = null;
-	String newAge = null;
-	String newPswd = null;
-	String confirmPswd = null;
 	ContentValues newvalue = new ContentValues();
-	EditText newNameET =null;
-	EditText newFirstnameET = null;
-	EditText newAgeET = null;
-	EditText newPswdET = null;
-	EditText confirmPswdET = null;
+	EditText newName =null;
+	EditText newFirstname = null;
+	EditText newAge = null;
+	EditText newPswd = null;
+	EditText confirmPswd = null;
+	User user = null;
 	dbAdapter mDbHelper = null;
 	SQLiteDatabase md = null;
 	
@@ -45,21 +41,21 @@ public class ModifyProfile extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.change_profile);
-		
+		user = getIntent().getExtras().getParcelable("User");
 		changeprofile = (Button) findViewById(R.id.new_user_creationButton);
 	
-		changeprofile.setOnClickListener(listenernewprofile);
 		
-		//création des strings contenant les nouvelles données
-		newNameET = (EditText) findViewById(R.id.new_user_entername);
-		newFirstnameET = (EditText) findViewById(R.id.new_user_enterfirstname);
-		newAgeET = (EditText) findViewById(R.id.new_user_enterage);
-		newPswdET = (EditText) findViewById(R.id.new_user_enterpassword);
-		confirmPswdET = (EditText) findViewById(R.id.new_user_enterconfirmation);
+		
+		newName = (EditText) findViewById(R.id.new_user_entername);
+		newFirstname = (EditText) findViewById(R.id.new_user_enterfirstname);
+		newAge = (EditText) findViewById(R.id.new_user_enterage);
+		newPswd = (EditText) findViewById(R.id.new_user_enterpassword);
+		confirmPswd = (EditText) findViewById(R.id.new_user_enterconfirmation);
 		
 		mDbHelper = new dbAdapter(this);  
 
-		mDbHelper.createDatabase();       
+		mDbHelper.createDatabase();
+		changeprofile.setOnClickListener(listenernewprofile);
 		
 	}
 	
@@ -75,46 +71,37 @@ public class ModifyProfile extends Activity {
 	
 	
 	private OnClickListener listenernewprofile = new OnClickListener() {
-		
-		@Override
-		
-		public void onClick(View v) {
-			newName = newNameET.getText().toString();
-			newFirstname = newFirstnameET.getText().toString();
-			toaster(newFirstname);
-			newAge = newAgeET.getText().toString();
-			newPswd = newPswdET.getText().toString();
-			confirmPswd = confirmPswdET.getText().toString();
 
-			
-			if(confirmPswd.compareTo(newPswd)==0){
-	    
-		    	mDbHelper.open(); 
-		    	//rowid as _id,		
-		    	//mDbHelper.execSQL("UPDATE \"main\".User SET \"FirstName\" = ?, \"Name\" = ?, \"Password\" = ?, \"Age\" = ? WHERE \"Login\" =?", new String[] {newFirstname, newName, newPswd, newAge, "Girl1"});
-		    	//mDbHelper.execSQL("UPDATE main.User SET Password = ? WHERE  Login = ?", new String[] {"kkkj", "Girl1"});
-		    	
-		    	newvalue.put("FirstName" , newFirstname);
-			    newvalue.put("Name" , newName);
-			    newvalue.put("Age" , newAge);
-			    newvalue.put("Password" , newPswd);
-			    
-			    //md.update("User", newvalue,  "login + = ?", new String[] {"Girl1"});
-			    mDbHelper.update("User", newvalue,  "Login = ?", new String[] {"Girl1"});			    	
-		    	
-		    	mDbHelper.close();
-		    	toaster("succes!!!");
+		@Override
+
+		public void onClick(View v) {
+
+			mDbHelper.open(); 
+			if(newPswd.getText().toString().compareTo("")!=0){
+				toaster("Pswd : " + newPswd.getText().toString() + "Login  : " + user.getLogin());
+				if(confirmPswd.getText().toString().compareTo(newPswd.getText().toString())==0){
+					mDbHelper.execSQLInsert("UPDATE User SET Password = ? WHERE Login = ?",new String[] {newPswd.getText().toString(), user.getLogin()});
+				}
+					else{
+						toaster("passwords do not match");
+					}
 			}
-			else{
-				toaster("password confirmation not the same");
-				Intent Activity2 = new Intent(ModifyProfile.this, ModifyProfile.class);
+				if(newName.getText().toString().compareTo("")!=0){
+					mDbHelper.execSQLInsert("UPDATE User SET Name = ? WHERE Login = ?",new String[] {newName.getText().toString(), user.getLogin()});
+				}
+				if(newFirstname.getText().toString().compareTo("")!=0){
+					mDbHelper.execSQLInsert("UPDATE User SET FirstName = ? WHERE Login = ?",new String[] {newFirstname.getText().toString(), user.getLogin()});
+				}
+				if(newAge.getText().toString().compareTo("")!=0){
+					mDbHelper.execSQLInsert("UPDATE User SET Age = ? WHERE Login = ?",new String[] {newAge.getText().toString(), user.getLogin()});
+				}
+				mDbHelper.close();
+				Intent Activity2 = new Intent(ModifyProfile.this, Accueil.class);
 				startActivity(Activity2);
+				overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
 			}
 			
-			Intent Activity2 = new Intent(ModifyProfile.this, Accueil.class);
-			startActivity(Activity2);
-			overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
-		}
+		
 	};
 	
 	@Override

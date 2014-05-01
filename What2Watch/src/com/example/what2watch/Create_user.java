@@ -75,27 +75,49 @@ public class Create_user extends Activity {
 		public void onClick(View v) {
 			Intent Activity2 = new Intent(Create_user.this, Accueil.class);
 			db.open();
-			Cursor cursor = db.execSQL("SELECT Login FROM User WHERE Login = ?", new String[] {login.getText().toString()});
-			if(cursor.moveToFirst()){
+			if(login.getText().toString().compareTo("")==0){
 				Toast.makeText(getBaseContext(), 
-						"Sorry login does already exit", 
+						"Please enter a login", 
 						Toast.LENGTH_SHORT).show();
 			}
 			else{
-				if(password.getText().toString().compareTo(confirmation.getText().toString())!=0){
+				Cursor cursor = db.execSQL("SELECT Login FROM User WHERE Login = ?", new String[] {login.getText().toString()});
+				if(cursor.moveToFirst()){
 					Toast.makeText(getBaseContext(), 
-							"Passwords do not match", 
+							"Sorry login does already exit", 
 							Toast.LENGTH_SHORT).show();
 				}
 				else{
-					user = new User(login.getText().toString(),name.getText().toString(),firstName.getText().toString(),Integer.parseInt(age.getText().toString()),password.getText().toString(),question,answer.getText().toString());
-					db.addToDatabase("User", new String[] {"Login" , "FirstName" , "Name" ,"Password","Age"}, new String[] {user.getLogin(),user.getFirstName(),user.getName(),user.getPassword(),Integer.toString(user.getAge())});
-					Toast.makeText(getBaseContext(), 
-							"Inserted", 
-							Toast.LENGTH_SHORT).show();
-					Activity2.putExtra("User", user);
-					startActivity(Activity2);
-					overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+					if(password.getText().toString().compareTo(confirmation.getText().toString())!=0 || password.getText().toString().compareTo("")==0){
+						Toast.makeText(getBaseContext(), 
+								"Passwords do not match or are null!", 
+								Toast.LENGTH_SHORT).show();
+					}
+					else{
+						if(age.getText().toString() .compareTo("")==0){
+							Toast.makeText(getBaseContext(), 
+									"Please enter your age", 
+									Toast.LENGTH_SHORT).show();
+						}
+						if(name.getText().toString().compareTo("")==0){
+							Toast.makeText(getBaseContext(), 
+									"Please enter your name", 
+									Toast.LENGTH_SHORT).show();
+						}
+						if(firstName.getText().toString().compareTo("")==0){
+							Toast.makeText(getBaseContext(), 
+									"Please enter your firstname", 
+									Toast.LENGTH_SHORT).show();
+						}
+
+						else{
+							user = new User(login.getText().toString(),name.getText().toString(),firstName.getText().toString(),Integer.parseInt(age.getText().toString()),password.getText().toString(),question,answer.getText().toString());
+							db.addToDatabase("User", new String[] {"Login" , "FirstName" , "Name" ,"Password","Age"}, new String[] {user.getLogin(),user.getFirstName(),user.getName(),user.getPassword(),Integer.toString(user.getAge())});
+							Activity2.putExtra("User", user);
+							startActivity(Activity2);
+							overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+						}
+					}
 				}
 			}
 			db.close();

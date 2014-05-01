@@ -98,6 +98,9 @@ public class dbAdapter
              throw mSQLException; 
          } 
      }
+     public void execSQLInsert(String sqlRequest,String[] argsforRequest){
+    	 mDb.execSQL(sqlRequest,argsforRequest);
+     }
      
      public boolean addToDatabase(String table_name, String[] OrderedColumn, String[] OrderedValues)
      {
@@ -133,7 +136,6 @@ public class dbAdapter
      public Set<String> getAllData(String labelColumn, String table) {
    	  Set<String> set = new HashSet<String>();
    	  String selectQuery = "select " + labelColumn + " from " + table;
-   	  //SQLiteDatabase db = this.getReadableDatabase();
    	  Cursor cursor = null;
    	  cursor = mDb.rawQuery(selectQuery, null);
    	

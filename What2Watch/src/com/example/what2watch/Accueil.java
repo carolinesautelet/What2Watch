@@ -118,8 +118,9 @@ public class Accueil extends Activity {
 	private OnClickListener listeneruser_disconnect = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			finish();
+			Intent intent = new Intent(Accueil.this, MainActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
 		}
 	};
 	
