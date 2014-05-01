@@ -1,7 +1,11 @@
 
 package com.example.what2watch;
 
+import android.content.Context;
+import android.database.Cursor;
+
 public class Movie {
+	private Context mContext;
 	String id =null;
 	String title = null;
 	int year = 0;
@@ -15,14 +19,27 @@ public class Movie {
 	Cinema[] cinemas = null;
 	Channel[] channels = null;
 	
-	public Movie(String id,String title,int year,int duration,String synopsis,String trailerLink,int ageLimit){
+	//public Movie(String id,String title,int year,int duration,String synopsis,String trailerLink,int ageLimit){
+	public Movie(Context context, String id){	
+		this.mContext = context;
+		
+		dbAdapter mDbHelper = new dbAdapter(mContext);  
+		mDbHelper.createDatabase();       
+    	mDbHelper.open(); 
+    	
+    	String[] args = {id};
+    	final Cursor data = mDbHelper.execSQL("SELECT rowid as _id, Title, Year, Duration, Synopsis, TrailerLink, AgeLimit FROM Movie WHERE ID = ?", args);
+		data.moveToFirst();
+		
 		this.id = id;
-		this.title=title;
-		this.year=year;
-		this.duration=duration;
-		this.ageLimit=ageLimit;
-		this.synopsis=synopsis;
-		this.trailerLink=trailerLink;
+		this.title=data.getString(1);
+		this.year=data.getInt(2);
+		this.duration=data.getInt(3);
+		this.synopsis=data.getString(4);
+		this.trailerLink=data.getString(5);
+		this.ageLimit=data.getInt(6);
+		
+       mDbHelper.close();
 	}
 	
 	public String getId() {

@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +31,13 @@ public class Movie_Activity extends Activity {
 	}
 	
 	private ProgressDialog progressDialog;
+	RatingBar ratingbar;
 	private boolean resumeHasRun = false;
+	dbAdapter mDbHelper;
+	Context context;
+	String trailerLink;
+	String movie_title;
+	String user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +66,50 @@ public class Movie_Activity extends Activity {
 		Button trailer =(Button)findViewById(R.id.movie_trailer);
 		Button channel =(Button)findViewById(R.id.movie_findchannel);
 		Button cinema =(Button)findViewById(R.id.movie_findcinema);
+		Button save = (Button) findViewById(R.id.movie_button_save);
+		
+		ratingbar = (RatingBar) findViewById(R.id.movie_rating);
+		
+		save.setOnClickListener(listenerSave);
 		
 		String id = intent.getStringExtra("ID");
+		String[] args = {id};
 		
-		dbAdapter mDbHelper = new dbAdapter(this);         
-    	mDbHelper.createDatabase();       
-    	mDbHelper.open(); 
-    	
-    	String[] args = {id};
-    	final Cursor data = mDbHelper.execSQL("SELECT rowid as _id, Title, Year, Duration, Synopsis, TrailerLink, AgeLimit FROM Movie WHERE ID = ?", args);
-		data.moveToFirst();
+//		User user = intent.getParcelableExtra("")
+		String user = "Boy1";
+		
+		mDbHelper = new dbAdapter(this);         
+		mDbHelper.createDatabase();   
+		mDbHelper.open(); 
 		
 		/*Creation de l'objet Movie*/
-		Movie movie  = new Movie(id,data.getString(1),data.getInt(2),data.getInt(3),data.getString(4),data.getString(5),data.getInt(6));
+		
+		Movie movie  = new Movie(this, id);
+		
+		/*Affichage du text */
 		title.setText(movie.getTitle());
+		movie_title=movie.getTitle();
 		year.setText(Integer.toString(movie.getYear()));
 		duration.setText(Integer.toString(movie.getDuration()));
 		synopsis.setText(movie.getSynopsis());
+		trailerLink=movie.getTrailerLink();
 		int age = movie.getAgeLimit();
+		
+		/*Recherche Rating*/
+		Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user});
+		int rate;
+		if (dataRating.getCount()<1){
+			rate = 0;
+		}
+		else{
+			dataRating.moveToFirst();
+			rate = dataRating.getInt(dataRating.getColumnIndex("StarsNumber"));
+			save.setVisibility(View.GONE);
+			ratingbar.setIsIndicator(true);
+		}
+		
+		ratingbar.setRating(rate);
+			
 		
 		/*Recherche de director*/
 		Cursor dataDirector = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Director WHERE ID = ?",args);
@@ -108,13 +143,13 @@ public class Movie_Activity extends Activity {
     		}
        }
        movie.setGenre(genres);
+       
        // AJOUTER LE NOMBRE DE FOIS QUE L'UTILISATEUR A REGARDE LE FILM !!!!!!
        /*
         * database puis cast nbrfois dans numberofview
         * viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
         */
 
-       mDbHelper.close();
 		
        //affichage de l'image -12/-16/All
        if(age >= 16){
@@ -134,13 +169,13 @@ public class Movie_Activity extends Activity {
 				setProgressBarIndeterminate(true);
 				progressDialog = ProgressDialog.show(Movie_Activity.this, "Wait", "Retreiving information from Youtute", true);
 				progressDialog.setCancelable(true);
-				showVideo(data.getString(5));
+				showVideo(trailerLink);
 			}
 		});
 		
 
 
-
+       mDbHelper.close();
 	} //OnCreate
 	
 	@Override
@@ -164,6 +199,17 @@ public class Movie_Activity extends Activity {
 		Uri url = Uri.parse(URL);
 		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("vnd.youtube:"  + url.getQueryParameter("v"))));
 	}
+	
+	private OnClickListener listenerSave = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+				mDbHelper.open();
+				mDbHelper.addToDatabase("Rating", new String[] {"Login", "ID", "StarsNumber"},new String [] {user, movie_title, Integer.toString(ratingbar.getNumStars())} );
+				mDbHelper.close();
+		}
+	};
+	
+	
 	
 	@Override
 	public void onBackPressed() {

@@ -186,16 +186,18 @@
     	android:layout_below="@id/movie_textactors"
     	android:layout_marginTop = "20dp"
         />
+    
     <RatingBar
         android:id="@+id/movie_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop = "10dp"
-        android:layout_below="@id/movie_synopsis" />
+        android:layout_below="@id/movie_synopsis"
+        android:layout_marginTop="10dp"/>
     
     <Button
         style="@style/boutonSmall"
+        android:id="@+id/movie_button_save"
 		android:layout_toRightOf="@id/movie_rating"
 		android:layout_alignBottom="@id/movie_rating"
 		android:layout_marginBottom="9dp"
