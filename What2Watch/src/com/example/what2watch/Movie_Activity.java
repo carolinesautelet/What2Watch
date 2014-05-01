@@ -41,6 +41,7 @@ public class Movie_Activity extends Activity {
 	String id;
 	Button save;
 	CheckBox checkbox;
+	boolean MovieIsView=false;
 	User user;
 	
 	@Override
@@ -159,13 +160,11 @@ public class Movie_Activity extends Activity {
     	   numberofview=0;
        else{
     	   dataNbrofview.moveToFirst();
-    	   numberofview=dataNbrofview.getInt(dataNbrofview.getColumnIndex("NumberOfView"));
+    	   numberofview=dataNbrofview.getInt(dataNbrofview.getColumnIndex("Number"));
     	   checkbox.setChecked(true);
-    	   checkbox.setFocusable(false);
+    	   MovieIsView=true;
        }
         viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
-
-
 		
        //affichage de l'image -12/-16/All
        if(age >= 16){
@@ -233,8 +232,11 @@ public class Movie_Activity extends Activity {
 	private OnClickListener listenerCheck = new OnClickListener(){
 		@Override
 		public void onClick(View v) {
-			
-			
+			if(!MovieIsView){
+				mDbHelper.open();
+				mDbHelper.addNumberToDatabase(user.getLogin(), id);
+				mDbHelper.close();
+			}	
 		}
 	};
 	

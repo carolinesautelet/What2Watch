@@ -139,6 +139,24 @@ public class dbAdapter
     	 }
      }
      
+     public boolean addNumberToDatabase(String UserName, String id)
+     {
+    	ContentValues cv = new ContentValues();
+    	 try
+    	 {
+    			 cv.put("Login",UserName);
+    			 cv.put("ID",id);
+    			 cv.put("Number",1);
+    		     		 
+    		 mDb.insert("NumberOfView", null, cv);
+    		 return true;
+    	 }
+    	 catch(Exception ex)
+    	 {
+    		 return false;
+    	 }
+     }
+     
      public String getStringFromRequest(String sqlRequest, String[] ArgsforRequest, String ColumnName)
      {
     	 Cursor cursor;
