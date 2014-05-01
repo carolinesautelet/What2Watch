@@ -19,15 +19,9 @@ public class PasswordToContinue extends Activity {
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
 	
-	Button askpswd=null;
-	String dbpswd=null;
-	String pswdstring=null;
-	boolean checkpswd = false;
-	//ListView List=null;
-	EditText pswd = null;
-	Cursor data = null;
-	dbAdapter mDbHelper = null;
-
+	Button continueb=null;
+	EditText password = null;
+	User user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +30,11 @@ public class PasswordToContinue extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.ask_pswd);
+		user = getIntent().getExtras().getParcelable("User");
+		continueb = (Button)findViewById(R.id.continue_button);
+		password = (EditText)findViewById(R.id.continue_password);
+		continueb.setOnClickListener(continueListener);
 		
-		askpswd = (Button) findViewById(R.id.continue_button);
-	
-		askpswd.setOnClickListener(listeneraskpswd);
-		
-		mDbHelper = new dbAdapter(this);   
-		mDbHelper.createDatabase();       
-    	
-		pswd = (EditText) findViewById(R.id.continue_password);
-	
-		
-
-
 	}
 	
 	@Override
@@ -59,52 +45,20 @@ public class PasswordToContinue extends Activity {
 	}
 	
 
-	private OnClickListener listeneraskpswd = new OnClickListener() {
+	private OnClickListener continueListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			
-			toaster(pswdstring);
-				
-			//List = (ListView) findViewById(R.id.movietest_L);
-			
-	    	
-	    	//int i = 0;
-	    	/*for(data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
-	    		dbpswd = getString(i);
-	    		i++;
-				if(pswdstring==dbpswd){checkpswd=true;}//le mot de passe est valide
-	    		}
-	    	*/
-	    	mDbHelper.open();     	
-
-	    	dbpswd = mDbHelper.getStringFromRequest("SELECT rowid as _id, Password FROM User WHERE Login = ?", new String[] {"Girl1"}, "Password");
-	    	mDbHelper.close();			//end db access
-	    		
-	    	if (dbpswd == null){
-	    		toaster("null");
-	    	}
-	    	if (dbpswd != null){
-	    		toaster(dbpswd);
-	    	}
-	    	
-			pswdstring = pswd.getText().toString();
-
-	    		
-	    	if(pswdstring.compareTo(dbpswd)==0){checkpswd=true;}//le mot de passe est valide
-			
-	    	if(checkpswd){//check if entered pswd is correct before the next class
+			if(user.getPassword().compareTo(password.getText().toString())==0){
 				Intent Activity2 = new Intent(PasswordToContinue.this, ModifyProfile.class);
+				Activity2.putExtra("User", user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			}
-			if(!checkpswd){
-				Intent Activity2 = new Intent(PasswordToContinue.this, PasswordToContinue.class);
-				toaster("passwordfailure");
-				startActivity(Activity2);
-				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+			else{
+				Toast.makeText(getBaseContext(), 
+						"Incorrect Password", 
+						Toast.LENGTH_SHORT).show(); 
 			}
-			
-			//toaster("test");
 		}
 	};
 	

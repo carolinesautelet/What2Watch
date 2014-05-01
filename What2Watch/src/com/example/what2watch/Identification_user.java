@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,55 +35,50 @@ public class Identification_user extends Activity{
 	Spinner spinner;
 	dbAdapter db;
 	String login = null;
+	EditText incomingPassword = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    setContentView(R.layout.choose_user);
-	   
-		db = new dbAdapter(this);         
-    	db.createDatabase();       
-    	db.open(); 
-    	
-    	spinner = (Spinner) findViewById(R.id.choose_user_selectuser_spinner);
-    	Button create = (Button)findViewById(R.id.choose_user_create);
-    	letsGO = (Button) findViewById(R.id.choose_user_connect);
-		
-    	letsGO.setOnClickListener(Listenerconnect);
-		create.setOnClickListener(Listenercreate);
-		
-    	//Cursor data = db.execSQL("SELECT rowid as _id, Login  FROM User", null);
-    	Set<String> set = db.getAllData("Login","User");
-    	List<String> list = new ArrayList<String>(set);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-    		    android.R.layout.simple_spinner_item, list);
-    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    	spinner.setAdapter(adapter);
-    	spinner.setOnItemSelectedListener(new OnItemSelectedListener()
-        {
-    		public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
-            {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.choose_user);
 
-                int index = spinner.getSelectedItemPosition();
-                 
-                login = (String) spinner.getAdapter().getItem(position);
-                Toast.makeText(getBaseContext(), 
-                        "You have selected item : " + login, 
-                        Toast.LENGTH_SHORT).show(); 
-            }
+		db = new dbAdapter(this);         
+		db.createDatabase();       
+		db.open(); 
+
+		spinner = (Spinner) findViewById(R.id.choose_user_selectuser_spinner);
+		Button create = (Button)findViewById(R.id.choose_user_create);
+
+		incomingPassword = (EditText)findViewById(R.id.choose_user_password);
+		
+		letsGO = (Button) findViewById(R.id.choose_user_connect);
+		letsGO.setOnClickListener(Listenerconnect);
+		create.setOnClickListener(Listenercreate);
+		Set<String> set = db.getAllData("Login","User");
+		List<String> list = new ArrayList<String>(set);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
+			{
+				int index = spinner.getSelectedItemPosition();
+				login = (String) spinner.getAdapter().getItem(position);
+			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 				// TODO Auto-generated method stub
-				
 			}
-        });
-    	
-	}
+		});
 
+	}
+	
 
 	private OnClickListener Listenerconnect = new OnClickListener() {
 		@Override
@@ -96,16 +92,27 @@ public class Identification_user extends Activity{
 				db.open();
 				Cursor cursor = db.execSQL("SELECT rowid as _id, FirstName, Name, Password, Age FROM User WHERE Login = ?", new String[] {login});
 				cursor.moveToFirst();
-				User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
-				Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
-				Activity2.putExtra("User", user);
-				startActivity(Activity2);
-				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-				db.close();
+				if(cursor.getString(3).compareTo(incomingPassword.getText().toString())==0){
+					User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
+					incomingPassword.setText("");
+					Toast.makeText(getBaseContext(), 
+		                    "Hi" +user.getFirstName() +user.getName() , 
+		                    Toast.LENGTH_SHORT).show();
+					Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
+					Activity2.putExtra("User", user);
+					startActivity(Activity2);
+					overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+				}
+				else{
+					Toast.makeText(getBaseContext(), 
+							"Login and password don't match", 
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+			db.close();
 			}
 			
-		}
-	};
+		};
 	
 	private OnClickListener Listenercreate = new OnClickListener() {
 		@Override

@@ -78,6 +78,8 @@
 	<string name="create_user_entername"> <b><i>Enter your name</i></b> </string>
 	<string name="create_user_firstname"> <b><i>Firstname :</i></b> </string>
 	<string name="create_user_enterfirstname"> <b><i>Enter your firstname</i></b> </string>
+	<string name = "create_user_login">Login :</string>
+	<string name = "create_user_enterlogin">Enter your login</string>
 	<string name="create_user_age"> <b><i>Age :</i></b> </string>
 	<string name="create_user_enterage"> <b><i>Enter your age</i></b> </string>
 	<string name="create_user_password"> <b><i>Password  :</i></b> </string>

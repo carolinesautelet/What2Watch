@@ -107,7 +107,7 @@ public class Accueil extends Activity {
 		@Override
 		public void onClick(View v) {
 			toaster("Bouton");
-			Intent Activity2 = new Intent(Accueil.this, User_param.class);
+			Intent Activity2 = new Intent(Accueil.this, PasswordToContinue.class);
 			Activity2.putExtra("User", user);
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
@@ -118,8 +118,9 @@ public class Accueil extends Activity {
 	private OnClickListener listeneruser_disconnect = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-
-			toaster("Log Out !");
+			Intent intent = new Intent(Accueil.this, MainActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
 		}
 	};
 	

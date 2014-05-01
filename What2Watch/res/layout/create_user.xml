@@ -56,7 +56,26 @@
        android:hint="@string/create_user_enterfirstname"
        android:textColor="@color/white"
         />
+    <TextView
+    	android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/create_user_login"
+       android:background="@color/translucide"
+       android:textColor="@color/white"
+       android:textSize="20sp"
+       />
     
+        <EditText
+       android:id="@+id/create_user_enterlogin"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:inputType="textShortMessage"
+       android:textSize="15sp"
+       android:hint="@string/create_user_enterlogin"
+       android:textColor="@color/white"
+        />
+ 
     <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
