@@ -89,7 +89,8 @@ public class UserStat_activity extends Activity {
     	
     	//nbrHour
     	cursor = db.execSQL("SELECT SUM(Duration) FROM Movie M, NumberOfView N WHERE Login = ? and N.ID = M.ID", new String[] {user.getLogin()});
-		TextToSet = Double.toString(cursor.getCount()/60);
+    	cursor.moveToFirst();
+    	TextToSet = Float.toString((float) cursor.getInt(0)/60);
     	nbrHour.setText(TextToSet);
     	
     	//nbrRate
