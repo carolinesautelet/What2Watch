@@ -45,6 +45,7 @@ public class Cinema_Activity extends Activity {
 	List<String> otherList;
 	private LocationManager lManager;
 	private Location locationCinema;
+	User user = null;
 	public void toaster(String txt){
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
@@ -58,7 +59,7 @@ public class Cinema_Activity extends Activity {
 		setContentView(R.layout.cinema_activity);
 		context=this.getApplicationContext();
 		cinema = getIntent().getExtras().getParcelable("Cinema");
-		if(cinema.getName().compareTo("coucou")!=0){
+		user = getIntent().getExtras().getParcelable("User");
 			name = (TextView)findViewById(R.id.cinema_activity_name);
 			name.setText(cinema.getName());
 			programme = (Spinner)findViewById(R.id.cinema_activity_programmation);
@@ -128,6 +129,7 @@ public class Cinema_Activity extends Activity {
 					Movie movie = new Movie(context,idNew);
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
 					Activity2.putExtra("ID", idNew);
+					Activity2.putExtra("User" , user);
 					startActivity(Activity2);
 					overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 
@@ -139,12 +141,8 @@ public class Cinema_Activity extends Activity {
 					// TODO Auto-generated method stub
 				}
 			});
-		}
-		else{
-			Toast.makeText(getBaseContext(), 
-                    "No cinema", 
-                    Toast.LENGTH_SHORT).show();
-		}
+		
+		
 
 	}
 

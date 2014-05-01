@@ -20,6 +20,7 @@ public class Cinema_option extends Activity {
 	Location locationthis = null;
 	dbAdapter db = null;
 	Context context = null;
+	User user = null;
 	//The minimum distance to change updates in metters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; //10 metters
 
@@ -32,6 +33,7 @@ public class Cinema_option extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.cinema);
+		user = getIntent().getExtras().getParcelable("User");
 		context = this.getApplicationContext();
 		Button comingsoon=null;
 		Button closest=null;
@@ -128,6 +130,7 @@ public class Cinema_option extends Activity {
 
 			Intent intent = new Intent(Cinema_option.this, Cinema_Activity.class);
 			intent.putExtra("Cinema",bestForNow);
+			intent.putExtra("User", user);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 			db.close();
@@ -139,6 +142,7 @@ public class Cinema_option extends Activity {
 		@Override
   		public void onClick(View v) {
 			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
+			intent.putExtra("User", user);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
