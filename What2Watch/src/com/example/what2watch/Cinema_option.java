@@ -57,10 +57,9 @@ public class Cinema_option extends Activity {
     private OnClickListener listenerall = new OnClickListener() {
 		@Override
   		public void onClick(View v) {
-			String queryString  = "SELECT rowid as _id, Name, ID FROM Cinema GROUP BY Name";
-			String[] display = {"Name"};
-			String[] whereArgs = null;
-			send(queryString, whereArgs, display, "Cinema");
+			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
 	};
 	
