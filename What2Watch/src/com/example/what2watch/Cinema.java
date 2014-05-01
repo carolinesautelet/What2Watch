@@ -1,12 +1,16 @@
 package com.example.what2watch;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Cinema implements Parcelable{
-	String name = null;
-	String longitude = null;
-	String latitude= null;
+	private String name = null;
+	private String longitude = null;
+	private String latitude= null;
+	private Movie[] movies = null;
+	private Context context = null;
 	TimeTable[] table = null;
 		public Cinema(String name, String longitude, String latitude) {
 		super();
@@ -14,6 +18,24 @@ public class Cinema implements Parcelable{
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
+		public Cinema(Context context , String Name){
+			this.context = context;
+			this.name = Name;
+			dbAdapter mDbHelper = new dbAdapter(context);  
+			mDbHelper.createDatabase();       
+	    	mDbHelper.open(); 
+	    	Cursor data = mDbHelper.execSQL("SELECT rowid as _id, ID FROM Cinema WHERE Name = ?",new String[] {Name});
+	    	int i = 0;
+	    	if(data.moveToFirst()){
+	    		movies[i] = new Movie(context , data.getString(1));
+	    		i++;
+	    		while(data.moveToNext()){
+	    			movies[i] = new Movie(context , data.getString(1));
+	    			i++;
+	    		}
+	    	}
+	    	mDbHelper.close();
+		}
 		
 		public String getName() {
 			return name;
