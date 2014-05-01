@@ -58,85 +58,93 @@ public class Cinema_Activity extends Activity {
 		setContentView(R.layout.cinema_activity);
 		context=this.getApplicationContext();
 		cinema = getIntent().getExtras().getParcelable("Cinema");
-		name = (TextView)findViewById(R.id.cinema_activity_name);
-		name.setText(cinema.getName());
-		programme = (Spinner)findViewById(R.id.cinema_activity_programmation);
-		distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
-		distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
-		db=new dbAdapter(this);
-		db.createDatabase();
-		db.open();
-		other = new HashSet<String>();
-		Set<String> set = new HashSet<String>();
-		set.add("Select film ");
-		other.add("Select film ");
-		//Set<String> set = db.getAllDataSingle("SELECT rowid as _id, Title , ID FROM Movie WHERE ID IN (SELECT ID FROM Cinema WHERE Name = ? )",new String[] {cinema.getName()},other);
-		//List<String> list = new ArrayList<String>(set);
-		//list.add(0,"Select film ");
-		 list = new ArrayList<String>(set);
-		otherList = new ArrayList<String>(other);
-		
-		db.getAllDataSingle("SELECT rowid as _id, Title , ID FROM Movie WHERE ID IN (SELECT ID FROM Cinema WHERE Name = ? )", new String[] {cinema.getName()}, list,otherList);
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, list);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		programme.setAdapter(adapter);
-		if(cinema.getLatitude()!=null && cinema.getLongitude()!=null){
-			lManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-			// Define a listener that responds to location updates
-			LocationListener locationListener = new LocationListener() {
-				public void onLocationChanged(Location location) {
-					// Called when a new location is found by the network location provider.
-					locationCinema = new Location(location);
-					locationCinema.setLatitude(Double.parseDouble(cinema.getLatitude()));
-					locationCinema.setLongitude(Double.parseDouble(cinema.getLongitude()));
-					distance.setText(Float.toString(location.distanceTo(locationCinema)/1000) + " km");
-					distanceM.setText(Float.toString((location.distanceTo(locationCinema)/1000 )* (float)0.62137)+" miles");
+		if(cinema.getName().compareTo("coucou")!=0){
+			name = (TextView)findViewById(R.id.cinema_activity_name);
+			name.setText(cinema.getName());
+			programme = (Spinner)findViewById(R.id.cinema_activity_programmation);
+			distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
+			distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
+			db=new dbAdapter(this);
+			db.createDatabase();
+			db.open();
+			other = new HashSet<String>();
+			Set<String> set = new HashSet<String>();
+			set.add("Select film ");
+			other.add("Select film ");
+			//Set<String> set = db.getAllDataSingle("SELECT rowid as _id, Title , ID FROM Movie WHERE ID IN (SELECT ID FROM Cinema WHERE Name = ? )",new String[] {cinema.getName()},other);
+			//List<String> list = new ArrayList<String>(set);
+			//list.add(0,"Select film ");
+			list = new ArrayList<String>(set);
+			otherList = new ArrayList<String>(other);
 
-				}
+			db.getAllDataSingle("SELECT rowid as _id, Title , ID FROM Movie WHERE ID IN (SELECT ID FROM Cinema WHERE Name = ? )", new String[] {cinema.getName()}, list,otherList);
 
-				public void onStatusChanged(String provider, int status, Bundle extras) {}
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+					android.R.layout.simple_spinner_item, list);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			programme.setAdapter(adapter);
+			if(cinema.getLatitude()!=null && cinema.getLongitude()!=null){
+				lManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+				// Define a listener that responds to location updates
 
-				public void onProviderEnabled(String provider) {}
 
-				public void onProviderDisabled(String provider) {}
-			};
+				LocationListener locationListener = new LocationListener() {
+					public void onLocationChanged(Location location) {
+						// Called when a new location is found by the network location provider.
+						locationCinema = new Location(location);
+						locationCinema.setLatitude(Double.parseDouble(cinema.getLatitude()));
+						locationCinema.setLongitude(Double.parseDouble(cinema.getLongitude()));
+						distance.setText(Float.toString(location.distanceTo(locationCinema)/1000) + " km");
+						distanceM.setText(Float.toString((location.distanceTo(locationCinema)/1000 )* (float)0.62137)+" miles");
 
-			// Register the listener with the Location Manager to receive location updates
-			lManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-		}
-		else{
-			distance.setText("No localisation information for this cinema");
-		}
+					}
 
-		programme.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-			public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
-			{	
+					public void onStatusChanged(String provider, int status, Bundle extras) {}
 
-				String name = (String) programme.getAdapter().getItem(position);
+					public void onProviderEnabled(String provider) {}
 
-				if(position==0){
-					return;
-				}
-				
-				String idNew = otherList.get(position).toString();			
+					public void onProviderDisabled(String provider) {}
+				};
+
+				// Register the listener with the Location Manager to receive location updates
+				lManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+			}
+			else{
+				distance.setText("No localisation information for this cinema");
+			}
+
+			programme.setOnItemSelectedListener(new OnItemSelectedListener()
+			{
+				public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
+				{	
+
+					String name = (String) programme.getAdapter().getItem(position);
+
+					if(position==0){
+						return;
+					}
+
+					String idNew = otherList.get(position).toString();			
 					Movie movie = new Movie(context,idNew);
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
 					Activity2.putExtra("ID", idNew);
 					startActivity(Activity2);
 					overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-				
 
-			}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-			}
-		});
+				}
 
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+				}
+			});
+		}
+		else{
+			Toast.makeText(getBaseContext(), 
+                    "No cinema", 
+                    Toast.LENGTH_SHORT).show();
+		}
 
 	}
 
