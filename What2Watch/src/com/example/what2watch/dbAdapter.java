@@ -2,6 +2,7 @@ package com.example.what2watch;
 
 import java.io.IOException; 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.content.ContentValues;
@@ -161,16 +162,17 @@ public class dbAdapter
 	  }
 	  return set;
     }
-     public Set<String> getAllDataSingle(String request,String[] args){
-    	 Set<String> set = new HashSet<String>();
+     public void getAllDataSingle(String request,String[] args ,List<String> list, List<String> other){
+    	 int i = 1;
     	 Cursor cursor = null;
     	 cursor = mDb.rawQuery(request, args);
     	 if (cursor.moveToFirst()) {
     		   do {
-    		   set.add(cursor.getString(1));
+    		   list.add(i,cursor.getString(1));
+    		  other.add(i,cursor.getString(2));
+    		  i++;
     		   } while (cursor.moveToNext());
     		  }
-    		  return set;
      }
      
      
