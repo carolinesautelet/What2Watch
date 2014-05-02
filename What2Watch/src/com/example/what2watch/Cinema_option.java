@@ -74,6 +74,7 @@ public class Cinema_option extends Activity {
 			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
 			intent.putExtra("User", user);
 			intent.putExtra("ComingSoon", true);
+			intent.putExtra("findCinema", false);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 
@@ -86,7 +87,7 @@ public class Cinema_option extends Activity {
 			CinemaSet set = new CinemaSet(context);
 			Cinema closest = set.findClosest(locationthis);
 			Intent intent = new Intent(Cinema_option.this, Cinema_Activity.class);
-			intent.putExtra("Cinema",closest);
+			intent.putExtra("Name",closest.getName());
 			intent.putExtra("User", user);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
@@ -101,7 +102,7 @@ public class Cinema_option extends Activity {
 			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
 			intent.putExtra("User", user);
 			intent.putExtra("ComingSoon", false);
-
+			intent.putExtra("findCinema",false);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}

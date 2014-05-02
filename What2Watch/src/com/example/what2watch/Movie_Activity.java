@@ -76,6 +76,7 @@ public class Movie_Activity extends Activity {
 		Button trailer =(Button)findViewById(R.id.movie_trailer);
 		Button channel =(Button)findViewById(R.id.movie_findchannel);
 		Button cinema =(Button)findViewById(R.id.movie_findcinema);
+		cinema.setOnClickListener(listenerCinema);
 		plus1 = (Button) findViewById(R.id.movie_watched_once_more);
 		save = (Button) findViewById(R.id.movie_button_save);
 		
@@ -164,7 +165,7 @@ public class Movie_Activity extends Activity {
        movie.setGenre(genres);
        
        
-     /*nombre de fois que user à vu le film*/  
+     /*nombre de fois que user ï¿½ vu le film*/  
        Cursor dataNbrofview = mDbHelper.execSQL("SELECT Number FROM NumberOfView WHERE Login=? and ID=?", new String[] {user.getLogin(),id});
        if(dataNbrofview.getCount()<1)
     	   numberofview=0;
@@ -263,7 +264,19 @@ public class Movie_Activity extends Activity {
 			checkbox.setChecked(true);
 		}
 	};
-	
+	private OnClickListener listenerCinema = new OnClickListener(){
+		@Override
+		public void onClick(View v){
+			Intent intent = new Intent(Movie_Activity.this, List_of_Cinema.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ComingSoon", false);
+			intent.putExtra("findCinema", true);
+			intent.putExtra("ID",id);
+			toaster("launched list of cinema");
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
 	
 	@Override
 	public void onBackPressed() {

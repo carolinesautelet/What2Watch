@@ -74,6 +74,7 @@ public class Cinema implements Parcelable{
 		return cinema.distanceTo(location);
 	}
 	
+	
 	@Override
 	public int describeContents()
 	{

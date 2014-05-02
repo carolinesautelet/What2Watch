@@ -58,34 +58,15 @@ public class Cinema_Activity extends Activity {
 		setContentView(R.layout.cinema_activity);
 		context=this.getApplicationContext();
 		user = getIntent().getExtras().getParcelable("User");
-		int pos = getIntent().getExtras().getInt("int");
-		CinemaSet set = new CinemaSet(this);
-		cinema = set.getallCinema().get(pos);
-		if(cinema == null){
-			toaster("cinema null in activity");
-		}
+		String nameCinema = getIntent().getExtras().getString("Name");
+		cinema = new Cinema(this,nameCinema);
 		name = (TextView)findViewById(R.id.cinema_activity_name);
 		name.setText(cinema.getName());
 		programme = (Spinner)findViewById(R.id.cinema_activity_programmation);
 		distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
 		distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
 		final List<Movie> allMovies = cinema.getMovies();
-		
-		if(allMovies==null){
-			toaster("allMovies null");
-		}
-		else{
-			toaster("first title " + allMovies.get(0).getTitle());
-		}
 		List<String> allTitle = cinema.getAllMoviesTitle();
-		
-		if(allTitle == null){
-			toaster("allTitle null");
-		}
-		else{
-		toaster("size allMovies = " + Integer.toString(allMovies.size()) + "size allTitle : " + Integer.toString(allTitle.size()));
-		}
-		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, allTitle);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		programme.setAdapter(adapter);

@@ -8,11 +8,15 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.Toast;
 
 public class CinemaSet implements Parcelable {
 	private List<Cinema> all = null;
 	private int nbr = 0;
 	private Context context = null;
+	public void toaster(String txt){
+		Toast.makeText(context, txt, Toast.LENGTH_SHORT).show();
+	}
 	public CinemaSet(Context context){
 		dbAdapter db = new dbAdapter(context);
 		db.createDatabase();
@@ -45,12 +49,51 @@ public class CinemaSet implements Parcelable {
 		}
 		return bestForNow;
 	}
+	public int findClosestInt(Location location){
+		Cinema bestForNow = all.get(0);
+		int ret = 0;
+		Float distance = bestForNow.getDistance(location);
+		for(int i = 1;i<this.nbr;i++){
+			if(all.get(i).getDistance(location)<distance){
+				bestForNow = all.get(i);
+				ret = i;
+			}
+		}
+		return ret;
+	}
+	public void findCinema(String Id,List<Cinema> list){
+		toaster("inside");
+		//Cinema current = null;
+		//String currentName = null;
+		/*Cursor test = null;
+		dbAdapter db = new dbAdapter(context);
+		db.createDatabase();
+		db.open();
+		for(int i=0;i<this.nbr;i++){
+			current = all.get(i);
+			toaster("inside");
+			test = db.execSQL("SELECT rowid as _id, Time FROM Cinema WHERE ID = ? AND Name = ?",new String[] {Id , current.getName()});
+			toaster("request done in CinemaSet");
+			if(test.moveToFirst()){
+				list.add(current);
+			}
+		}
+		toaster("done");
+		db.close();*/
+		return;
+	}
 	public List<String> getallName(){
 		List<String> allName = new ArrayList<String>();
 		for(int i=0;i<this.nbr;i++){
 			allName.add(this.all.get(i).getName());
 		}
 		return allName;
+	}
+	public void getNamesFromList(List<Cinema> cinemas,List<String> names){
+		for(int i =0;i<cinemas.size();i++){
+			names.add(cinemas.get(i).getName());
+		}
+		
 	}
 	@Override
 	public int describeContents()
