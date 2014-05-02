@@ -1,5 +1,7 @@
 package com.example.what2watch;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,18 +12,20 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class List_of_Cinema extends Activity {
-	ListView List=null;
+	ListView list=null;
 	Cursor data=null;
 	dbAdapter mDbHelper = null;
 	User user = null;
 	boolean comingSoon = false;
 	Context context = null;
+	CinemaSet set = null;
 	public void toaster(String txt){
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
@@ -34,26 +38,20 @@ public class List_of_Cinema extends Activity {
 		context = this.getApplicationContext();
 		user = getIntent().getExtras().getParcelable("User");
 		comingSoon = getIntent().getExtras().getBoolean("ComingSoon");
-		List = (ListView) findViewById(R.id.list_of_Cinema_Listview);
-
-		mDbHelper = new dbAdapter(this);         
-		mDbHelper.createDatabase();       
-		mDbHelper.open(); 
-		if(!comingSoon){
-			data = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Cinema GROUP BY Name", null);
-			SimpleCursorAdapter cursorAd;
-			cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, data, new String[] {"Name"}, new int[] {android.R.id.text1});
-			List.setAdapter(cursorAd);
-			List.setOnItemClickListener(listenerList);
+		set = new CinemaSet(context);
+		
+		list = (ListView) findViewById(R.id.list_of_Cinema_Listview);
+		List<String> display = set.getallName();
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,display);
+		list.setAdapter(adapter);
+		list.setOnItemClickListener(listenerList);
+		if(comingSoon){
+			dbAdapter db = new dbAdapter(context);
+			db.createDatabase();
+			db.open();
+			Cursor data = db.execSQL("SELECT rowid as _id, ID FROM Movie WHERE ComingSoon NOT NULL ", null);
+			db.close();
 		}
-		else{
-			data = mDbHelper.execSQL("SELECT rowid as _id, Title ,ID FROM Movie WHERE ComingSoon NOT NULL", null);
-			SimpleCursorAdapter cursorAd;
-			cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, data, new String[] {"Title"}, new int[] {android.R.id.text1});
-			List.setAdapter(cursorAd);
-			List.setOnItemClickListener(listenerListMovie);
-		}
-		mDbHelper.close();
 	}
 
 	private OnItemClickListener listenerList = new OnItemClickListener() {
@@ -61,30 +59,20 @@ public class List_of_Cinema extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View view, int position,
 				long id) {
-			toaster("onclick ");
-			data.moveToPosition(position);
-			String name = data.getString(1);
-			toaster("name : "+ name);
-			mDbHelper.open();
-			Cursor loc  = mDbHelper.execSQL("SELECT rowid as _id,Latitude , Longitude FROM Location WHERE Name = ?",new String[] {name});
-			if(loc.moveToFirst()){
-				Cinema cinema = new Cinema(name , loc.getString(2),loc.getString(1));
+				Cinema cinema = set.getallCinema().get(position);
+				String test = cinema.getName();
+				List<Movie> movies = cinema.getMovies();
+				if(movies!=null){
+					toaster("cinema getMovies 0 : " + movies.get(0).toString());
+				}
+				else{
+					toaster("cinema movie null");
+				}
 				Intent Activity2 = new Intent(List_of_Cinema.this, Cinema_Activity.class);
-				Activity2.putExtra("Cinema",cinema);
+				Activity2.putExtra("int",position);
 				Activity2.putExtra("User",user);
 				startActivity(Activity2);
 				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-			}
-			else{
-				Cinema cinema = new Cinema(name,null,null);
-				Intent Activity2 = new Intent(List_of_Cinema.this, Cinema_Activity.class);
-				Activity2.putExtra("Cinema",cinema);
-				Activity2.putExtra("User", user);
-				startActivity(Activity2);
-				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-			}
-			mDbHelper.close();
-
 		}
 
 	};
@@ -93,6 +81,7 @@ public class List_of_Cinema extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View view, int position,
 				long id) {
+			
 				data.moveToFirst();
 				int i = 0;
 				while(i<position){
