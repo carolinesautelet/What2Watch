@@ -143,7 +143,7 @@ public class Movie_Activity extends Activity {
 	
 	protected void makeTheView(){
 		
-		/*r�cup�ration de l'intent*/
+		/*récupération de l'intent*/
 		intent = this.getIntent();
 		id = intent.getStringExtra("ID");
 		user = intent.getParcelableExtra("User");
@@ -193,7 +193,7 @@ public class Movie_Activity extends Activity {
     		}
     	}
 
-    	/*nombre de fois que user � vu le film*/  
+    	/*nombre de fois que user à vu le film*/  
     	if(movie.getNumberOfView()>0)
     	{
     		checkbox.setChecked(true);
@@ -248,6 +248,9 @@ public class Movie_Activity extends Activity {
 				mDbHelper.open();
 				mDbHelper.addNumberToDatabase(user.getLogin(), id);
 				mDbHelper.close();
+				movie.setNumberOfView(movie.getNumberOfView()+1);
+				viewed.setText(getResources().getString(R.string.movie_viewed, movie.getNumberOfView()));
+				checkbox.setChecked(true);
 			}	
 		}
 	};

@@ -49,7 +49,6 @@ public class List_of_request extends Activity {
 		Bundle bundle = intent.getExtras();
 		
 		user = intent.getParcelableExtra("User");
-		toaster(user.getLogin());
 		
 		String requete = bundle.getString("requete");
 		String[] arguments = bundle.getStringArray("arguments");
