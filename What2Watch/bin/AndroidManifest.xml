@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.what2watch"
+    android:versionCode="1"
+    android:versionName="1.0" >
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icone"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name="com.example.what2watch.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Accueil"
+            android:label="@string/app_name" 	
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Search_By"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.UserStat_activity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Browse"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Cinema_option"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Channel_option"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Movie_Activity"
+            android:label="@string/app_name">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Movietest"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity 
+            android:name="com.example.what2watch.List_of_request"
+            android:label="@string/app_name"
+            >
+        </activity>
+
+        <activity 
+            android:name="com.example.what2watch.Identification_user"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity 
+            android:name="com.example.what2watch.Create_user"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity 
+            android:name="com.example.what2watch.PasswordToContinue"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity 
+            android:name="com.example.what2watch.ModifyProfile"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        <activity 
+            android:name="com.example.what2watch.List_of_Cinema"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        <activity 
+            android:name="com.example.what2watch.Cinema_Activity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        <activity 
+            android:name="com.example.what2watch.List_commingSoon"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+         <activity 
+            android:name="com.example.what2watch.List_findCinema"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+    </application>
+
+</manifest>
