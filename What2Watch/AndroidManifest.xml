@@ -91,6 +91,7 @@
             android:name="com.example.what2watch.List_of_request"
             android:label="@string/app_name"
             android:launchMode="singleTask">
+
         </activity>
 
         <activity 
