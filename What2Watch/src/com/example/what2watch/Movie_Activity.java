@@ -1,9 +1,6 @@
 package com.example.what2watch;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,11 +8,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View.OnClickListener;
 import android.content.Intent;
-import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,18 +32,24 @@ public class Movie_Activity extends Activity {
 	private ProgressDialog progressDialog;
 	RatingBar ratingbar;
 	private boolean resumeHasRun = false;
+	
 	dbAdapter mDbHelper;
 	Context context;
+	User user;
+	Movie movie;
+	
 	String trailerLink;
 	String movie_title;
 	String id;
+	int age;
 	Button save;
 	Button plus1;
 	TextView viewed;
-	int numberofview;
+	Spinner spinnerActor;
+	boolean itemSelectedbyOnCreate=false;
 	CheckBox checkbox;
 	boolean MovieIsView=false;
-	User user;
+	List<String> list;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class Movie_Activity extends Activity {
 		
 		checkbox = (CheckBox) findViewById(R.id.movie_already_watched);
 		
-		Spinner spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
+		spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
 		
 		ImageView img = (ImageView) findViewById(R.id.movie_img); 
 		
@@ -79,24 +83,25 @@ public class Movie_Activity extends Activity {
 		plus1 = (Button) findViewById(R.id.movie_watched_once_more);
 		save = (Button) findViewById(R.id.movie_button_save);
 		
+		spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
+		
 		ratingbar = (RatingBar) findViewById(R.id.movie_rating);
 		
 		save.setOnClickListener(listenerSave);
 		plus1.setOnClickListener(listenerPlus1);
 		checkbox.setOnClickListener(listenerCheck);
+		spinnerActor.setOnItemSelectedListener(listenerActorList);
 		
 		id = intent.getStringExtra("ID");
-		String[] args = {id};
 		
 		user = intent.getParcelableExtra("User");
 		
 		mDbHelper = new dbAdapter(this);         
 		mDbHelper.createDatabase();   
-		mDbHelper.open(); 
 		
 		/*Creation de l'objet Movie*/
 		
-		Movie movie  = new Movie(this, id);
+		movie  = new Movie(this, id, user, true);
 		
 		/*Affichage du text */
 		title.setText(movie.getTitle());
@@ -105,7 +110,7 @@ public class Movie_Activity extends Activity {
 		duration.setText(Integer.toString(movie.getDuration()));
 		synopsis.setText(movie.getSynopsis());
 		trailerLink=movie.getTrailerLink();
-		int age = movie.getAgeLimit();
+		age = movie.getAgeLimit();
 		
 		/*affiche du bouton trailer*/
 		if(trailerLink==null){
@@ -115,68 +120,40 @@ public class Movie_Activity extends Activity {
 		
 		
 		/*affichage Rating*/
-		Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user.getLogin()});
-		int rate;
-		if (dataRating.getCount()<1){
-			rate = 0;
-		}
-		else{
-			dataRating.moveToFirst();
-			rate = dataRating.getInt(dataRating.getColumnIndex("StarsNumber"));
+		if(movie.getRating() != 0){
 			save.setVisibility(View.GONE);
 			ratingbar.setIsIndicator(true);
 		}
-		
-		ratingbar.setRating(rate);
-			
-		
+		ratingbar.setRating(movie.getRating());
+					
 		/*Recherche de director*/
-		Cursor dataDirector = mDbHelper.execSQL("SELECT rowid as _id, Name FROM Director WHERE ID = ?",args);
-		dataDirector.moveToFirst();
-		movie.setDirector(dataDirector.getString(1));
 		director.setText(movie.getDirector());
 		
-		/*recherche de tous les actors*/
-		Set<String> set = mDbHelper.getAllDataCDT("Name","Actor","ID",id);
-    	List<String> list = new ArrayList<String>(set);
-    	String[] actors = new String[list.size()];
-    	list.toArray(actors);
-    	movie.setActors(actors);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-    		    android.R.layout.simple_spinner_item, list);
-    		       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    		       spinnerActor.setAdapter(adapter);
+		/*affichage de tous les actors*/
+		list = movie.getActors();
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    	spinnerActor.setAdapter(adapter);
     		       
-    /*Recherche des genres*/
-       Cursor dataGenre = mDbHelper.execSQL("SELECT rowid as _id,  GenreNAME FROM Genre WHERE ID = ?" , args);
-       dataGenre.moveToFirst();
-       String[] genres = new String[3];
-       genres[0] = dataGenre.getString(1);
-       genre1.setText(genres[0]);
-       if(dataGenre.moveToNext()){
-    	   genres[1]  = dataGenre.getString(1);
-    	   genre2.setText("     |     " + genres[1]);
-    	   if(dataGenre.moveToNext()){
-    		   genres[2] = dataGenre.getString(1);
-    		   genre3.setText("     |     " + genres[2]);
+    	/*affichage des genres*/
+    	String[] genres = movie.getGenre();
+    	genre1.setText(genres[0]);
+    	if(genres.length>=2){
+    		genre2.setText("     |     " + genres[1]);
+    		if(genres.length >= 3 ){
+    			genre3.setText("     |     " + genres[2]);
     		}
-       }
-       movie.setGenre(genres);
-       
-       
-     /*nombre de fois que user à vu le film*/  
-       Cursor dataNbrofview = mDbHelper.execSQL("SELECT Number FROM NumberOfView WHERE Login=? and ID=?", new String[] {user.getLogin(),id});
-       if(dataNbrofview.getCount()<1)
-    	   numberofview=0;
-       else{
-    	   dataNbrofview.moveToFirst();
-    	   numberofview=dataNbrofview.getInt(dataNbrofview.getColumnIndex("Number"));
-    	   checkbox.setChecked(true);
-    	   MovieIsView=true;
-       }
-        viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
+    	}
+
+    	/*nombre de fois que user à vu le film*/  
+    	if(movie.getNumberOfView()>0)
+    	{
+    		checkbox.setChecked(true);
+    		MovieIsView=true;
+    	}
+    	viewed.setText(getResources().getString(R.string.movie_viewed, movie.getNumberOfView()));
 		
-       //affichage de l'image -12/-16/All
+       /*affichage de l'image -12/-16/All*/
        if(age >= 16){
 			img.setImageResource(R.drawable.tag16);
 		}
@@ -199,9 +176,8 @@ public class Movie_Activity extends Activity {
 		});
 		
 
-       mDbHelper.close();
 	} //OnCreate
-	
+	/*
 	@Override
 	protected void onResume() {
 	    super.onResume();
@@ -210,7 +186,7 @@ public class Movie_Activity extends Activity {
 	        return;
 	    }
 	    progressDialog.dismiss();
-	}
+	}*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -254,13 +230,47 @@ public class Movie_Activity extends Activity {
 		@Override
 		public void onClick(View v) {
 			mDbHelper.open();
-			mDbHelper.execSQLInsert("UPDATE NumberOfView SET Number = \"" +Integer.toString((numberofview+1))+ "\"  WHERE Login = ? and ID = ?",new String[] {user.getLogin(), id});
-			if(numberofview==0)
+			mDbHelper.execSQLInsert("UPDATE NumberOfView SET Number = \"" +Integer.toString((movie.getNumberOfView()+1))+ "\"  WHERE Login = ? and ID = ?",new String[] {user.getLogin(), id});
+			if(movie.getNumberOfView()==0)
 				mDbHelper.addNumberToDatabase(user.getLogin(), id);
 			mDbHelper.close();
-			numberofview++;
-			viewed.setText(getResources().getString(R.string.movie_viewed, numberofview));
+			movie.setNumberOfView(movie.getNumberOfView()+1);
+			viewed.setText(getResources().getString(R.string.movie_viewed, movie.getNumberOfView()));
 			checkbox.setChecked(true);
+		}
+	};
+	
+	private OnItemSelectedListener listenerActorList = new OnItemSelectedListener() {
+
+		@Override
+		public void onItemSelected(AdapterView<?> adpater, View view, int position,	long id) {
+			if(itemSelectedbyOnCreate){
+				String actorName = list.get(position);
+				String query = "SELECT M.rowid as _id, Title, Year FROM Movie M, Actor A WHERE M.ID=A.ID and Name like ?";
+				String[] args = {actorName};
+				String[]  WhatToDisplay = {"Title","Year"};
+				String search_by = actorName;
+				
+				Intent Activity2 = new Intent(Movie_Activity.this, List_of_request.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("requete", query);
+				bundle.putStringArray("arguments", args);
+				bundle.putStringArray("display", WhatToDisplay);
+				bundle.putString("search_by", search_by);
+				Activity2.putExtras(bundle);
+				Activity2.putExtra("User", user);
+				
+				startActivity(Activity2);
+				overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+			}
+			else
+				itemSelectedbyOnCreate=!itemSelectedbyOnCreate;
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// TODO Auto-generated method stub
+			
 		}
 	};
 	

@@ -126,7 +126,7 @@ public class Cinema_Activity extends Activity {
 					}
 
 					String idNew = otherList.get(position).toString();			
-					Movie movie = new Movie(context,idNew);
+					Movie movie = new Movie(context, idNew, null, false);
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
 					Activity2.putExtra("ID", idNew);
 					Activity2.putExtra("User" , user);
