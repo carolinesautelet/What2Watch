@@ -72,5 +72,10 @@ public class List_findCinema extends Activity{
 
 	
 };
+@Override
+public void onBackPressed() {
+    super.onBackPressed();
+    overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
+}
 
 }
