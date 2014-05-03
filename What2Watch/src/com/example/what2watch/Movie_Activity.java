@@ -268,10 +268,10 @@ public class Movie_Activity extends Activity {
 		@Override
 		public void onItemSelected(AdapterView<?> adpater, View view, int position,	long id) {
 			if(itemSelectedbyOnCreate){
-				String actorName = list.get(position);
+				String actorName = (String) list.get(position);
 				String query = "SELECT M.rowid as _id, Title, Year, M.ID FROM Movie M, Actor A WHERE M.ID=A.ID and Name like ?";
 				String[] args = {actorName};
-				String[]  WhatToDisplay = {"Title","Year"};
+				String[] WhatToDisplay = {"Title","Year"};
 				String search_by = actorName;
 				
 				Intent Activity2 = new Intent(Movie_Activity.this, List_of_request.class);
@@ -303,7 +303,7 @@ public class Movie_Activity extends Activity {
 		public void onClick(View v) {
 			String query = "SELECT M.rowid as _id, Title, Year, M.ID FROM Movie M, Director D WHERE M.ID=D.ID and Name like ?";
 			String[] args = {movie.getDirector()};
-			String[]  WhatToDisplay = {"Title","Year"};
+			String[] WhatToDisplay = {"Title","Year"};
 			String search_by = movie.getDirector();
 			
 			Intent Activity2 = new Intent(Movie_Activity.this, List_of_request.class);
