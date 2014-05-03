@@ -35,27 +35,27 @@ public class List_findChannel extends Activity{
 	user = getIntent().getExtras().getParcelable("User");
 	String id = getIntent().getExtras().getString("ID");
 	ListView list = (ListView)findViewById(R.id.list_of_channels_Listview);
-	
 	ChannelSet myset = new ChannelSet(context);
 	List<Channel> findChannelList = new ArrayList<Channel>();
 	myset.findChannel(id,findChannelList);
-	toaster("Numbe rof cinema : " + Integer.toString(findChannelList.size()));
+	toaster("Numbe of channels : " + Integer.toString(findChannelList.size()));
 	names = new ArrayList<String>();
 	myset.getNamesFromList(findChannelList,names);
 
 	if(names.size()>0){
 	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
 	list.setAdapter(adapter);
-	list.setOnItemClickListener(listenerListFindCinema);
+	list.setOnItemClickListener(listenerListFindChannel);
 	}
 	else{
 		names.add("Sorry , this film is not available ...");
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
 		list.setAdapter(adapter);
 	}
+	
 	}
 	
-	private OnItemClickListener listenerListFindCinema = new OnItemClickListener() {
+	private OnItemClickListener listenerListFindChannel = new OnItemClickListener() {
 
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position,
@@ -68,10 +68,14 @@ public class List_findChannel extends Activity{
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 	}
-
+	
 	
 };
 	
-	
+@Override
+public void onBackPressed() {
+    super.onBackPressed();
+    overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
+}
 
 }

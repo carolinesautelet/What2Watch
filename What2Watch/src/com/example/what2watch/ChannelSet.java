@@ -19,14 +19,19 @@ public class ChannelSet {
 		db.open();
 		Cursor data = db.execSQL("SELECT rowid as _id, Name FROM Channel GROUP BY Name",null);
 		Channel toadd = null;
+		this.all = new ArrayList<Channel>();
 		if(data.moveToFirst()){
+			if(this.context!=null && data.getString(1)!=null){
 			toadd = new Channel(this.context,data.getString(1));
 			all.add(toadd);
 			nbr++;
+			}
 			while(data.moveToNext()){
+				if(this.context!=null && data.getString(1)!=null){
 				toadd = new Channel(this.context,data.getString(1));
 				all.add(toadd);
 				nbr++;
+				}
 			}
 		}
 		db.close();
