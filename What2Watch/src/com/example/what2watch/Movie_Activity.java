@@ -95,9 +95,6 @@ public class Movie_Activity extends Activity {
 		trailer =(Button)findViewById(R.id.movie_trailer);
 		channel =(Button)findViewById(R.id.movie_findchannel);
 		cinema =(Button)findViewById(R.id.movie_findcinema);
-
-		cinema.setOnClickListener(listenerCinema);
-
 		plus1 = (Button) findViewById(R.id.movie_watched_once_more);
 		save = (Button) findViewById(R.id.movie_button_save);
 		
@@ -110,13 +107,14 @@ public class Movie_Activity extends Activity {
 		checkbox.setOnClickListener(listenerCheck);
 		spinnerActor.setOnItemSelectedListener(listenerActorList);
 		director.setOnClickListener(listenerDirector);
+		cinema.setOnClickListener(listenercinema);
+		channel.setOnClickListener(listenerchannel);
 		
 		mDbHelper = new dbAdapter(this);         
 		mDbHelper.createDatabase();     
        
-
 		makeTheView();
-	
+		
        trailer.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View vue) {
@@ -145,7 +143,7 @@ public class Movie_Activity extends Activity {
 	
 	protected void makeTheView(){
 		
-		/*récupération de l'intent*/
+		/*rï¿½cupï¿½ration de l'intent*/
 		intent = this.getIntent();
 		id = intent.getStringExtra("ID");
 		user = intent.getParcelableExtra("User");
@@ -195,7 +193,7 @@ public class Movie_Activity extends Activity {
     		}
     	}
 
-    	/*nombre de fois que user à vu le film*/  
+    	/*nombre de fois que user ï¿½ vu le film*/  
     	if(movie.getNumberOfView()>0)
     	{
     		checkbox.setChecked(true);
@@ -267,6 +265,26 @@ public class Movie_Activity extends Activity {
 			checkbox.setChecked(true);
 		}
 	};
+	private OnClickListener listenercinema = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(Movie_Activity.this,List_findCinema.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ID",id);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
+	private OnClickListener listenerchannel = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(Movie_Activity.this,List_findChannel.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ID",id);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
 	
 	private OnItemSelectedListener listenerActorList = new OnItemSelectedListener() {
 		@Override
@@ -302,6 +320,7 @@ public class Movie_Activity extends Activity {
 	};
 	
 	private OnClickListener listenerDirector = new OnClickListener() {
+		
 		@Override
 		public void onClick(View v) {
 			String query = "SELECT M.rowid as _id, Title, Year, M.ID FROM Movie M, Director D WHERE M.ID=D.ID and Name like ?";
@@ -320,19 +339,7 @@ public class Movie_Activity extends Activity {
 			
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-		}
-	};
 			
-	private OnClickListener listenerCinema = new OnClickListener(){
-		@Override
-		public void onClick(View v){
-			Intent intent = new Intent(Movie_Activity.this, List_findCinema.class);
-			intent.putExtra("User", user);
-			intent.putExtra("ID",id);
-			toaster("launched list of cinema");
-			startActivity(intent);
-			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-
 		}
 	};
 	

@@ -52,6 +52,12 @@
         </activity>
         
         <activity
+            android:name="com.example.what2watch.User_param"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
             android:name="com.example.what2watch.Cinema_option"
             android:label="@string/app_name"
             android:launchMode="singleTask">
@@ -65,7 +71,14 @@
         
         <activity
             android:name="com.example.what2watch.Movie_Activity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.what2watch.Select_user"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
         </activity>
         
         <activity
@@ -77,7 +90,8 @@
         <activity 
             android:name="com.example.what2watch.List_of_request"
             android:label="@string/app_name"
-            >
+            android:launchMode="singleTask">
+
         </activity>
 
         <activity 
@@ -120,6 +134,16 @@
         </activity>
          <activity 
             android:name="com.example.what2watch.List_findCinema"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+         <activity 
+            android:name="com.example.what2watch.List_findChannel"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+        </activity>
+         <activity 
+            android:name="com.example.what2watch.Channel_Activity"
             android:label="@string/app_name"
             android:launchMode="singleTask">
         </activity>

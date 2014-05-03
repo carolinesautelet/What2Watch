@@ -32,6 +32,7 @@ public class List_of_request extends Activity {
 	String arguments[];
 	String display[];
 	String text_search_by;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,39 @@ public class List_of_request extends Activity {
 		List = (ListView) findViewById(R.id.list_of_result_Listview);
 		View_search_by = (TextView) findViewById(R.id.list_of_result_search_by);
 		
-    	List.setOnItemClickListener(listenerList);
+		Intent intent = getIntent();
+		Bundle bundle = intent.getExtras();
+		
+		user = intent.getParcelableExtra("User");
+		toaster(user.getLogin());
+		
+		String requete = bundle.getString("requete");
+		String[] arguments = bundle.getStringArray("arguments");
+		String[] display = bundle.getStringArray("display");
+		String text_search_by = bundle.getString("search_by");
+		
+		View_search_by.setText(text_search_by);
+		
+		dbAdapter mDbHelper = new dbAdapter(this);         
+    	mDbHelper.createDatabase();       
+    	mDbHelper.open(); 
+    	 
+    	data = mDbHelper.execSQL(requete, arguments);
+    	SimpleCursorAdapter cursorAd;
     	
+    	if(display.length==2)
+    		cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, data, display, new int[] {android.R.id.text1,android.R.id.text2});
+    	else
+    		cursorAd = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, data, display, new int[] {android.R.id.text1});
+    	
+    	List.setAdapter(cursorAd);
+    	
+    	mDbHelper.close();
+		
+    	List.setOnItemClickListener(listenerList);
 	}
+	
+
 	
 	@Override
 	protected void onStart() {
@@ -161,7 +192,7 @@ public class List_of_request extends Activity {
 			}
 		}
 	};
-	
+
 	
 	@Override
 	public void onBackPressed() {
