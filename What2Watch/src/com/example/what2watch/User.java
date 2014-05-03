@@ -18,6 +18,9 @@ public class User implements Parcelable{
 	private int nbrWTW = 0;
 	private List<Movie> wantToWatch = null;
 	private Context context = null;
+	public User(){
+		
+	}
 	public User(Context context, String login){
 		this.context = context;
 		this.login = login;
@@ -138,6 +141,21 @@ public class User implements Parcelable{
 			return true;
 		}
 		return false;
+	}
+	public void addUserTodatabase(){
+		dbAdapter db = new dbAdapter(context);
+		db.createDatabase();
+		db.open();
+		db.addToDatabase("User", new String[] {"Login" , "FirstName" , "Name" ,"Password","Age"}, new String[] {this.getLogin(),this.getFirstName(),this.getName(),this.getPassword(),Integer.toString(this.getAge())});
+		db.close();
+	}
+	public boolean checkLogin(String login){
+		dbAdapter db = new dbAdapter(context);
+		db.createDatabase();
+		db.open();
+		Cursor data = db.execSQL("SELECT Login FROM User WHERE Login = ?", new String[] {login});
+		db.close();
+		return data.moveToFirst();
 	}
 	public int getNbrWTW() {
 		return nbrWTW;

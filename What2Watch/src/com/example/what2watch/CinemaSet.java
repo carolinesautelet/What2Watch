@@ -18,6 +18,7 @@ public class CinemaSet implements Parcelable {
 		Toast.makeText(context, txt, Toast.LENGTH_SHORT).show();
 	}
 	public CinemaSet(Context context){
+		this.context = context;
 		dbAdapter db = new dbAdapter(context);
 		db.createDatabase();
 		db.open();
@@ -62,25 +63,24 @@ public class CinemaSet implements Parcelable {
 		return ret;
 	}
 	public void findCinema(String Id,List<Cinema> list){
-		toaster("inside");
-		//Cinema current = null;
-		//String currentName = null;
-		/*Cursor test = null;
+		Cinema current = null;
+		String currentName = null;
+		Cursor test = null;
 		dbAdapter db = new dbAdapter(context);
 		db.createDatabase();
 		db.open();
 		for(int i=0;i<this.nbr;i++){
 			current = all.get(i);
-			toaster("inside");
-			test = db.execSQL("SELECT rowid as _id, Time FROM Cinema WHERE ID = ? AND Name = ?",new String[] {Id , current.getName()});
-			toaster("request done in CinemaSet");
-			if(test.moveToFirst()){
-				list.add(current);
+			if(current !=null){
+				test = db.execSQL("SELECT rowid as _id, Time FROM Cinema WHERE ID = ? AND Name = ?",new String[] {Id , current.getName()});
+				if(test!=null){
+					if(test.moveToFirst()){
+						list.add(current);
+					}
+				}
 			}
 		}
-		toaster("done");
-		db.close();*/
-		return;
+		db.close();
 	}
 	public List<String> getallName(){
 		List<String> allName = new ArrayList<String>();
@@ -93,7 +93,7 @@ public class CinemaSet implements Parcelable {
 		for(int i =0;i<cinemas.size();i++){
 			names.add(cinemas.get(i).getName());
 		}
-		
+
 	}
 	@Override
 	public int describeContents()
@@ -106,7 +106,7 @@ public class CinemaSet implements Parcelable {
 	{
 		dest.writeTypedList(all);
 		dest.writeInt(nbr);
-		
+
 	}
 	public static final Parcelable.Creator<CinemaSet> CREATOR = new Parcelable.Creator<CinemaSet>()
 			{
@@ -126,6 +126,6 @@ public class CinemaSet implements Parcelable {
 			public CinemaSet(Parcel in) {
 				in.readTypedList(all,Cinema.CREATOR);
 				this.nbr = in.readInt();
-				
+
 			}
 }

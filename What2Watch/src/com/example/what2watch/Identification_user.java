@@ -98,7 +98,7 @@ public class Identification_user extends Activity{
 				if(incomingPassword.getText().toString().compareTo(user.getPassword())==0){
 				incomingPassword.setText("");
 					Toast.makeText(getBaseContext(), 
-		                    "Hi" +user.getFirstName() +user.getName() , 
+		                    "Hi " +user.getFirstName() +" " +user.getName() + "  ! :-) " , 
 		                    Toast.LENGTH_SHORT).show();
 					Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
 					Activity2.putExtra("User", user);

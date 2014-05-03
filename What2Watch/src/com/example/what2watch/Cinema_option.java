@@ -71,10 +71,10 @@ public class Cinema_option extends Activity {
 	private OnClickListener listenercomingsoon = new OnClickListener() {
 		@Override
   		public void onClick(View v) {
-			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
+			Intent intent = new Intent(Cinema_option.this, List_commingSoon.class);
 			intent.putExtra("User", user);
-			intent.putExtra("ComingSoon", true);
-			intent.putExtra("findCinema", false);
+			//intent.putExtra("ComingSoon", true);
+			//intent.putExtra("findCinema", false);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 

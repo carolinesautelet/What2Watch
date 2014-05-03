@@ -165,7 +165,7 @@ public class Movie_Activity extends Activity {
        movie.setGenre(genres);
        
        
-     /*nombre de fois que user � vu le film*/  
+     /*nombre de fois que user ��� vu le film*/  
        Cursor dataNbrofview = mDbHelper.execSQL("SELECT Number FROM NumberOfView WHERE Login=? and ID=?", new String[] {user.getLogin(),id});
        if(dataNbrofview.getCount()<1)
     	   numberofview=0;
@@ -267,10 +267,8 @@ public class Movie_Activity extends Activity {
 	private OnClickListener listenerCinema = new OnClickListener(){
 		@Override
 		public void onClick(View v){
-			Intent intent = new Intent(Movie_Activity.this, List_of_Cinema.class);
+			Intent intent = new Intent(Movie_Activity.this, List_findCinema.class);
 			intent.putExtra("User", user);
-			intent.putExtra("ComingSoon", false);
-			intent.putExtra("findCinema", true);
 			intent.putExtra("ID",id);
 			toaster("launched list of cinema");
 			startActivity(intent);

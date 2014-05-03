@@ -59,10 +59,7 @@ public class Create_user extends Activity {
 
 				int index = questionSelect.getSelectedItemPosition();
 
-				question = (String) questionSelect.getAdapter().getItem(position);
-				Toast.makeText(getBaseContext(), 
-						"You have selected question : " + question, 
-						Toast.LENGTH_SHORT).show(); 
+				question = (String) questionSelect.getAdapter().getItem(position); 
 			}
 
 			@Override
@@ -115,7 +112,7 @@ public class Create_user extends Activity {
 
 						else{
 							user = new User(context,login.getText().toString(),name.getText().toString(),firstName.getText().toString(),Integer.parseInt(age.getText().toString()),password.getText().toString(),question,answer.getText().toString());
-							db.addToDatabase("User", new String[] {"Login" , "FirstName" , "Name" ,"Password","Age"}, new String[] {user.getLogin(),user.getFirstName(),user.getName(),user.getPassword(),Integer.toString(user.getAge())});
+							user.addUserTodatabase();
 							Activity2.putExtra("User", user);
 							startActivity(Activity2);
 							overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
