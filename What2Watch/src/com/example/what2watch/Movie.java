@@ -35,7 +35,7 @@ public class Movie {
 	List<String> list;
 	
 	
-	public Movie(Context context, String id, User user, boolean useUser){	
+	public Movie(Context context, String id, User user){	
 		this.user = user;
 		this.mContext = context;
 		
@@ -55,7 +55,7 @@ public class Movie {
 		this.trailerLink=dataMovie.getString(5);
 		this.ageLimit=dataMovie.getInt(6);
 		
-		if(useUser==true)
+		if(user!=null)
 		{
 			/*rating*/
 			Cursor dataRating = mDbHelper.execSQL("SELECT StarsNumber FROM Rating R, Movie M WHERE M.ID=R.ID and M.ID=?  and R.Login=?", new String[] {id, user.getLogin()});

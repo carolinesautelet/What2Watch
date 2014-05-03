@@ -101,7 +101,7 @@ public class Movie_Activity extends Activity {
 		
 		/*Creation de l'objet Movie*/
 		
-		movie  = new Movie(this, id, user, true);
+		movie  = new Movie(this, id, user);
 		
 		/*Affichage du text */
 		title.setText(movie.getTitle());

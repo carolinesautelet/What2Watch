@@ -16,10 +16,10 @@ public class Channel {
 	    	Cursor data = mDbHelper.execSQL("SELECT rowid as _id, ID FROM Channel WHERE Name = ?",new String[] {Name});
 	    	int i = 0;
 	    	if(data.moveToFirst()){
-	    		movies[i] = new Movie(context , data.getString(1), null, false);
+	    		movies[i] = new Movie(context , data.getString(1), null);
 	    		i++;
 	    		while(data.moveToNext()){
-	    			movies[i] = new Movie(context , data.getString(1), null, false);
+	    			movies[i] = new Movie(context , data.getString(1), null);
 	    			i++;
 	    		}
 	    	}
