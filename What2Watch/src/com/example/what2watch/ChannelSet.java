@@ -73,5 +73,24 @@ public class ChannelSet {
 		}
 		return allName;
 	}
+	public void playingToday(List<Movie> movies ,List<String> name){
+		dbAdapter db = new dbAdapter(this.context);
+		db.createDatabase();
+		db.open();
+		Cursor data = db.execSQL("SELECT rowid as _id, Name, ID FROM Channel WHERE DATE(Time) = CURRENT_DATE", null);
+		Movie toadd = null;
+		if(data.moveToFirst()){
+			toadd = new Movie(this.context,data.getString(2),null);
+			movies.add(toadd);
+			name.add(data.getString(1));
+			while(data.moveToNext()){
+				toadd = new Movie(this.context,data.getString(2),null);
+				movies.add(toadd);
+				name.add(data.getString(1));
+			}
+		}
+		db.close();
+		
+	}
 	
 }
