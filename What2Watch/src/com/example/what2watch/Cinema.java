@@ -31,11 +31,11 @@ public class Cinema implements Parcelable{
 		this.movies = new ArrayList<Movie>();
 		Movie toadd = null;
 		if(data.moveToFirst()){
-			toadd = new Movie(context,data.getString(1));
+			toadd = new Movie(context,data.getString(1),null);
 			this.movies.add(toadd );
 			
 			while(data.moveToNext()){
-				toadd = new Movie(context , data.getString(1));
+				toadd = new Movie(context , data.getString(1),null);
 				this.movies.add(toadd );
 				
 			}
@@ -67,6 +67,7 @@ public class Cinema implements Parcelable{
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+
 	public float getDistance(Location location){
 		Location cinema = new Location(location);
 		cinema.setLatitude(this.getLatitude());
@@ -91,6 +92,7 @@ public class Cinema implements Parcelable{
 	}
 	public static final Parcelable.Creator<Cinema> CREATOR = new Parcelable.Creator<Cinema>()
 			{
+
 		@Override
 		public Cinema createFromParcel(Parcel source)
 		{

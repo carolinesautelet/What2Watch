@@ -36,11 +36,11 @@ public class User implements Parcelable{
 		}
 		Cursor wTw = db.execSQL("SELECT rowid as _id, ID FROM WantToWatch WHERE Login = ?",new String[] {login});
 		if(wTw.moveToFirst()){
-			wantToWatch.add(new Movie(context,wTw.getString(1)));
+			wantToWatch.add(new Movie(context,wTw.getString(1),null));
 			int i =1;
 			nbrWTW = i;
 			while(wTw.moveToNext()){
-				wantToWatch.add(new Movie(context,wTw.getString(1)));
+				wantToWatch.add(new Movie(context,wTw.getString(1),null));
 				i++;
 				nbrWTW++;
 			}
@@ -169,11 +169,11 @@ public class User implements Parcelable{
 		db.open();
 		Cursor wTw = db.execSQL("SELECT rowid as _id, ID FROM WantToWatch WHERE Login = ?",new String[] {login});
 		if(wTw.moveToFirst()){
-			wantToWatch.add(new Movie(context,wTw.getString(1)));
+			wantToWatch.add(new Movie(context,wTw.getString(1),this));
 			int i =1;
 			nbrWTW = i;
 			while(wTw.moveToNext()){
-				wantToWatch.add(new Movie(context,wTw.getString(1)));
+				wantToWatch.add(new Movie(context,wTw.getString(1),this));
 				i++;
 				nbrWTW++;
 			}

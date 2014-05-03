@@ -40,11 +40,11 @@ public class List_commingSoon extends Activity {
 		Cursor data = db.execSQL("SELECT rowid as _id, ID FROM Movie WHERE ComingSoon NOT NULL ", null);
 		Movie toadd = null;
 		if(data.moveToFirst()){
-			toadd = new Movie(context,data.getString(1));
+			toadd = new Movie(context,data.getString(1),user);
 			movies.add(toadd);
 			titles.add(toadd.getTitle());
 			while(data.moveToNext()){
-				toadd = new Movie(context,data.getString(1));
+				toadd = new Movie(context,data.getString(1),user);
 				movies.add(toadd);
 				titles.add(toadd.getTitle());
 			}

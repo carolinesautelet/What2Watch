@@ -98,10 +98,16 @@ public class Cinema_Activity extends Activity {
 			programme.setOnItemSelectedListener(new OnItemSelectedListener()
 			{
 				public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
+
 				{	if(position==0 ){
 					return;
 				}
 					Movie movie = allMovies.get(position-1);
+					String name = (String) programme.getAdapter().getItem(position);
+
+					if(position==0){
+						return;
+					}
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
 					Activity2.putExtra("ID", movie.getId());
 					Activity2.putExtra("User" , user);
