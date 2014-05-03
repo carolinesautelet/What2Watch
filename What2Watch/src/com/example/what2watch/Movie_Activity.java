@@ -95,6 +95,9 @@ public class Movie_Activity extends Activity {
 		trailer =(Button)findViewById(R.id.movie_trailer);
 		channel =(Button)findViewById(R.id.movie_findchannel);
 		cinema =(Button)findViewById(R.id.movie_findcinema);
+
+		cinema.setOnClickListener(listenerCinema);
+
 		plus1 = (Button) findViewById(R.id.movie_watched_once_more);
 		save = (Button) findViewById(R.id.movie_button_save);
 		
@@ -111,8 +114,9 @@ public class Movie_Activity extends Activity {
 		mDbHelper = new dbAdapter(this);         
 		mDbHelper.createDatabase();     
        
+
 		makeTheView();
-		
+	
        trailer.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View vue) {
@@ -298,7 +302,6 @@ public class Movie_Activity extends Activity {
 	};
 	
 	private OnClickListener listenerDirector = new OnClickListener() {
-		
 		@Override
 		public void onClick(View v) {
 			String query = "SELECT M.rowid as _id, Title, Year, M.ID FROM Movie M, Director D WHERE M.ID=D.ID and Name like ?";
@@ -317,7 +320,19 @@ public class Movie_Activity extends Activity {
 			
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
 			
+	private OnClickListener listenerCinema = new OnClickListener(){
+		@Override
+		public void onClick(View v){
+			Intent intent = new Intent(Movie_Activity.this, List_findCinema.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ID",id);
+			toaster("launched list of cinema");
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+
 		}
 	};
 	

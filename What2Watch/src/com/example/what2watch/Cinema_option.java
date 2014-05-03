@@ -71,9 +71,10 @@ public class Cinema_option extends Activity {
 	private OnClickListener listenercomingsoon = new OnClickListener() {
 		@Override
   		public void onClick(View v) {
-			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
+			Intent intent = new Intent(Cinema_option.this, List_commingSoon.class);
 			intent.putExtra("User", user);
-			intent.putExtra("ComingSoon", true);
+			//intent.putExtra("ComingSoon", true);
+			//intent.putExtra("findCinema", false);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 
@@ -83,58 +84,13 @@ public class Cinema_option extends Activity {
 	private OnClickListener listenerclosest = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-
-			
-			// Called when a new location is found by the network location provider.
-			Cinema bestForNow = null;
-			if(locationthis !=null){
-			Toast.makeText(getBaseContext(), 
-                    "location  not null latitude : " + locationthis.getLatitude() + "longitude : " + locationthis.getLongitude() , 
-                    Toast.LENGTH_SHORT).show();
-			}
-			Location bestForNowLoc = new Location(locationthis);
-			Cinema toTest = null;
-			Location toTestLoc = new Location(locationthis);
-			Float best = (float)0.0;
-			Float toCheck = (float)0.0;
-			db = new dbAdapter(context);
-			db.createDatabase();
-			db.open();
-			Cursor all = db.execSQL("SELECT rowid as _id , Name, Longitude, Latitude FROM Location ",null);
-			Toast.makeText(getBaseContext(), 
-					"done request", 
-					Toast.LENGTH_SHORT).show();
-			if(all.moveToFirst()){
-				bestForNow = new Cinema(all.getString(1),all.getString(2),all.getString(3));
-				bestForNowLoc.setLongitude(Float.parseFloat(bestForNow.getLongitude()));
-				bestForNowLoc.setLatitude(Float.parseFloat(bestForNow.getLatitude()));
-				best = bestForNowLoc.distanceTo(locationthis);
-				Toast.makeText(getBaseContext(), 
-						"first" + bestForNow.getName(), 
-						Toast.LENGTH_SHORT).show();
-				while(all.moveToNext()){
-					toTest = new Cinema(all.getString(1),all.getString(2),all.getString(3));
-					toTestLoc.setLongitude(Float.parseFloat(toTest.getLongitude()));
-					toTestLoc.setLatitude(Float.parseFloat(toTest.getLatitude()));
-					toCheck = toTestLoc.distanceTo(locationthis);
-					if(toCheck < best){
-						best = toCheck;
-						bestForNow = toTest;
-
-					}
-					Toast.makeText(getBaseContext(), 
-							"after" + bestForNow.getName(), 
-							Toast.LENGTH_SHORT).show();
-				}
-
-			}
-
+			CinemaSet set = new CinemaSet(context);
+			Cinema closest = set.findClosest(locationthis);
 			Intent intent = new Intent(Cinema_option.this, Cinema_Activity.class);
-			intent.putExtra("Cinema",bestForNow);
+			intent.putExtra("Name",closest.getName());
 			intent.putExtra("User", user);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
-			db.close();
 		}
 
 	};
@@ -142,10 +98,11 @@ public class Cinema_option extends Activity {
     private OnClickListener listenerall = new OnClickListener() {
 		@Override
   		public void onClick(View v) {
+			
 			Intent intent = new Intent(Cinema_option.this, List_of_Cinema.class);
 			intent.putExtra("User", user);
 			intent.putExtra("ComingSoon", false);
-
+			intent.putExtra("findCinema",false);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
