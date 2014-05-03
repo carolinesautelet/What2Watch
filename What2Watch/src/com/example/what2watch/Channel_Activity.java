@@ -52,12 +52,9 @@ public class Channel_Activity extends Activity{
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View view, int position,
 				long id) {
-
-
 			Intent intent = new Intent(Channel_Activity.this, Movie_Activity.class);
 			intent.putExtra("ID",allMovies.get(position).getId());
 			intent.putExtra("User",user);
-			
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}

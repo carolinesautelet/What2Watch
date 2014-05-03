@@ -33,7 +33,7 @@ import android.location.LocationManager;
 public class Cinema_Activity extends Activity {
 	Context context = null;
 	boolean firstStep = true;
-	Spinner programme=null;
+	ListView programme=null;
 	TextView distance = null;
 	TextView distanceM = null;
 	Button navigate = null;
@@ -62,13 +62,12 @@ public class Cinema_Activity extends Activity {
 		cinema = new Cinema(this,nameCinema);
 		name = (TextView)findViewById(R.id.cinema_activity_name);
 		name.setText(cinema.getName());
-		programme = (Spinner)findViewById(R.id.cinema_activity_programmation);
+		programme = (ListView)findViewById(R.id.cinema_activity_programmation);
 		distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
 		distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
 		final List<Movie> allMovies = cinema.getMovies();
 		List<String> allTitle = cinema.getAllMoviesTitle();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, allTitle);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, allTitle);
 		programme.setAdapter(adapter);
 			if(cinema.getLatitude()!=0.0 && cinema.getLongitude()!=0.0){
 				lManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -95,19 +94,12 @@ public class Cinema_Activity extends Activity {
 				distance.setText("No localisation information for this cinema");
 			}
 
-			programme.setOnItemSelectedListener(new OnItemSelectedListener()
+			programme.setOnItemClickListener(new OnItemClickListener()
 			{
-				public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
-
-				{	if(position==0 ){
-					return;
-				}
-					Movie movie = allMovies.get(position-1);
-					String name = (String) programme.getAdapter().getItem(position);
-
-					if(position==0){
-						return;
-					}
+				public void onItemClick(AdapterView<?> adapter, View view, int position,
+						long id) {	
+					
+					Movie movie = allMovies.get(position);
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
 					Activity2.putExtra("ID", movie.getId());
 					Activity2.putExtra("User" , user);
@@ -117,10 +109,6 @@ public class Cinema_Activity extends Activity {
 
 				}
 
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-				}
 			});
 		
 		

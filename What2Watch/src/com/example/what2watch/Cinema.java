@@ -122,13 +122,11 @@ public class Cinema implements Parcelable{
 			public void setMovies(List<Movie> movies) {
 				this.movies = movies;
 			}
-			/*ATTENTION INDEX START FROM 1 NOT FROM 0 FRO THE RETURNED LIST!!!!*/
 			public List<String> getAllMoviesTitle(){
 				List<String> allName = new ArrayList<String>();
 				List<Movie> movies = this.getMovies();
-				allName.add(0,"Select Movie : ");
 				for(int i =0;i<this.movies.size();i++){
-					allName.add(i+1,movies.get(i).getTitle());
+					allName.add(i,movies.get(i).getTitle());
 				}
 				return allName;
 			}
