@@ -1,18 +1,10 @@
 package com.example.what2watch;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.view.Menu;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -77,25 +69,23 @@ public class UserStat_activity extends Activity {
     	db.createDatabase();    
     	db.open();
     	
-    	Cursor cursor;
     	String TextToSet;
    	
+    	//création de l'objet UsetStat_Result
+    	UserStat_Result userStatResult = new UserStat_Result(UserStat_activity.this, user);
+    	
     	//nbrFilm
-    	cursor = db.execSQL("SELECT rowid as _id, ID FROM NumberOfView WHERE Login=?", new String[] {user.getLogin()});
-    	progressBarStatus=cursor.getCount();
+    	progressBarStatus=userStatResult.getNbrFilm();
     	TextToSet = Integer.toString(progressBarStatus);
     	nbrFilm.setText(TextToSet);
     	
     	
     	//nbrHour
-    	cursor = db.execSQL("SELECT SUM(Duration) FROM Movie M, NumberOfView N WHERE Login = ? and N.ID = M.ID", new String[] {user.getLogin()});
-    	cursor.moveToFirst();
-    	TextToSet = Float.toString((float) cursor.getInt(0)/60);
+    	TextToSet = Float.toString(userStatResult.getNbrHour());
     	nbrHour.setText(TextToSet);
     	
     	//nbrRate
-    	cursor = db.execSQL("SELECT ID FROM Rating  WHERE Login = ?", new String[] {user.getLogin()});
-		TextToSet = Integer.toString(cursor.getCount());
+		TextToSet = Integer.toString(userStatResult.getNbrRate());
     	nbrRate.setText(TextToSet);
 
     	//MostDir
@@ -108,8 +98,8 @@ public class UserStat_activity extends Activity {
     	level.setText(Integer.toString((progressBarStatus/10)+1));
     	Bar.setProgress(progressBarStatus%10); //dépend du nombre de films regardé
     	
-    	
-    	boolean[] badges = checkForBadge(user.getLogin());
+    	//badge
+    	boolean[] badges = userStatResult.getBadgeAquired();
     	
     	if (badges[0])
     		badge_pirate.setImageResource(R.drawable.pirate2);
@@ -120,44 +110,8 @@ public class UserStat_activity extends Activity {
     	if (badges[3])
     		badge_disney.setImageResource(R.drawable.disney2);
     	db.close();
-	}
+	}//on create
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private boolean[] checkForBadge(String UserName)
-	{
-		boolean[] badges = new boolean[4];
-   	 
-    	String requete_badge = "SELECT M.rowid as _id, Title, M.ID FROM Movie M, NumberOfView N WHERE Login = ? and N.ID = M.ID and M.Title like ?";
-    	String requete_disney = "SELECT M.rowid as _id, Title, M.ID FROM Movie M, Genre G, NumberOfView N WHERE GenreName like \"disney\" and N.Login=? and M.ID=N.ID and M.ID=G.ID GROUP BY Title";
-    	ArrayList args = new ArrayList();
-    	args.add(new String[] {UserName, "Pirates of the Caribbean%"});
-    	args.add(new String[] {UserName, "Star Wars: Épisode%"});
-    	args.add(new String[] {UserName, "The Lord of the Rings%"});
-    	
-    	Cursor cursor;
-    	
-    	db.open(); 
-    	for(int i=0; i<3; i++){
-    		cursor = db.execSQL(requete_badge,(String[]) args.get(i));
-    		if(cursor.getCount()>=2){
-    			badges[i] = true;
-    		}
-    		else{
-    			badges[i] = false;
-    		}
-    	}
-    	cursor = db.execSQL(requete_disney, new String[] {UserName});
-    	if(cursor.getCount()>=2){
-    		badges[3] = true;
-    	}
-    	else{
-    		badges[3] = false;
-    	}	
-    	
-    	db.close();
-    	return badges;
-	}
-	
 	@Override
 	public void onBackPressed() {
 	    super.onBackPressed();
