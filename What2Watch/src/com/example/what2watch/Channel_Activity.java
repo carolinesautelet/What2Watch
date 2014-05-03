@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -39,7 +40,8 @@ public class Channel_Activity extends Activity{
 		list = (ListView)findViewById(R.id.channel_activity_programmation);
 		allMovies = channel.getMovies();
 		List<String> allTitle = channel.getAllMoviesTitle();
-		
+		TextView name = (TextView)findViewById(R.id.channel_activity_name);
+		name.setText(nameChannel);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, allTitle);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(listenerListFindChannel);
