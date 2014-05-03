@@ -108,6 +108,7 @@ public class Movie_Activity extends Activity {
 		spinnerActor.setOnItemSelectedListener(listenerActorList);
 		director.setOnClickListener(listenerDirector);
 		cinema.setOnClickListener(listenercinema);
+		channel.setOnClickListener(listenerchannel);
 		
 		mDbHelper = new dbAdapter(this);         
 		mDbHelper.createDatabase();     
@@ -268,6 +269,16 @@ public class Movie_Activity extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(Movie_Activity.this,List_findCinema.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ID",id);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
+	private OnClickListener listenerchannel = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(Movie_Activity.this,List_findChannel.class);
 			intent.putExtra("User", user);
 			intent.putExtra("ID",id);
 			startActivity(intent);
