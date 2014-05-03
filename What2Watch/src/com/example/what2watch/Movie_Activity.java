@@ -31,10 +31,11 @@ public class Movie_Activity extends Activity {
 	
 	private ProgressDialog progressDialog;
 	RatingBar ratingbar;
-	private boolean resumeHasRun = false;
+	private boolean TrailerHasRun = false;
 	
 	dbAdapter mDbHelper;
 	Context context;
+	Intent intent;
 	User user;
 	Movie movie;
 	
@@ -42,12 +43,28 @@ public class Movie_Activity extends Activity {
 	String movie_title;
 	String id;
 	int age;
+	
 	Button save;
 	Button plus1;
+	Button trailer;
+	Button channel;
+	Button cinema;
+	
 	TextView viewed;
+	TextView director;
+	TextView title;
+	TextView year;
+	TextView duration;
+	TextView genre1;
+	TextView genre2;
+	TextView genre3;
+	TextView synopsis;
+	
 	Spinner spinnerActor;
-	boolean itemSelectedbyOnCreate=false;
 	CheckBox checkbox;
+	ImageView img ;
+	
+	boolean itemSelectedbyOnCreate;
 	boolean MovieIsView=false;
 	List<String> list;
 	
@@ -58,28 +75,26 @@ public class Movie_Activity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.movie);
-		
-		Intent intent = getIntent();
-		
-		TextView title = (TextView)findViewById(R.id.movie_title);
-		TextView year = (TextView)findViewById(R.id.movie_year);
-		TextView duration = (TextView)findViewById(R.id.movie_duration);
-		TextView genre1 = (TextView)findViewById(R.id.movie_genre1);
-		TextView genre2 = (TextView)findViewById(R.id.movie_genre2);
-		TextView genre3 = (TextView)findViewById(R.id.movie_genre3);
-		TextView director = (TextView)findViewById(R.id.movie_director);
-		TextView synopsis= (TextView)findViewById(R.id.movie_synopsis);
+
+		title = (TextView)findViewById(R.id.movie_title);
+		year = (TextView)findViewById(R.id.movie_year);
+		duration = (TextView)findViewById(R.id.movie_duration);
+		genre1 = (TextView)findViewById(R.id.movie_genre1);
+		genre2 = (TextView)findViewById(R.id.movie_genre2);
+		genre3 = (TextView)findViewById(R.id.movie_genre3);
+		synopsis= (TextView)findViewById(R.id.movie_synopsis);
+		director = (TextView)findViewById(R.id.movie_director);
 		viewed = (TextView)findViewById(R.id.movie_viewed);
 		
 		checkbox = (CheckBox) findViewById(R.id.movie_already_watched);
 		
 		spinnerActor = (Spinner) findViewById(R.id.movie_actors_spinner);
 		
-		ImageView img = (ImageView) findViewById(R.id.movie_img); 
+		img = (ImageView) findViewById(R.id.movie_img); 
 		
-		Button trailer =(Button)findViewById(R.id.movie_trailer);
-		Button channel =(Button)findViewById(R.id.movie_findchannel);
-		Button cinema =(Button)findViewById(R.id.movie_findcinema);
+		trailer =(Button)findViewById(R.id.movie_trailer);
+		channel =(Button)findViewById(R.id.movie_findchannel);
+		cinema =(Button)findViewById(R.id.movie_findcinema);
 		plus1 = (Button) findViewById(R.id.movie_watched_once_more);
 		save = (Button) findViewById(R.id.movie_button_save);
 		
@@ -91,17 +106,48 @@ public class Movie_Activity extends Activity {
 		plus1.setOnClickListener(listenerPlus1);
 		checkbox.setOnClickListener(listenerCheck);
 		spinnerActor.setOnItemSelectedListener(listenerActorList);
-		
-		id = intent.getStringExtra("ID");
-		
-		user = intent.getParcelableExtra("User");
+		director.setOnClickListener(listenerDirector);
 		
 		mDbHelper = new dbAdapter(this);         
-		mDbHelper.createDatabase();   
+		mDbHelper.createDatabase();     
+       
+		makeTheView();
+		
+       trailer.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View vue) {
+				setProgressBarIndeterminate(true);
+				progressDialog = ProgressDialog.show(Movie_Activity.this, "Wait", "Retreiving information from Youtute", true);
+				progressDialog.setCancelable(true);
+				showVideo(trailerLink);
+			}
+		});
+		
+
+	} //OnCreate
+	
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    if (!TrailerHasRun) {  
+	    	itemSelectedbyOnCreate=false;
+	    	makeTheView();
+	    	return;
+	    }
+	    progressDialog.dismiss();
+	    TrailerHasRun = false;
+	}
+	
+	protected void makeTheView(){
+		
+		/*récupération de l'intent*/
+		intent = this.getIntent();
+		id = intent.getStringExtra("ID");
+		user = intent.getParcelableExtra("User");
 		
 		/*Creation de l'objet Movie*/
-		
-		movie  = new Movie(this, id, user);
+		movie  = new Movie(Movie_Activity.this, id, user);
 		
 		/*Affichage du text */
 		title.setText(movie.getTitle());
@@ -138,9 +184,9 @@ public class Movie_Activity extends Activity {
     	/*affichage des genres*/
     	String[] genres = movie.getGenre();
     	genre1.setText(genres[0]);
-    	if(genres.length>=2){
+    	if(genres[1] != null){
     		genre2.setText("     |     " + genres[1]);
-    		if(genres.length >= 3 ){
+    		if(genres[2] != null ){
     			genre3.setText("     |     " + genres[2]);
     		}
     	}
@@ -163,30 +209,7 @@ public class Movie_Activity extends Activity {
 		else{ 
 			img.setImageResource(R.drawable.tagall);
 		}
-       
-       
-       trailer.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View vue) {
-				setProgressBarIndeterminate(true);
-				progressDialog = ProgressDialog.show(Movie_Activity.this, "Wait", "Retreiving information from Youtute", true);
-				progressDialog.setCancelable(true);
-				showVideo(trailerLink);
-			}
-		});
-		
-
-	} //OnCreate
-	/*
-	@Override
-	protected void onResume() {
-	    super.onResume();
-	    if (!resumeHasRun) {
-	        resumeHasRun = true;
-	        return;
-	    }
-	    progressDialog.dismiss();
-	}*/
+	}//makeTheView
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,6 +219,7 @@ public class Movie_Activity extends Activity {
 	}
 
 	public void showVideo(String URL){
+		TrailerHasRun = true;
 		Uri url = Uri.parse(URL);
 		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("vnd.youtube:"  + url.getQueryParameter("v"))));
 	}
@@ -241,12 +265,11 @@ public class Movie_Activity extends Activity {
 	};
 	
 	private OnItemSelectedListener listenerActorList = new OnItemSelectedListener() {
-
 		@Override
 		public void onItemSelected(AdapterView<?> adpater, View view, int position,	long id) {
 			if(itemSelectedbyOnCreate){
 				String actorName = list.get(position);
-				String query = "SELECT M.rowid as _id, Title, Year FROM Movie M, Actor A WHERE M.ID=A.ID and Name like ?";
+				String query = "SELECT M.rowid as _id, Title, Year, M.ID FROM Movie M, Actor A WHERE M.ID=A.ID and Name like ?";
 				String[] args = {actorName};
 				String[]  WhatToDisplay = {"Title","Year"};
 				String search_by = actorName;
@@ -266,7 +289,7 @@ public class Movie_Activity extends Activity {
 			else
 				itemSelectedbyOnCreate=!itemSelectedbyOnCreate;
 		}
-
+		
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
 			// TODO Auto-generated method stub
@@ -274,6 +297,29 @@ public class Movie_Activity extends Activity {
 		}
 	};
 	
+	private OnClickListener listenerDirector = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			String query = "SELECT M.rowid as _id, Title, Year, M.ID FROM Movie M, Director D WHERE M.ID=D.ID and Name like ?";
+			String[] args = {movie.getDirector()};
+			String[]  WhatToDisplay = {"Title","Year"};
+			String search_by = movie.getDirector();
+			
+			Intent Activity2 = new Intent(Movie_Activity.this, List_of_request.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("requete", query);
+			bundle.putStringArray("arguments", args);
+			bundle.putStringArray("display", WhatToDisplay);
+			bundle.putString("search_by", search_by);
+			Activity2.putExtras(bundle);
+			Activity2.putExtra("User", user);
+			
+			startActivity(Activity2);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+			
+		}
+	};
 	
 	@Override
 	public void onBackPressed() {
