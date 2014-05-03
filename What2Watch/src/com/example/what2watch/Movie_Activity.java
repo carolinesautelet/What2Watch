@@ -107,6 +107,7 @@ public class Movie_Activity extends Activity {
 		checkbox.setOnClickListener(listenerCheck);
 		spinnerActor.setOnItemSelectedListener(listenerActorList);
 		director.setOnClickListener(listenerDirector);
+		cinema.setOnClickListener(listenercinema);
 		
 		mDbHelper = new dbAdapter(this);         
 		mDbHelper.createDatabase();     
@@ -261,6 +262,16 @@ public class Movie_Activity extends Activity {
 			movie.setNumberOfView(movie.getNumberOfView()+1);
 			viewed.setText(getResources().getString(R.string.movie_viewed, movie.getNumberOfView()));
 			checkbox.setChecked(true);
+		}
+	};
+	private OnClickListener listenercinema = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(Movie_Activity.this,List_findCinema.class);
+			intent.putExtra("User", user);
+			intent.putExtra("ID",id);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
 	};
 	
