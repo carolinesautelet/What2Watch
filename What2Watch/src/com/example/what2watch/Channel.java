@@ -1,16 +1,21 @@
 package com.example.what2watch;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ParseException;
+import android.text.format.DateFormat;
+import android.util.Log;
 
 public class Channel {
 		private Context context;
 		private String name = null;
 		private List<Movie> movies = null;
-		
+		private List<Date> dates = null;
 		
 		public Channel(Context context , String Name){
 			this.context = context;
@@ -19,14 +24,34 @@ public class Channel {
 			dbAdapter mDbHelper = new dbAdapter(context);  
 			mDbHelper.createDatabase();       
 	    	mDbHelper.open(); 
-	    	Cursor data = mDbHelper.execSQL("SELECT rowid as _id, ID FROM Channel WHERE Name = ?",new String[] {Name});
+	    	Cursor data = mDbHelper.execSQL("SELECT rowid as _id, ID, Time FROM Channel WHERE Name = ?",new String[] {Name});
 	    	Movie toadd = null;
+	    	Date newdate = null;
+	    	String dateTime  = null;
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	    	this.dates = new ArrayList<Date>();
 	    	this.movies = new ArrayList<Movie>();
 	    	if(data!=null){
 	    	if(data.moveToFirst()){
+	    		newdate = new Date();
+	    		dateTime = data.getString(2);
+	    		try{
+	    			newdate = format.parse(dateTime);
+	    		}catch(java.text.ParseException e){
+	    			e.printStackTrace();
+	    		}
+	    		this.dates.add(newdate);
 	    		toadd = new Movie(context , data.getString(1), null);
 	    		this.movies.add(toadd);
 	    		while(data.moveToNext()){
+	    			newdate = new Date();
+		    		dateTime = data.getString(2);
+		    		try{
+		    			newdate = format.parse(dateTime);
+		    		}catch(java.text.ParseException e){
+		    			e.printStackTrace();
+		    		}
+		    		this.dates.add(newdate);
 	    			toadd = new Movie(context , data.getString(1), null);
 		    		this.movies.add(toadd);
 	    		}
@@ -52,5 +77,19 @@ public class Channel {
 				allName.add(i,movies.get(i).getTitle());
 			}
 			return allName;
+		}
+		public List<String> getAllTime(){
+			List<String> time = new ArrayList<String>();
+			List<Date> dates = this.getDates();
+			for(int i =0;i<dates.size();i++){
+				time.add(i,dates.get(i).toString());
+			}
+			return time;
+		}
+		public List<Date> getDates() {
+			return dates;
+		}
+		public void setDates(List<Date> dates) {
+			this.dates = dates;
 		}
 }

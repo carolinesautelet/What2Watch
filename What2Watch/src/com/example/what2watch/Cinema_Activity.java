@@ -1,6 +1,7 @@
 package com.example.what2watch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +70,16 @@ public class Cinema_Activity extends Activity {
 		distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
 		final List<Movie> allMovies = cinema.getMovies();
 		List<String> allTitle = cinema.getAllMoviesTitle();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, allTitle);
+		List<String> times = cinema.getAllTime();
+		List<HashMap<String, String>> liste = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> element;
+		for(int i = 0;i<allTitle.size();i++){
+			element = new HashMap<String, String>();
+			element.put("text1", allTitle.get(i));
+			element.put("text2", times.get(i));
+			liste.add(element);
+		}
+		ListAdapter adapter = new SimpleAdapter(this,liste,android.R.layout.simple_list_item_2,new String[] {"text1", "text2"},new int[] {android.R.id.text1, android.R.id.text2 });
 		programme.setAdapter(adapter);
 			if(cinema.getLatitude()!=0.0 && cinema.getLongitude()!=0.0){
 				lManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);

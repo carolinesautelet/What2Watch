@@ -1,5 +1,6 @@
 package com.example.what2watch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -11,17 +12,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.util.HashMap;
 public class Channel_Activity extends Activity{
 	Context context = null;
 	User user = null;
 	Channel channel = null;
 	List<Movie> allMovies = null;
 	ListView list = null;
+	String selectedId = null;
 	public void toaster(String txt){
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
@@ -42,9 +47,20 @@ public class Channel_Activity extends Activity{
 		List<String> allTitle = channel.getAllMoviesTitle();
 		TextView name = (TextView)findViewById(R.id.channel_activity_name);
 		name.setText(nameChannel);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, allTitle);
+		List<String> times = channel.getAllTime();
+		List<HashMap<String, String>> liste = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> element;
+		for(int i = 0;i<allTitle.size();i++){
+			element = new HashMap<String, String>();
+			element.put("text1", allTitle.get(i));
+			element.put("text2", times.get(i));
+			liste.add(element);
+		}
+		ListAdapter adapter = new SimpleAdapter(this,liste,android.R.layout.simple_list_item_2,new String[] {"text1", "text2"},new int[] {android.R.id.text1, android.R.id.text2 });
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(listenerListFindChannel);
+		
+		
 		
 	}
 	private OnItemClickListener listenerListFindChannel = new OnItemClickListener() {
@@ -52,8 +68,9 @@ public class Channel_Activity extends Activity{
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View view, int position,
 				long id) {
+			selectedId = allMovies.get(position).getId();
 			Intent intent = new Intent(Channel_Activity.this, Movie_Activity.class);
-			intent.putExtra("ID",allMovies.get(position).getId());
+			intent.putExtra("ID",selectedId);
 			intent.putExtra("User",user);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
