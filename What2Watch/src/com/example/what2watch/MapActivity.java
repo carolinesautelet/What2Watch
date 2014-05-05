@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.example.google_direction.Routing;
 import com.example.google_direction.RoutingListener;
@@ -31,6 +32,9 @@ public class MapActivity extends FragmentActivity implements RoutingListener {
 	private GoogleMap map = null;
 	private LatLng start = null;
 	private LatLng end = null;
+	public void toaster(String txt){
+		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,8 +42,12 @@ public class MapActivity extends FragmentActivity implements RoutingListener {
 		//MapFragment map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 		Double latitudeStart = getIntent().getExtras().getDouble("LatitudeStart");
 		Double longitudeStart = getIntent().getExtras().getDouble("LongitudeStart");
-		Double latitudeEnd = getIntent().getExtras().getDouble("latitudeEnd");
-		Double longitudeEnd = getIntent().getExtras().getDouble("longitudeEnd");
+		Double latitudeEnd = getIntent().getExtras().getDouble("LatitudeEnd");
+		Double longitudeEnd = getIntent().getExtras().getDouble("LongitudeEnd");
+		toaster("latitudeStart : " + Double.toString(latitudeStart) );
+		toaster("longitudeStart : " + Double.toString(longitudeStart) );
+		toaster("latitudeEnd : " + Double.toString(latitudeEnd) );
+		toaster("LongitudeEnd : " + Double.toString(longitudeEnd));
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         start  = new LatLng(latitudeStart, longitudeStart);
 		end = new LatLng(latitudeEnd,longitudeEnd);
@@ -50,15 +58,15 @@ public class MapActivity extends FragmentActivity implements RoutingListener {
        CameraUpdate center=CameraUpdateFactory.newLatLng(start);
         CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);*/
 
-        map.moveCamera(center);
-        map.animateCamera(zoom);
+       /* map.moveCamera(center);
+        map.animateCamera(zoom);*/
 		
 		
         map.setMyLocationEnabled(true);
-       map.setMapType(2);
+      // map.setMapType(2);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 13));
 
-        map.addMarker(new MarkerOptions()
+        /*map.addMarker(new MarkerOptions()
                 .title("Cinema")
                 .snippet("Cinema choisi")
                 .position(start));
@@ -66,10 +74,10 @@ public class MapActivity extends FragmentActivity implements RoutingListener {
         Polyline line = map.addPolyline(new PolylineOptions()
         .add(end,start)
         .width(5)
-        .color(Color.RED));
-        /*Routing routing = new Routing(Routing.TravelMode.WALKING);
+        .color(Color.RED));*/
+        Routing routing = new Routing(Routing.TravelMode.WALKING);
         routing.registerListener(this);
-        routing.execute(start, end);*/
+        routing.execute(start, end);
         
       
         

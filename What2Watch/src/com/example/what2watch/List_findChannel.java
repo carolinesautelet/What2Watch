@@ -36,9 +36,8 @@ public class List_findChannel extends Activity{
 	String id = getIntent().getExtras().getString("ID");
 	ListView list = (ListView)findViewById(R.id.list_of_channels_Listview);
 	ChannelSet myset = new ChannelSet(context);
-	List<Channel> findChannelList = new ArrayList<Channel>();
+	Channel[] findChannelList = new Channel[myset.getNbr()];
 	myset.findChannel(id,findChannelList);
-	toaster("Numbe of channels : " + Integer.toString(findChannelList.size()));
 	names = new ArrayList<String>();
 	myset.getNamesFromList(findChannelList,names);
 

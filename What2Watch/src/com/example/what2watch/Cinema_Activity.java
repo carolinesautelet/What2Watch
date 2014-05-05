@@ -150,6 +150,7 @@ public class Cinema_Activity extends Activity {
 			toaster("latitudeStart : " + Double.toString(latitudeStart) );
 			toaster("longitudeStart : " + Double.toString(longitudeStart) );
 			toaster("latitudeEnd : " + Double.toString(latitudeEnd) );
+			toaster("LongitudeEnd : " + Double.toString(longitudeEnd));
 			startActivity(Activity2);
 			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 		}
