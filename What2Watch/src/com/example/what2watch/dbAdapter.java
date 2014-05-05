@@ -198,6 +198,7 @@ public class dbAdapter
 	  }
 	  return set;
     }
+     
      public void getAllDataSingle(String request,String[] args ,List<String> list, List<String> other){
     	 int i = 1;
     	 Cursor cursor = null;

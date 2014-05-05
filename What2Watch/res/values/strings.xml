@@ -52,7 +52,7 @@
 	<string name="user_stat_username">UserName</string>
 	<string name="user_stat_nbrFilmT">Number of films viewed : </string>
 	<string name="user_stat_nbrFilmV">15</string>
-	<string name="user_stat_nbrHourT">Number of hours spend : </string>
+	<string name="user_stat_nbrHourT">Number of hours spent : </string>
 	<string name="user_stat_nbrHourV">1000</string>
 	<string name="user_stat_nbrRateT">Number of films rated : </string>
 	<string name="user_stat_nbrRateV">12</string>
@@ -132,6 +132,8 @@
 	
 	<string name ="accueil_text_user_param">user parameters</string>
 	<string name ="modify_button">change parameters</string>
+	
+	<string name = "mapKey">AIzaSyB0lXm5dUHwO18LbSVxZ6YrBfLMx3L3cME</string>
 	
 	
 </resources>

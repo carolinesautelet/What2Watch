@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/wallpaper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/channel_activity_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/translucide"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+    
+     <TextView
+        android:id ="@+id/channel_activity_textProgramme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/channel_activity_name"
+        android:layout_marginTop="20dp"
+        android:background="@color/translucide"
+        android:text="Film program : "
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/channel_activity_programmation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/channel_activity_textProgramme"
+        android:layout_marginTop="20dp"
+        android:background="@color/white" />
+    
+    </RelativeLayout>
+    
