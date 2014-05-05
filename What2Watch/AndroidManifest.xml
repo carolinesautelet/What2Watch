@@ -6,8 +6,18 @@
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+<permission
+        android:name="com.example.mapdemo.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+ <uses-permission android:name="com.example.mapdemo.permission.MAPS_RECEIVE" />
+ <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
     <application
@@ -15,7 +25,13 @@
         android:icon="@drawable/icone"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
+                  <uses-library android:name="com.google.android.maps" />
+        <meta-data
+    android:name="com.google.android.gms.version"
+    android:value="@integer/google_play_services_version" />
+         <meta-data
+    android:name="com.google.android.maps.v2.API_KEY"
+    android:value="AIzaSyB0lXm5dUHwO18LbSVxZ6YrBfLMx3L3cME"/>
         <activity
             android:name="com.example.what2watch.MainActivity"
             android:label="@string/app_name"
@@ -148,6 +164,12 @@
             android:name="com.example.what2watch.List_of_Channel"
             android:label="@string/app_name"
             android:launchMode="singleTask">
+        </activity>
+        <activity
+            android:name="com.example.what2watch.MapActivity"
+            android:label="@string/app_name" >
+            
+      
         </activity>
     </application>
 

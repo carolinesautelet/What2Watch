@@ -16,6 +16,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,6 +43,10 @@ public class Cinema_Activity extends Activity {
 	Button navigate = null;
 	TextView name = null;
 	Cinema cinema;
+	Double latitudeStart = null;
+	Double longitudeStart = null;
+	Double latitudeEnd = null;
+	Double longitudeEnd = null;
 	Set<String> other = null;
 	dbAdapter db=null;
 	List<Movie> moviesHere = null;
@@ -68,6 +73,8 @@ public class Cinema_Activity extends Activity {
 		programme = (ListView)findViewById(R.id.cinema_activity_programmation);
 		distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
 		distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
+		navigate = (Button)findViewById(R.id.cinema_activity_navigate);
+		
 		final List<Movie> allMovies = cinema.getMovies();
 		List<String> allTitle = cinema.getAllMoviesTitle();
 		List<String> times = cinema.getAllTime();
@@ -79,6 +86,8 @@ public class Cinema_Activity extends Activity {
 			element.put("text2", times.get(i));
 			liste.add(element);
 		}
+		latitudeEnd = cinema.getLatitude();
+		longitudeEnd = cinema.getLongitude();
 		ListAdapter adapter = new SimpleAdapter(this,liste,android.R.layout.simple_list_item_2,new String[] {"text1", "text2"},new int[] {android.R.id.text1, android.R.id.text2 });
 		programme.setAdapter(adapter);
 			if(cinema.getLatitude()!=0.0 && cinema.getLongitude()!=0.0){
@@ -87,6 +96,8 @@ public class Cinema_Activity extends Activity {
 				LocationListener locationListener = new LocationListener() {
 					public void onLocationChanged(Location location) {
 						// Called when a new location is found by the network location provider.
+						latitudeStart = location.getLatitude();
+						longitudeStart = location.getLongitude();
 						distance.setText(Float.toString(cinema.getDistance(location)/1000) + " km");
 						distanceM.setText(Float.toString((cinema.getDistance(location)/1000 )* (float)0.62137)+" miles");
 
@@ -122,18 +133,34 @@ public class Cinema_Activity extends Activity {
 				}
 
 			});
-		
+		navigate.setOnClickListener(listenernavigate);
 		
 
 	}
 
-
+	private OnClickListener listenernavigate = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent Activity2 = new Intent(Cinema_Activity.this, MapActivity.class);
+			//Activity2.putExtra("User", user);
+			Activity2.putExtra("LatitudeStart", latitudeStart);
+			Activity2.putExtra("LongitudeStart", longitudeStart);
+			Activity2.putExtra("LatitudeEnd", latitudeEnd);
+			Activity2.putExtra("LongitudeEnd", longitudeEnd);
+			toaster("latitudeStart : " + Double.toString(latitudeStart) );
+			toaster("longitudeStart : " + Double.toString(longitudeStart) );
+			toaster("latitudeEnd : " + Double.toString(latitudeEnd) );
+			startActivity(Activity2);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
 	}
-
+	
+	
 
 
 }
