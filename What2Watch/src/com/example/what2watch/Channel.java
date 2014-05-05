@@ -14,6 +14,7 @@ import android.util.Log;
 public class Channel {
 		private Context context;
 		private String name = null;
+		private String type = null;
 		private List<Movie> movies = null;
 		private List<Date> dates = null;
 		
@@ -23,8 +24,13 @@ public class Channel {
 			if(context!=null && Name !=null){
 			dbAdapter mDbHelper = new dbAdapter(context);  
 			mDbHelper.createDatabase();       
-	    	mDbHelper.open(); 
-	    	Cursor data = mDbHelper.execSQL("SELECT rowid as _id, ID, Time FROM Channel WHERE Name = ?",new String[] {Name});
+	    	mDbHelper.open();
+	    	if(this instanceof Cinema){
+	    		type = "Cinema";
+	    	}else{
+	    		type = "Channel";
+	    	}
+	    	Cursor data = mDbHelper.execSQL("SELECT rowid as _id, ID, Time FROM "+ type + " WHERE Name = ?",new String[] {Name});
 	    	Movie toadd = null;
 	    	Date newdate = null;
 	    	String dateTime  = null;
@@ -91,5 +97,17 @@ public class Channel {
 		}
 		public void setDates(List<Date> dates) {
 			this.dates = dates;
+		}
+		public Context getContext() {
+			return context;
+		}
+		public void setContext(Context context) {
+			this.context = context;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
 		}
 }

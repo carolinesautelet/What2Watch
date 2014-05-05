@@ -10,7 +10,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.Toast;
 
-public class CinemaSet implements Parcelable {
+public class CinemaSet extends ChannelSet{
 	private List<Cinema> all = null;
 	private int nbr = 0;
 	private Context context = null;
@@ -18,7 +18,7 @@ public class CinemaSet implements Parcelable {
 		Toast.makeText(context, txt, Toast.LENGTH_SHORT).show();
 	}
 	public CinemaSet(Context context){
-		this.context = context;
+		super(context);
 		dbAdapter db = new dbAdapter(context);
 		db.createDatabase();
 		db.open();
@@ -62,26 +62,7 @@ public class CinemaSet implements Parcelable {
 		}
 		return ret;
 	}
-	public void findCinema(String Id,List<Cinema> list){
-		Cinema current = null;
-		String currentName = null;
-		Cursor test = null;
-		dbAdapter db = new dbAdapter(context);
-		db.createDatabase();
-		db.open();
-		for(int i=0;i<this.nbr;i++){
-			current = all.get(i);
-			if(current !=null){
-				test = db.execSQL("SELECT rowid as _id, Time FROM Cinema WHERE ID = ? AND Name = ?",new String[] {Id , current.getName()});
-				if(test!=null){
-					if(test.moveToFirst()){
-						list.add(current);
-					}
-				}
-			}
-		}
-		db.close();
-	}
+	
 	public List<String> getallName(){
 		List<String> allName = new ArrayList<String>();
 		for(int i=0;i<this.nbr;i++){
@@ -89,43 +70,5 @@ public class CinemaSet implements Parcelable {
 		}
 		return allName;
 	}
-	public void getNamesFromList(List<Cinema> cinemas,List<String> names){
-		for(int i =0;i<cinemas.size();i++){
-			names.add(cinemas.get(i).getName());
-		}
-
-	}
-	@Override
-	public int describeContents()
-	{
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags)
-	{
-		dest.writeTypedList(all);
-		dest.writeInt(nbr);
-
-	}
-	public static final Parcelable.Creator<CinemaSet> CREATOR = new Parcelable.Creator<CinemaSet>()
-			{
-		@Override
-		public CinemaSet createFromParcel(Parcel source)
-		{
-			return new CinemaSet(source);
-		}
-
-		@Override
-		public CinemaSet[] newArray(int size)
-		{
-			return new CinemaSet[size];
-		}
-			};
-
-			public CinemaSet(Parcel in) {
-				in.readTypedList(all,Cinema.CREATOR);
-				this.nbr = in.readInt();
-
-			}
+	
 }
