@@ -2,6 +2,7 @@ package com.example.what2watch;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -29,6 +30,7 @@ public class Create_user extends Activity {
 	User user = null;
 	dbAdapter db = null;
 	String question = null;
+	Context context = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class Create_user extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.create_user);
+		context = this.getApplicationContext();
 		db = new dbAdapter(this);         
 		db.createDatabase();       
 		name = (EditText)findViewById(R.id.create_user_entername);
@@ -56,10 +59,7 @@ public class Create_user extends Activity {
 
 				int index = questionSelect.getSelectedItemPosition();
 
-				question = (String) questionSelect.getAdapter().getItem(position);
-				Toast.makeText(getBaseContext(), 
-						"You have selected question : " + question, 
-						Toast.LENGTH_SHORT).show(); 
+				question = (String) questionSelect.getAdapter().getItem(position); 
 			}
 
 			@Override
@@ -111,8 +111,8 @@ public class Create_user extends Activity {
 						}
 
 						else{
-							user = new User(login.getText().toString(),name.getText().toString(),firstName.getText().toString(),Integer.parseInt(age.getText().toString()),password.getText().toString(),question,answer.getText().toString());
-							db.addToDatabase("User", new String[] {"Login" , "FirstName" , "Name" ,"Password","Age"}, new String[] {user.getLogin(),user.getFirstName(),user.getName(),user.getPassword(),Integer.toString(user.getAge())});
+							user = new User(context,login.getText().toString(),name.getText().toString(),firstName.getText().toString(),Integer.parseInt(age.getText().toString()),password.getText().toString(),question,answer.getText().toString());
+							user.addUserTodatabase();
 							Activity2.putExtra("User", user);
 							startActivity(Activity2);
 							overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);

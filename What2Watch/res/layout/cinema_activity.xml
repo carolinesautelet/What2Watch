@@ -60,7 +60,7 @@
         android:textColor="@color/white"
         android:textSize="20sp" />
 
-    <Spinner
+    <ListView
         android:id="@+id/cinema_activity_programmation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

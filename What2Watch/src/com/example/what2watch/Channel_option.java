@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 public class Channel_option extends Activity {
-
+	User user = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,7 +18,7 @@ public class Channel_option extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.channel);
-		
+		user = getIntent().getExtras().getParcelable("User");
 		Button playingToday=null;
 		Button channel=null;
 		
@@ -33,10 +33,11 @@ public class Channel_option extends Activity {
     	private OnClickListener listenerchannel = new OnClickListener() {
     		@Override
       		public void onClick(View v) {
-    			String queryString  = "SELECT DISTINCT rowid as _id, Name, ID FROM Channel ORDER BY Name ASC";
-    			String[] display = {"Name"};
-    			String[] whereArgs = null;
-    			send(queryString, whereArgs, display, "Channel");
+    			Intent intent = new Intent(Channel_option.this,List_of_Channel.class);
+    			intent.putExtra("User", user);
+    			intent.putExtra("Today",false);
+    			startActivity(intent);
+    			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
 
     		}
     	};
@@ -44,10 +45,11 @@ public class Channel_option extends Activity {
         private OnClickListener listenerplayingtoday = new OnClickListener() {
     		@Override
       		public void onClick(View v) {
-    			String queryString  = "SELECT rowid as _id, Name, ID FROM Channel WHERE DATE(Time) = CURRENT_DATE";
-    			String[] display = {"Name"};
-    			String[] whereArgs = null;
-    			send(queryString, whereArgs, display, "Channel");
+    			Intent intent = new Intent(Channel_option.this,List_of_Channel.class);
+    			intent.putExtra("User", user);
+    			intent.putExtra("Today",true);
+    			startActivity(intent);
+    			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
     		}
     	};
     	

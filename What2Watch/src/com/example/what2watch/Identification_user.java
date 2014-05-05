@@ -30,7 +30,7 @@ public class Identification_user extends Activity{
 	public void toaster(String txt){
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
-	
+	Context context = null;
 	Button letsGO=null;
 	Spinner spinner;
 	dbAdapter db;
@@ -44,7 +44,7 @@ public class Identification_user extends Activity{
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.choose_user);
-
+		context = this.getApplicationContext();
 		db = new dbAdapter(this);         
 		db.createDatabase();       
 		db.open(); 
@@ -89,14 +89,16 @@ public class Identification_user extends Activity{
 	                    Toast.LENGTH_SHORT).show();
 			}
 			else{
-				db.open();
+				/*db.open();
 				Cursor cursor = db.execSQL("SELECT rowid as _id, FirstName, Name, Password, Age FROM User WHERE Login = ?", new String[] {login});
 				cursor.moveToFirst();
 				if(cursor.getString(3).compareTo(incomingPassword.getText().toString())==0){
-					User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));
-					incomingPassword.setText("");
+					User user = new User(login,cursor.getString(2),cursor.getString(1),cursor.getInt(4),cursor.getString(3));*/
+				User user = new User(context,login);
+				if(incomingPassword.getText().toString().compareTo(user.getPassword())==0){
+				incomingPassword.setText("");
 					Toast.makeText(getBaseContext(), 
-		                    "Hi" +user.getFirstName() +user.getName() , 
+		                    "Hi " +user.getFirstName() +" " +user.getName() + "  ! :-) " , 
 		                    Toast.LENGTH_SHORT).show();
 					Intent Activity2 = new Intent(Identification_user.this, Accueil.class);
 					Activity2.putExtra("User", user);
@@ -109,7 +111,7 @@ public class Identification_user extends Activity{
 							Toast.LENGTH_SHORT).show();
 				}
 			}
-			db.close();
+			//db.close();
 			}
 			
 		};

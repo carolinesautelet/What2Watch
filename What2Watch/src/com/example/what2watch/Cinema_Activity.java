@@ -1,6 +1,7 @@
 package com.example.what2watch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,10 +16,13 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,16 +37,19 @@ import android.location.LocationManager;
 public class Cinema_Activity extends Activity {
 	Context context = null;
 	boolean firstStep = true;
-	Spinner programme=null;
+	ListView programme=null;
 	TextView distance = null;
 	TextView distanceM = null;
 	Button navigate = null;
 	TextView name = null;
 	Cinema cinema;
+	Double latitudeStart = null;
+	Double longitudeStart = null;
+	Double latitudeEnd = null;
+	Double longitudeEnd = null;
 	Set<String> other = null;
 	dbAdapter db=null;
-	List<String> list;
-	List<String> otherList;
+	List<Movie> moviesHere = null;
 	private LocationManager lManager;
 	private Location locationCinema;
 	User user = null;
@@ -58,45 +65,41 @@ public class Cinema_Activity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.cinema_activity);
 		context=this.getApplicationContext();
-		cinema = getIntent().getExtras().getParcelable("Cinema");
 		user = getIntent().getExtras().getParcelable("User");
-			name = (TextView)findViewById(R.id.cinema_activity_name);
-			name.setText(cinema.getName());
-			programme = (Spinner)findViewById(R.id.cinema_activity_programmation);
-			distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
-			distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
-			db=new dbAdapter(this);
-			db.createDatabase();
-			db.open();
-			other = new HashSet<String>();
-			Set<String> set = new HashSet<String>();
-			set.add("Select film ");
-			other.add("Select film ");
-			//Set<String> set = db.getAllDataSingle("SELECT rowid as _id, Title , ID FROM Movie WHERE ID IN (SELECT ID FROM Cinema WHERE Name = ? )",new String[] {cinema.getName()},other);
-			//List<String> list = new ArrayList<String>(set);
-			//list.add(0,"Select film ");
-			list = new ArrayList<String>(set);
-			otherList = new ArrayList<String>(other);
-
-			db.getAllDataSingle("SELECT rowid as _id, Title , ID FROM Movie WHERE ID IN (SELECT ID FROM Cinema WHERE Name = ? )", new String[] {cinema.getName()}, list,otherList);
-
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-					android.R.layout.simple_spinner_item, list);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			programme.setAdapter(adapter);
-			if(cinema.getLatitude()!=null && cinema.getLongitude()!=null){
+		String nameCinema = getIntent().getExtras().getString("Name");
+		cinema = new Cinema(this,nameCinema);
+		name = (TextView)findViewById(R.id.cinema_activity_name);
+		name.setText(cinema.getName());
+		programme = (ListView)findViewById(R.id.cinema_activity_programmation);
+		distance = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema);
+		distanceM = (TextView)findViewById(R.id.cinema_activity_distance_to_cinema_miles);
+		navigate = (Button)findViewById(R.id.cinema_activity_navigate);
+		
+		final List<Movie> allMovies = cinema.getMovies();
+		List<String> allTitle = cinema.getAllMoviesTitle();
+		List<String> times = cinema.getAllTime();
+		List<HashMap<String, String>> liste = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> element;
+		for(int i = 0;i<allTitle.size();i++){
+			element = new HashMap<String, String>();
+			element.put("text1", allTitle.get(i));
+			element.put("text2", times.get(i));
+			liste.add(element);
+		}
+		latitudeEnd = cinema.getLatitude();
+		longitudeEnd = cinema.getLongitude();
+		ListAdapter adapter = new SimpleAdapter(this,liste,android.R.layout.simple_list_item_2,new String[] {"text1", "text2"},new int[] {android.R.id.text1, android.R.id.text2 });
+		programme.setAdapter(adapter);
+			if(cinema.getLatitude()!=0.0 && cinema.getLongitude()!=0.0){
 				lManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 				// Define a listener that responds to location updates
-
-
 				LocationListener locationListener = new LocationListener() {
 					public void onLocationChanged(Location location) {
 						// Called when a new location is found by the network location provider.
-						locationCinema = new Location(location);
-						locationCinema.setLatitude(Double.parseDouble(cinema.getLatitude()));
-						locationCinema.setLongitude(Double.parseDouble(cinema.getLongitude()));
-						distance.setText(Float.toString(location.distanceTo(locationCinema)/1000) + " km");
-						distanceM.setText(Float.toString((location.distanceTo(locationCinema)/1000 )* (float)0.62137)+" miles");
+						latitudeStart = location.getLatitude();
+						longitudeStart = location.getLongitude();
+						distance.setText(Float.toString(cinema.getDistance(location)/1000) + " km");
+						distanceM.setText(Float.toString((cinema.getDistance(location)/1000 )* (float)0.62137)+" miles");
 
 					}
 
@@ -114,21 +117,14 @@ public class Cinema_Activity extends Activity {
 				distance.setText("No localisation information for this cinema");
 			}
 
-			programme.setOnItemSelectedListener(new OnItemSelectedListener()
+			programme.setOnItemClickListener(new OnItemClickListener()
 			{
-				public void onItemSelected(AdapterView<?> a, View v, int position, long id) 
-				{	
-
-					String name = (String) programme.getAdapter().getItem(position);
-
-					if(position==0){
-						return;
-					}
-
-					String idNew = otherList.get(position).toString();			
-					Movie movie = new Movie(context,idNew);
+				public void onItemClick(AdapterView<?> adapter, View view, int position,
+						long id) {	
+					
+					Movie movie = allMovies.get(position);
 					Intent Activity2 = new Intent(Cinema_Activity.this, Movie_Activity.class);
-					Activity2.putExtra("ID", idNew);
+					Activity2.putExtra("ID", movie.getId());
 					Activity2.putExtra("User" , user);
 					startActivity(Activity2);
 					overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
@@ -136,23 +132,35 @@ public class Cinema_Activity extends Activity {
 
 				}
 
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-				}
 			});
-		
+		navigate.setOnClickListener(listenernavigate);
 		
 
 	}
 
-
+	private OnClickListener listenernavigate = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent Activity2 = new Intent(Cinema_Activity.this, MapActivity.class);
+			//Activity2.putExtra("User", user);
+			Activity2.putExtra("LatitudeStart", latitudeStart);
+			Activity2.putExtra("LongitudeStart", longitudeStart);
+			Activity2.putExtra("LatitudeEnd", latitudeEnd);
+			Activity2.putExtra("LongitudeEnd", longitudeEnd);
+			toaster("latitudeStart : " + Double.toString(latitudeStart) );
+			toaster("longitudeStart : " + Double.toString(longitudeStart) );
+			toaster("latitudeEnd : " + Double.toString(latitudeEnd) );
+			startActivity(Activity2);
+			overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+		}
+	};
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
 	}
-
+	
+	
 
 
 }
